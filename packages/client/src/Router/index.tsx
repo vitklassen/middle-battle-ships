@@ -7,6 +7,7 @@ import {
   LeaderBoard,
   Forum,
   Topic,
+  Main,
 } from '../Pages'
 import { useState } from 'react'
 
@@ -19,6 +20,7 @@ export const Router = () => {
       <Routes>
         <Route path="/profile" element={<Profile />} />
         <Route path="/game" element={<Game />} />
+        <Route path="/main" element={<Main />} />
         <Route path="/leaderBoard" element={<LeaderBoard />} />
         <Route path="/forum" element={<Forum />} />
         <Route path="/topic" element={<Topic />} />
