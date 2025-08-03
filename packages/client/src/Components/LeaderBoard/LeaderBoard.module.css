@@ -1,0 +1,51 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  height: 44px;
+}
+
+.item {
+  flex-basis: 92px;
+  padding: 0 20px;
+  position: relative;
+}
+
+.itemStretched {
+  flex: 1;
+}
+
+.itemAlignRight {
+  text-align: right;
+}
+
+.itemIcon {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+}
+
+.cell {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 2px 2px 0 0 var(--color-basic);
+  border: 2px solid var(--color-basic);
+}
+
+.cellAccent {
+  background-color: var(--color-secondary);
+  width: 100%;
+}
+
+.divider {
+  background: url('./divider.svg') repeat-x;
+  width: 100%;
+  height: 4px;
+  margin: 8px 0;
+}
