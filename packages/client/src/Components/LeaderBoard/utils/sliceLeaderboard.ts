@@ -1,4 +1,4 @@
-import { LeaderboardItem } from './types'
+import { LeaderboardItem } from '../types'
 
 const LIMIT = 10
 

@@ -1,9 +1,9 @@
 import clsx from 'clsx'
-import styles from './LeaderBoard.module.css'
 import { leaderboardMock } from './mock'
 import { useMemo } from 'react'
-import { sliceLeaderboard } from './sliceLeaderboard'
-import { LeaderBoardRow } from './LeaderBoardRow'
+import { sliceLeaderboard } from './utils/sliceLeaderboard'
+import styles from './LeaderBoard.module.css'
+import { LeaderBoardList } from './LeaderBoardList'
 
 type Props = {
   className?: string
@@ -24,15 +24,11 @@ export const LeaderBoard = ({ className }: Props) => {
         </span>
         <span className={styles.item}>Очки</span>
       </div>
-      {leaderboard.map(item => (
-        <LeaderBoardRow {...item} />
-      ))}
+      <LeaderBoardList items={leaderboard} />
       {leaderboardAfterLimit.length !== 0 && (
         <div className={styles.divider}></div>
       )}
-      {leaderboardAfterLimit.map(item => (
-        <LeaderBoardRow {...item} />
-      ))}
+      <LeaderBoardList items={leaderboardAfterLimit} />
     </div>
   )
 }

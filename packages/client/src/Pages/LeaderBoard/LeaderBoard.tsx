@@ -1,4 +1,4 @@
-import { CenteredLayout } from '../../Components/CenteredLayout'
+import { CenteredLayout } from '../../Common/Layouts/CenteredLayout'
 import { LeaderBoard as LeaderBoardComponent } from '../../Components/LeaderBoard'
 
 import styles from './LeaderBoard.module.css'
