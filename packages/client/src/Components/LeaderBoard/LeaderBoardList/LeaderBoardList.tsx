@@ -8,27 +8,27 @@ type Props = {
   items: LeaderboardItem[]
 }
 
-export const LeaderBoardList = ({ items }: Props) => {
+export const LeaderBoardList: React.FC<Props> = ({ items }) => {
   return (
     <>
-      {items.map(item => (
+      {items.map(({ avatar, name, position, isUser, hasStar, points }) => (
         <div
           className={clsx(
             styles.row,
             styles.cell,
-            item.isUser && styles.cellAccent
+            isUser && styles.cellAccent
           )}>
           <span className={clsx(styles.item, styles.itemAlignRight)}>
-            {item.hasStar && (
+            {hasStar && (
               <img src={star} alt="star" className={styles.itemIcon} />
             )}
-            {item.position}
+            {position}
           </span>
           <span className={clsx(styles.item, styles.itemStretched)}>
-            {item.avatar}
-            {item.name}
+            {avatar}
+            {name}
           </span>
-          <span className={styles.item}>{item.points}</span>
+          <span className={styles.item}>{points}</span>
         </div>
       ))}
     </>

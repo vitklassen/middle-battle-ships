@@ -9,7 +9,7 @@ type Props = {
   className?: string
 }
 
-export const LeaderBoard = ({ className }: Props) => {
+export const LeaderBoard: React.FC<Props> = ({ className }: Props) => {
   const { leaderboard, leaderboardAfterLimit } = useMemo(
     () => sliceLeaderboard(leaderboardMock),
     []
