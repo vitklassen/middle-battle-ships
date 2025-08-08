@@ -1,26 +1,11 @@
-type Config = {
-  context: CanvasRenderingContext2D
-  width: number
-  x: number
-  y: number
-}
+import Square from './Square'
+import { type BackgroundSpriteConfig } from './types'
 
-export default class BattleField {
-  private context: CanvasRenderingContext2D
-  private width: number
-  private height: number
-  private xPos: number
-  private yPos: number
-
-  constructor(config: Config) {
-    this.context = config.context
-    this.width = config.width
-    this.height = config.width
-    this.xPos = config.x
-    this.yPos = config.y
+export default class BattleField extends Square {
+  constructor(config: BackgroundSpriteConfig) {
+    super(config)
   }
-  public draw() {
-    this.context.beginPath()
+  public draw(): void {
     this.context.strokeRect(this.xPos, this.yPos, this.width, this.height)
   }
 }
