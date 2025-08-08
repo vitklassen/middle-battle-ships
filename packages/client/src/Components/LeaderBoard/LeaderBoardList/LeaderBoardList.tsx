@@ -13,6 +13,7 @@ export const LeaderBoardList: React.FC<Props> = ({ items }) => {
     <>
       {items.map(({ avatar, name, position, isUser, hasStar, points }) => (
         <div
+          key={position}
           className={clsx(
             styles.row,
             styles.cell,
