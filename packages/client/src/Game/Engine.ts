@@ -1,39 +1,12 @@
-import BattleField from './Background/BattleField'
-import Cell from './Background/Cell'
+import BattleField from './Sprites/Background/BattleField'
+import Cell from './Sprites/Background/Cell'
+import { Ship } from './Sprites/Ships/Ship'
 import globalGameConfig from './globalGameConfig'
+import shipImage from './Sprites/Ships/ship.png'
 
 type EngineConfig = {
   canvas: HTMLCanvasElement
   context: CanvasRenderingContext2D
-}
-
-class Ship {
-  protected x: number
-  protected y: number
-  protected w: number
-  protected h: number
-  protected image = new Image()
-  protected context: CanvasRenderingContext2D
-
-  constructor(
-    path: string,
-    x: number,
-    y: number,
-    w: number,
-    h: number,
-    context: CanvasRenderingContext2D
-  ) {
-    this.x = x
-    this.y = y
-    this.w = w
-    this.h = h
-    this.context = context
-    this.image.src = path
-  }
-
-  public draw(): void {
-    this.context.drawImage(this.image, this.x, this.y)
-  }
 }
 
 const {
@@ -51,6 +24,8 @@ export default class Engine {
   private friendlyField!: BattleField
   private enemyCells: Cell[] = []
   private friendlyCells: Cell[] = []
+  private enemyShips: Ship[] = []
+  private friendlyShips: Ship[] = []
 
   constructor(config: EngineConfig) {
     this.context = config.context
@@ -68,6 +43,8 @@ export default class Engine {
     this.enemyField.draw()
     this.friendlyCells.forEach(cell => cell.draw())
     this.enemyCells.forEach(cell => cell.draw())
+    this.friendlyShips.forEach(ship => ship.draw())
+    this.enemyShips.forEach(ship => ship.draw())
   }
   private initEventsListener(): void {
     this.canvas.addEventListener('click', this.onCellClick)
@@ -105,17 +82,20 @@ export default class Engine {
   private initSprites(): void {
     this.initBattleField()
     this.initCells()
+    this.initShips()
   }
   private initBattleField(): void {
     this.friendlyField = new BattleField({
       context: this.context,
       width: battleFieldWidth,
+      height: battleFieldWidth,
       x: startXPosition,
       y: startYPosition,
     })
     this.enemyField = new BattleField({
       context: this.context,
       width: battleFieldWidth,
+      height: battleFieldWidth,
       x: startXPosition + distanceBetweenFields + battleFieldWidth,
       y: startYPosition,
     })
@@ -128,6 +108,7 @@ export default class Engine {
         {
           context: this.context,
           width: battleFieldWidth / 10,
+          height: battleFieldWidth / 10,
           x: xPos,
           y: yPos,
         },
@@ -137,6 +118,7 @@ export default class Engine {
         {
           context: this.context,
           width: battleFieldWidth / 10,
+          height: battleFieldWidth / 10,
           x: xPos + distanceBetweenFields + battleFieldWidth,
           y: yPos,
         },
@@ -151,5 +133,29 @@ export default class Engine {
         xPos += battleFieldWidth / 10
       }
     }
+  }
+  private initShips(): void {
+    const enemyShip = new Ship(
+      {
+        x: startXPosition + distanceBetweenFields + battleFieldWidth,
+        y: startYPosition + battleFieldWidth + 20,
+        width: (4 * battleFieldWidth) / 10,
+        height: battleFieldWidth / 10,
+        context: this.context,
+      },
+      shipImage
+    )
+    const friendlyShip = new Ship(
+      {
+        x: startXPosition,
+        y: startYPosition + battleFieldWidth + 20,
+        width: (4 * battleFieldWidth) / 10,
+        height: battleFieldWidth / 10,
+        context: this.context,
+      },
+      shipImage
+    )
+    this.enemyShips.push(enemyShip)
+    this.friendlyShips.push(friendlyShip)
   }
 }

@@ -1,8 +1,8 @@
+import { CommonSpritesConfig } from '../types'
 import Square from './Square'
-import { type BackgroundSpriteConfig } from './types'
 
 export default class BattleField extends Square {
-  constructor(config: BackgroundSpriteConfig) {
+  constructor(config: CommonSpritesConfig) {
     super(config)
   }
   public draw(): void {

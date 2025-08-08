@@ -1,4 +1,4 @@
-import { BackgroundSpriteConfig } from './types'
+import { CommonSpritesConfig } from '../types'
 
 export default class Square {
   protected context: CanvasRenderingContext2D
@@ -7,10 +7,10 @@ export default class Square {
   public xPos: number
   public yPos: number
 
-  constructor(config: BackgroundSpriteConfig) {
+  constructor(config: CommonSpritesConfig) {
     this.context = config.context
     this.width = config.width
-    this.height = config.width
+    this.height = config.height
     this.xPos = config.x
     this.yPos = config.y
   }

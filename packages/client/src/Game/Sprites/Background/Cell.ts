@@ -1,9 +1,9 @@
+import { CommonSpritesConfig } from '../types'
 import Square from './Square'
-import { BackgroundSpriteConfig } from './types'
 
 export default class Cell extends Square {
   public isClicked: boolean
-  constructor(config: BackgroundSpriteConfig, isClicked: boolean) {
+  constructor(config: CommonSpritesConfig, isClicked: boolean) {
     super(config)
     this.isClicked = isClicked
   }
