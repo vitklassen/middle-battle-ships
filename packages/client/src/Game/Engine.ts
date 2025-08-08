@@ -7,6 +7,35 @@ type EngineConfig = {
   context: CanvasRenderingContext2D
 }
 
+class Ship {
+  protected x: number
+  protected y: number
+  protected w: number
+  protected h: number
+  protected image = new Image()
+  protected context: CanvasRenderingContext2D
+
+  constructor(
+    path: string,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+    context: CanvasRenderingContext2D
+  ) {
+    this.x = x
+    this.y = y
+    this.w = w
+    this.h = h
+    this.context = context
+    this.image.src = path
+  }
+
+  public draw(): void {
+    this.context.drawImage(this.image, this.x, this.y)
+  }
+}
+
 const {
   battleFieldWidth,
   distanceBetweenFields,
