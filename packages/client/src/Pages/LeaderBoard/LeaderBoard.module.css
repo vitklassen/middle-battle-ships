@@ -1,0 +1,11 @@
+.root {
+  background-color: var(--color-primary);
+}
+
+.title {
+  padding-top: 48px;
+}
+
+.leaderboard {
+  padding-top: 20px;
+}
