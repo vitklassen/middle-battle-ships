@@ -15,6 +15,15 @@ type Options = {
 
 type OptionsWithoutMethod = Omit<Options, 'method'>
 
+// Приписка, чтобы не ругался на отсутствие timeout
+// идея взята отсюда:
+// https://stackoverflow.com/questions/46946380/fetch-api-request-timeout
+AbortSignal.timeout ??= function timeout(ms) {
+  const ctrl = new AbortController()
+  setTimeout(() => ctrl.abort(), ms)
+  return ctrl.signal
+}
+
 export class HTTP {
   url: string
 
