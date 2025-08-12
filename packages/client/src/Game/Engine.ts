@@ -17,7 +17,7 @@ const {
   cellSize,
 } = globalGameConfig.sizeSettings
 
-export default class Engine {
+export class Engine {
   private context: CanvasRenderingContext2D
   private canvas: HTMLCanvasElement
   private enemyField!: BattleField

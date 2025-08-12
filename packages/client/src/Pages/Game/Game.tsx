@@ -1,6 +1,6 @@
 import styles from './Game.module.css'
 import { useEffect, useMemo, useRef } from 'react'
-import Engine from '../../Game/Engine'
+import { Engine } from '../../Game'
 import globalGameConfig from '../../Game/globalGameConfig'
 
 export const Game = () => {
