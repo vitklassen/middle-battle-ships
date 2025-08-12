@@ -16,3 +16,8 @@ h5,
 h6 {
   margin: 0;
 }
+
+button {
+  outline: 0;
+  border: 0;
+}

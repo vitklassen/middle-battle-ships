@@ -1,0 +1,26 @@
+.root {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 2px 2px 0 0 var(--color-basic);
+  border: 2px solid var(--color-basic);
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatar {
+  width: 104px;
+  height: 104px;
+  margin-bottom: 12px;
+}
+
+.cells {
+  width: 100%;
+  padding: 24px;
+}
+
+.button {
+  margin-top: 8px;
+}
