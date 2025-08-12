@@ -59,7 +59,7 @@ export class HTTP {
       options?.timeout
     )
 
-  request = (url: string, options = {}, timeout = 5000) => {
+  request = async (url: string, options = {}, timeout = 5000) => {
     const {
       headers = {},
       method,
@@ -92,12 +92,24 @@ export class HTTP {
       body: body ? (body as BodyInit) : '',
       headers: reqHeaders,
       credentials,
-      signal: AbortSignal.timeout(timeout),
     }
-
-    const request = new Request(url, newOptions as RequestInit)
-
-    return fetch(request)
+    const controller = new AbortController()
+    const reason = new DOMException('signal timed out', 'TimeoutError')
+    const timeoutId = setTimeout(() => controller.abort(reason), timeout)
+    const request = new Request(url, {
+      ...newOptions,
+      signal: controller.signal,
+    } as RequestInit)
+    // const res = await fetch(request);
+    clearTimeout(timeoutId)
+    let res: Response
+    try {
+      res = await fetch(request)
+    } catch (error) {
+      clearTimeout(timeoutId)
+      throw error
+    }
+    return res
 
     /*  
     return new Promise((resolve, reject) => {
