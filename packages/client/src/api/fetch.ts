@@ -91,8 +91,6 @@ export class HTTP {
       ...newOptions,
       signal: controller.signal,
     } as RequestInit)
-    // const res = await fetch(request);
-    clearTimeout(timeoutId)
     let res: Response
     try {
       res = await fetch(request)
@@ -101,52 +99,7 @@ export class HTTP {
       throw error
     }
     return res
-
-    /*  
-    return new Promise((resolve, reject) => {
-      if (!method) {
-        reject(new Error('No method'));
-        return;
-      }
-      
-
-
-
-
-      const xhr = new XMLHttpRequest();
-      
-      xhr.open(
-        method,
-        isGet && !!data
-          ? `${url}${queryStringify(data)}`
-          : url,
-      );
-
-      Object.keys(headers).forEach((key) => {
-        xhr.setRequestHeader(key, headers[key]);
-      });
-
-      xhr.onload = () => {
-        resolve(xhr);
-      };
-
-      xhr.onabort = reject;
-      xhr.onerror = reject;
-
-      xhr.timeout = timeout;
-      xhr.ontimeout = reject;
-
-      xhr.withCredentials = !!credentials;
-      if (formData) {
-        xhr.send(formData);
-      } else if (isGet || (!data && !formData)) {
-        xhr.send();
-      } else {
-        const json = JSON.stringify(data);
-        xhr.send(json);
-      }
-    });
-    */
+    //Идея с timeout взята в https://dev.to/rashidshamloo/adding-timeout-and-multiple-abort-signals-to-fetch-typescriptreact-33bb?ysclid=me8p95k7hh402956849
   }
 }
 
