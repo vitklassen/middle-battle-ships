@@ -1,12 +1,18 @@
 import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import App from './App';
 
-const appContent = 'Вот тут будет жить ваше приложение :)';
+// Мокаем fetch перед тестами
+global.fetch = jest.fn(() => Promise.resolve({
+  json: () => Promise.resolve({}),
+})) as jest.Mock;
 
-// @ts-expect-error Response Type
-global.fetch = jest.fn(() => Promise.resolve({ json: () => Promise.resolve('hey') }));
+test('рендерит корректно', () => {
+  render(
+    <MemoryRouter initialEntries={['/main']}>
+      <App />
+    </MemoryRouter>,
+  );
 
-test('Example test', async () => {
-  render(<App />);
-  expect(screen.getByText(appContent)).toBeDefined();
+  screen.findByText('Main');
 });

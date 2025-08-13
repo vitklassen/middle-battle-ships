@@ -53,7 +53,10 @@ module.exports = {
     'no-new': 'off',
     'max-classes-per-file': 'off',
     'import/no-unresolved': 'off',
-    'react/jsx-filename-extension': 'off'
+    'react/jsx-filename-extension': 'off',
+    "react/prop-types": "off",
+    "react/require-default-props": "off",
+    "react/function-component-definition": "off"
   },
   env: {
     browser: true,
