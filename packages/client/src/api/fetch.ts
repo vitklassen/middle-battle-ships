@@ -91,9 +91,9 @@ export class HTTP {
       ...newOptions,
       signal: controller.signal,
     } as RequestInit)
-    let res: Response
+    let res: Promise<Response>
     try {
-      res = await fetch(request)
+      res = fetch(request)
     } catch (error) {
       clearTimeout(timeoutId)
       throw error

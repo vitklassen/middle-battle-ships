@@ -9,6 +9,11 @@
   align-items: center;
 }
 
+.header {
+  margin: 10px 0 20px 0;
+  padding: 0;
+}
+
 .inputContainer {
   margin: 0 auto 16px;
   padding: 0;
@@ -47,4 +52,9 @@
   line-height: 100%;
   text-align: center;
   color: #fff;
+}
+
+.link {
+  margin: 0 0 20px 0;
+  padding: 0;
 }

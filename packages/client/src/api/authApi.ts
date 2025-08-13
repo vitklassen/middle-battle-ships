@@ -56,7 +56,7 @@ export class AuthAPI extends BaseAPI {
         if ((res as XMLHttpRequest).status >= 400) {
           throwError(res)
         }
-        return (res as XMLHttpRequest).response
+        return (res as XMLHttpRequest).response //не сильно и нужен, т.к. тут по сути просто 200 ОК возвращает
       }
     ) // напоминалка: после каждого вызова функции прописываем then, catch или finally, и в них обрабатываем
   }

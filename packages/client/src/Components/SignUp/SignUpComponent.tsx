@@ -9,7 +9,7 @@ import authApi from '../../api/authApi'
 export const SignUpComponent: FC = () => {
   const onSubmitHandler = (data: submitData) => {
     console.log(data)
-    authApi.login(data).then((res: unknown): void => {
+    authApi.register(data).then((res: unknown): void => {
       // данные после авторизации, пока что тут заглушка,
       // т.к. остальные страницы не реализованы
       console.log(res)
@@ -23,8 +23,9 @@ export const SignUpComponent: FC = () => {
       <SignInUpForm
         signInUpFields={signUpFields}
         onSubmitHandler={onSubmitHandler}
+        link="./sign-in"
+        linkText="Есть аккаунт?"
       />
-      <a href="./sign-in">Есть аккаунт?</a>
     </div>
   )
 }

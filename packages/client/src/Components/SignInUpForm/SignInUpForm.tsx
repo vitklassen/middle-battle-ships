@@ -10,11 +10,15 @@ import { submitData } from './types'
 type Props = {
   signInUpFields: FormItem
   onSubmitHandler: (data: submitData) => void
+  link: string
+  linkText: string
 }
 
 export const SignInUpForm: FC<Props> = ({
   signInUpFields,
   onSubmitHandler,
+  link,
+  linkText,
 }: Props) => {
   const {
     register,
@@ -28,7 +32,7 @@ export const SignInUpForm: FC<Props> = ({
 
   return (
     <form className={clsx(styles.form)} onSubmit={handleSubmit(onSubmit)}>
-      <h1>{signInUpFields.pageName}</h1>
+      <h1 className={clsx(styles.header)}>{signInUpFields.pageName}</h1>
       {signInUpFields.fields.map(
         ({
           name,
@@ -62,6 +66,9 @@ export const SignInUpForm: FC<Props> = ({
       <button className={clsx(styles.button)} type="submit">
         {signInUpFields.submitText}
       </button>
+      <a className={clsx(styles.link)} href={link}>
+        {linkText}
+      </a>
     </form>
   )
 }
