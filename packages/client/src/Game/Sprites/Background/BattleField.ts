@@ -25,16 +25,10 @@ export default class BattleField extends Square {
     this.cells.forEach(cell => cell.draw())
     this.ships.forEach(ship => ship.draw())
   }
-  public onCellClick(event: MouseEvent): void {
-    const rect = this.canvas?.getBoundingClientRect()
-    if (rect) {
-      const x = event.clientX - rect.left
-      //const y = event.clientY - rect.top
-      if (
-        x >= battleFieldWidth &&
-        x <= battleFieldWidth + distanceBetweenFields
-      ) {
-        return
+  public changeCellState(x: number, y: number): void {
+    for (let i = 0; i < this.cells.length; i++) {
+      if (this.cells[i].isInSquare(x, y)) {
+        break
       }
     }
   }

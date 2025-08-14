@@ -19,13 +19,14 @@ export const Game = () => {
   }, [])
   useEffect(() => {
     const canvas = ref.current as unknown as HTMLCanvasElement
-    const ctx = canvas.getContext('2d')
-    if (canvas && ctx) {
-      const engine = new Engine({
-        context: ctx,
-        canvas: canvas,
-      })
-      engine.start()
+    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
+    const engine = new Engine({
+      context: ctx,
+      canvas: canvas,
+    })
+    engine.start()
+    return () => {
+      engine.stop()
     }
   }, [])
   return (

@@ -2,7 +2,6 @@ import { CommonSpritesConfig } from '../types'
 
 export default class Square {
   protected context: CanvasRenderingContext2D
-  protected canvas: HTMLCanvasElement | null
   protected width: number
   public height: number
   public xPos: number
@@ -14,6 +13,5 @@ export default class Square {
     this.height = config.height
     this.xPos = config.x
     this.yPos = config.y
-    config.canvas ? (this.canvas = config.canvas) : (this.canvas = null)
   }
 }

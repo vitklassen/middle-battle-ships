@@ -1,5 +1,4 @@
 import BattleField from './Sprites/Background/BattleField'
-import Cell from './Sprites/Background/Cell'
 import globalGameConfig from './globalGameConfig'
 
 type EngineConfig = {
@@ -12,7 +11,6 @@ const {
   distanceBetweenFields,
   startXPosition,
   startYPosition,
-  cellSize,
 } = globalGameConfig.sizeSettings
 
 export class Engine {
@@ -20,8 +18,7 @@ export class Engine {
   private canvas: HTMLCanvasElement
   private enemyField!: BattleField
   private friendlyField!: BattleField
-  private enemyCells: Cell[] = []
-  private friendlyCells: Cell[] = []
+  private isGameOver = false
 
   constructor(config: EngineConfig) {
     this.context = config.context
@@ -31,6 +28,9 @@ export class Engine {
     this.initEventsListener()
   }
   public start(): void {
+    if (this.isGameOver) {
+      return
+    }
     requestAnimationFrame(() => {
       this.start()
     })
@@ -38,8 +38,15 @@ export class Engine {
     this.friendlyField.drawSprites()
     this.enemyField.drawSprites()
   }
+  public stop(): void {
+    this.deleteEventsListener()
+    this.isGameOver = true
+  }
   private initEventsListener(): void {
     this.canvas.addEventListener('click', this.onCellClick)
+  }
+  private deleteEventsListener(): void {
+    this.canvas.removeEventListener('click', this.onCellClick)
   }
   private onCellClick(event: MouseEvent): void {
     const rect = this.canvas.getBoundingClientRect()
@@ -52,23 +59,9 @@ export class Engine {
       return
     }
     if (x < battleFieldWidth) {
-      this.changeCellState(this.friendlyCells, x, y)
+      this.friendlyField.changeCellState(x, y)
     } else {
-      this.changeCellState(this.enemyCells, x, y)
-    }
-  }
-
-  private changeCellState(cells: Cell[], x: number, y: number): void {
-    for (let i = 0; i < cells.length; i++) {
-      const cellXPos = cells[i].getXPos()
-      const cellYPos = cells[i].getYPos()
-      const cellWidth = cells[i].getWidth()
-      const isHorizontalMatch = x > cellXPos && x < cellXPos + cellWidth
-      const isVerticalMatch = y > cellYPos && y < cellYPos + cellWidth
-      if (isHorizontalMatch && isVerticalMatch) {
-        cells[i].isClicked = true
-        break
-      }
+      this.enemyField.changeCellState(x, y)
     }
   }
 
