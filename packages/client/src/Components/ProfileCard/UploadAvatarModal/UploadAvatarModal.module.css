@@ -32,3 +32,9 @@
 .uploadButton {
   margin-top: 16px;
 }
+
+.error {
+  color: var(--color-secondary);
+  font-size: 14px;
+  margin-top: 12px;
+}

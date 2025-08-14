@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Button } from '../../../Common/Blocks/Button'
 import { Modal } from '../../../Common/Layouts/Modal'
 import styles from './UploadAvatarModal.module.css'
+import profileApi from '../../../api/profileApi'
 
 type Props = {
   setClosed: VoidFunction
@@ -9,9 +10,25 @@ type Props = {
 
 export const UploadAvatarModal: React.FC<Props> = ({ setClosed }) => {
   const [file, setFile] = useState<File | null>(null)
+  const [error, setError] = useState('')
 
   const handleUploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFile(e.target.files?.[0] || null)
+  }
+
+  const handleUploadAvatarClick = () => {
+    if (!file) {
+      return
+    }
+
+    profileApi
+      .uploadAvatar(file)
+      .then(() => {
+        setClosed()
+      })
+      .catch(({ reason }) => {
+        setError(reason)
+      })
   }
 
   return (
@@ -27,7 +44,11 @@ export const UploadAvatarModal: React.FC<Props> = ({ setClosed }) => {
         <span className={styles.button}>Выбрать файл</span>
       </label>
       <span className={styles.file}>{file && file?.name}</span>
-      <Button stretched className={styles.uploadButton}>
+      <div className={styles.error}>Ошибка: {error}</div>
+      <Button
+        onClick={handleUploadAvatarClick}
+        stretched
+        className={styles.uploadButton}>
         Загрузить
       </Button>
     </Modal>
