@@ -3,6 +3,8 @@ import { Button } from '../../../Common/Blocks/Button'
 import { Modal } from '../../../Common/Layouts/Modal'
 import styles from './UploadAvatarModal.module.css'
 import profileApi from '../../../api/profileApi'
+import { CenteredLayout } from '../../../Common/Layouts/CenteredLayout'
+import { Card } from '../../../Common/Blocks/Card'
 
 type Props = {
   setClosed: VoidFunction
@@ -33,24 +35,28 @@ export const UploadAvatarModal: React.FC<Props> = ({ setClosed }) => {
 
   return (
     <Modal onBackdropClick={setClosed}>
-      <h1 className={styles.title}>Загрузка аватара</h1>
-      <label>
-        <input
-          onChange={handleUploadFile}
-          type="file"
-          className={styles.fileInput}
-          accept=".png,.jpg"
-        />
-        <span className={styles.button}>Выбрать файл</span>
-      </label>
-      <span className={styles.file}>{file && file?.name}</span>
-      <div className={styles.error}>Ошибка: {error}</div>
-      <Button
-        onClick={handleUploadAvatarClick}
-        stretched
-        className={styles.uploadButton}>
-        Загрузить
-      </Button>
+      <CenteredLayout>
+        <Card>
+          <h1 className={styles.title}>Загрузка аватара</h1>
+          <label>
+            <input
+              onChange={handleUploadFile}
+              type="file"
+              className={styles.fileInput}
+              accept=".png,.jpg"
+            />
+            <span className={styles.button}>Выбрать файл</span>
+          </label>
+          <span className={styles.file}>{file && file?.name}</span>
+          {error && <div className={styles.error}>Ошибка: {error}</div>}
+          <Button
+            onClick={handleUploadAvatarClick}
+            stretched
+            className={styles.uploadButton}>
+            Загрузить
+          </Button>
+        </Card>
+      </CenteredLayout>
     </Modal>
   )
 }

@@ -8,19 +8,30 @@ import { Button } from '../../Common/Blocks/Button'
 import { useState } from 'react'
 import { UploadAvatarModal } from './UploadAvatarModal'
 import styles from './ProfileCard.module.css'
+import { ChangePasswordModal } from './ChangePasswordModal'
 
 export const ProfileCard = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isUploadAvatarModalVisible, setIsUploadAvatarModalVisible] =
+    useState(false)
+  const [isChangePasswordModalVisible, setIsChangePasswordModalVisible] =
+    useState(false)
 
   return (
     <div className={styles.root}>
-      {isModalVisible && (
-        <UploadAvatarModal setClosed={() => setIsModalVisible(false)} />
+      {isUploadAvatarModalVisible && (
+        <UploadAvatarModal
+          setClosed={() => setIsUploadAvatarModalVisible(false)}
+        />
+      )}
+      {isChangePasswordModalVisible && (
+        <ChangePasswordModal
+          setClosed={() => setIsChangePasswordModalVisible(false)}
+        />
       )}
       <div
         className={styles.avatarContainer}
         onClick={() => {
-          setIsModalVisible(true)
+          setIsUploadAvatarModalVisible(true)
         }}>
         <img
           src={profileMock.avatar || avatar}
@@ -43,8 +54,11 @@ export const ProfileCard = () => {
           {profileMock.phone}
         </Cell>
       </div>
-      <Button stretched className={styles.button}>
-        Сменить пароль
+      <Button
+        onClick={() => setIsChangePasswordModalVisible(true)}
+        stretched
+        className={styles.button}>
+        Изменить пароль
       </Button>
       <Button mode="secondary" stretched className={styles.button}>
         Выйти

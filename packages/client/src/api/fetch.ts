@@ -74,6 +74,7 @@ export class HTTP {
     } else if (isGet || (!data && !formData)) {
       body = ''
     } else {
+      reqHeaders.set('content-type', 'application/json')
       const json = JSON.stringify(data)
       body = json
     }
@@ -82,7 +83,7 @@ export class HTTP {
       method,
       body: body ? (body as BodyInit) : '',
       headers: reqHeaders,
-      credentials,
+      credentials: credentials || 'include',
     }
     const controller = new AbortController()
     const reason = new DOMException('signal timed out', 'TimeoutError')

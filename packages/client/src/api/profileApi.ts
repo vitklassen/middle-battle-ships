@@ -3,7 +3,7 @@ import apiInstance from './fetch'
 export class ProfileApi {
   changePassword(oldPassword: string, newPassword: string) {
     return apiInstance
-      .put('/user/password', {
+      .put('user/password', {
         data: {
           oldPassword,
           newPassword,
@@ -19,11 +19,12 @@ export class ProfileApi {
   }
 
   uploadAvatar(avatar: File) {
+    const formData = new FormData()
+    formData.append('avatar', avatar)
+
     return apiInstance
-      .put('/user/profile/avatar', {
-        data: {
-          avatar,
-        },
+      .put('user/profile/avatar', {
+        formData,
       })
       .then(async response => {
         const json = await response.json()
