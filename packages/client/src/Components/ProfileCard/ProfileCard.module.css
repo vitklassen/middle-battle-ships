@@ -10,10 +10,32 @@
   align-items: center;
 }
 
+.avatarContainer {
+  position: relative;
+}
+
 .avatar {
   width: 104px;
   height: 104px;
   margin-bottom: 12px;
+}
+
+.avatarContainer:hover::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: 'Загрузить аватар';
+  background-color: var(--color-tertiary);
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
 }
 
 .cells {

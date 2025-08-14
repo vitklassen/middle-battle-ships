@@ -2,20 +2,32 @@ import avatar from '../../assets/images/profile.png'
 import home from '../../assets/images/home.svg'
 import mail from '../../assets/images/mail.svg'
 import phone from '../../assets/images/phone.svg'
-
 import { Cell } from './Cell'
-import styles from './ProfileCard.module.css'
 import { profileMock } from './mock'
-import { Button } from '../../Common/Blocks/Button/Button'
+import { Button } from '../../Common/Blocks/Button'
+import { useState } from 'react'
+import { UploadAvatarModal } from './UploadAvatarModal'
+import styles from './ProfileCard.module.css'
 
 export const ProfileCard = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false)
+
   return (
     <div className={styles.root}>
-      <img
-        src={profileMock.avatar || avatar}
-        className={styles.avatar}
-        alt="avatar"
-      />
+      {isModalVisible && (
+        <UploadAvatarModal setClosed={() => setIsModalVisible(false)} />
+      )}
+      <div
+        className={styles.avatarContainer}
+        onClick={() => {
+          setIsModalVisible(true)
+        }}>
+        <img
+          src={profileMock.avatar || avatar}
+          className={styles.avatar}
+          alt="avatar"
+        />
+      </div>
       <h2>
         {profileMock.firstName} {profileMock.lastName}
       </h2>
