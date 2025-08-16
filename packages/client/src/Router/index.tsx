@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
+import { useState } from 'react'
 import {
   SignIn,
   SignUp,
@@ -8,8 +9,8 @@ import {
   Forum,
   Topic,
   Main,
+  Error,
 } from '../Pages'
-import { useState } from 'react'
 
 export const Router = () => {
   //TODO как появится store произвести замену
@@ -24,6 +25,16 @@ export const Router = () => {
         <Route path="/leaderBoard" element={<LeaderBoard />} />
         <Route path="/forum" element={<Forum />} />
         <Route path="/topic" element={<Topic />} />
+        <Route
+          path="/not-found"
+          element={
+            <Error title="404 ошибка" description="Страница не найдена" />
+          }
+        />
+        <Route
+          path="/error"
+          element={<Error title="500 ошибка" description="Произошла ошибка" />}
+        />
       </Routes>
       {!isAuth && (
         <Routes>

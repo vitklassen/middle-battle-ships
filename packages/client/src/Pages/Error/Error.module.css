@@ -1,0 +1,13 @@
+.wrapper {
+  background-color: var(--color-primary);
+  color: var(--color-basic);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: 100vh;
+  width: 100%;
+  gap: 15px;
+}
