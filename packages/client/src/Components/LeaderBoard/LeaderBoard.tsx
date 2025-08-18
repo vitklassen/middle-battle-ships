@@ -25,9 +25,7 @@ export const LeaderBoard: React.FC<Props> = ({ className }: Props) => {
         <span className={styles.item}>Очки</span>
       </div>
       <LeaderBoardList items={leaderboard} />
-      {leaderboardAfterLimit.length !== 0 && (
-        <div className={styles.divider} />
-      )}
+      {leaderboardAfterLimit.length !== 0 && <div className={styles.divider} />}
       <LeaderBoardList items={leaderboardAfterLimit} />
     </div>
   );
