@@ -1,14 +1,12 @@
-import { CenteredLayout } from '../../Common/Layouts/CenteredLayout'
-import { SignUpComponent } from '../../Components/SignUp'
+import { CenteredLayout } from '../../Common/Layouts/CenteredLayout';
+import { SignUpComponent } from '../../Components/SignUp';
 
-import styles from './SignUp.module.css'
+import styles from './SignUp.module.css';
 
-export const SignUp = () => {
-  return (
-    <div className={styles.root}>
-      <CenteredLayout>
-        <SignUpComponent />
-      </CenteredLayout>
-    </div>
-  )
-}
+export const SignUp = () => (
+  <div className={styles.root}>
+    <CenteredLayout>
+      <SignUpComponent />
+    </CenteredLayout>
+  </div>
+);

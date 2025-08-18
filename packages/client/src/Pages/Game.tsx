@@ -1,3 +1,3 @@
-export const Game = () => {
-  return <div>Game</div>
+export function Game() {
+  return <div>Game</div>;
 }

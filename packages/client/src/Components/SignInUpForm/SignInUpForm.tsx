@@ -1,11 +1,11 @@
-import clsx from 'clsx'
-import { FormItem } from '../SignInUpForm/types'
+import clsx from 'clsx';
+import React, { FC } from 'react';
+import { useForm } from 'react-hook-form';
+import { FormItem } from '../SignInUpForm/types';
 
-import styles from './SignInUpForm.module.css'
+import styles from './SignInUpForm.module.css';
 
-import React, { FC } from 'react'
-import { useForm } from 'react-hook-form'
-import { submitData } from './types'
+import { submitData } from './types';
 
 type Props = {
   signInUpFields: FormItem
@@ -24,11 +24,11 @@ export const SignInUpForm: FC<Props> = ({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm()
+  } = useForm();
 
   const onSubmit = (data: submitData) => {
-    onSubmitHandler(data)
-  }
+    onSubmitHandler(data);
+  };
 
   return (
     <form className={clsx(styles.form)} onSubmit={handleSubmit(onSubmit)}>
@@ -42,17 +42,18 @@ export const SignInUpForm: FC<Props> = ({
           maxLength,
           pattern,
         }) => (
-          <div className={clsx(styles.inputContainer)}>
+          <div key={name} className={clsx(styles.inputContainer)}>
             <span className={clsx(styles.inputName)}>{name}</span>
             <input
               className={clsx(styles.input)}
               id={name}
               placeholder={placeholder}
+              // eslint-disable-next-line react/jsx-props-no-spreading
               {...register(name, {
                 required: requiredError,
-                minLength: minLength,
-                maxLength: maxLength,
-                pattern: pattern,
+                minLength,
+                maxLength,
+                pattern,
               })}
             />
             {errors[name] && (
@@ -61,7 +62,7 @@ export const SignInUpForm: FC<Props> = ({
               </p>
             )}
           </div>
-        )
+        ),
       )}
       <button className={clsx(styles.button)} type="submit">
         {signInUpFields.submitText}
@@ -70,5 +71,5 @@ export const SignInUpForm: FC<Props> = ({
         {linkText}
       </a>
     </form>
-  )
-}
+  );
+};

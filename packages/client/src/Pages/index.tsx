@@ -1,8 +1,8 @@
-export { SignIn } from './SignIn'
-export { SignUp } from './SignUp'
-export { Profile } from './Profile'
-export { Main } from './Main'
-export { Game } from './Game'
-export { LeaderBoard } from './LeaderBoard'
-export { Forum } from './Forum'
-export { Topic } from './Topic'
+export { SignIn } from './SignIn';
+export { SignUp } from './SignUp';
+export { Profile } from './Profile';
+export { Main } from './Main';
+export { Game } from './Game';
+export { LeaderBoard } from './LeaderBoard';
+export { Forum } from './Forum';
+export { Topic } from './Topic';
