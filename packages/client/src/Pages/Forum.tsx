@@ -1,3 +1,3 @@
-export const Forum = () => {
+export function Forum() {
   return <div>Forum</div>
 }

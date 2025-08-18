@@ -3,7 +3,7 @@ import { LeaderBoard as LeaderBoardComponent } from '../../Components/LeaderBoar
 
 import styles from './LeaderBoard.module.css'
 
-export const LeaderBoard = () => {
+export function LeaderBoard() {
   return (
     <div className={styles.root}>
       <CenteredLayout>

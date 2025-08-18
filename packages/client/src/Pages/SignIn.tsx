@@ -1,3 +1,3 @@
-export const SignIn = () => {
+export function SignIn() {
   return <div>SignIn</div>
 }

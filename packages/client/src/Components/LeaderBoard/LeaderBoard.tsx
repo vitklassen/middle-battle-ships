@@ -1,6 +1,6 @@
 import clsx from 'clsx'
-import { leaderboardMock } from './mock'
 import { useMemo } from 'react'
+import { leaderboardMock } from './mock'
 import { sliceLeaderboard } from './utils/sliceLeaderboard'
 import styles from './LeaderBoard.module.css'
 import { LeaderBoardList } from './LeaderBoardList'
@@ -25,9 +25,7 @@ export const LeaderBoard: React.FC<Props> = ({ className }: Props) => {
         <span className={styles.item}>Очки</span>
       </div>
       <LeaderBoardList items={leaderboard} />
-      {leaderboardAfterLimit.length !== 0 && (
-        <div className={styles.divider}></div>
-      )}
+      {leaderboardAfterLimit.length !== 0 && <div className={styles.divider} />}
       <LeaderBoardList items={leaderboardAfterLimit} />
     </div>
   )

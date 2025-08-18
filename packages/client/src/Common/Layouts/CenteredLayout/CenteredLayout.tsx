@@ -1,15 +1,15 @@
 import { PropsWithChildren } from 'react'
 
-import styles from './CenteredLayout.module.css'
 import clsx from 'clsx'
+import styles from './CenteredLayout.module.css'
 
 type Props = {
   className?: string
 }
 
-export const CenteredLayout = ({
+export function CenteredLayout({
   children,
   className,
-}: PropsWithChildren<Props>) => {
+}: PropsWithChildren<Props>) {
   return <div className={clsx(styles.root, className)}>{children}</div>
 }

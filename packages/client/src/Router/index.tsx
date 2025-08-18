@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
+import { useState } from 'react'
 import {
   SignIn,
   SignUp,
@@ -9,10 +10,9 @@ import {
   Topic,
   Main,
 } from '../Pages'
-import { useState } from 'react'
 
-export const Router = () => {
-  //TODO как появится store произвести замену
+export function Router() {
+  // TODO как появится store произвести замену
   const [isAuth] = useState(false)
 
   return (
