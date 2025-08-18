@@ -1,5 +1,5 @@
-import { Routes, Route } from 'react-router-dom'
-import { useState } from 'react'
+import { Routes, Route } from 'react-router-dom';
+import { useState } from 'react';
 import {
   SignIn,
   SignUp,
@@ -9,11 +9,11 @@ import {
   Forum,
   Topic,
   Main,
-} from '../Pages'
+} from '../Pages';
 
 export function Router() {
   // TODO как появится store произвести замену
-  const [isAuth] = useState(false)
+  const [isAuth] = useState(false);
 
   return (
     <>
@@ -32,5 +32,5 @@ export function Router() {
         </Routes>
       )}
     </>
-  )
+  );
 }

@@ -1,7 +1,7 @@
-import { CenteredLayout } from '../../Common/Layouts/CenteredLayout'
-import { LeaderBoard as LeaderBoardComponent } from '../../Components/LeaderBoard'
+import { CenteredLayout } from '../../Common/Layouts/CenteredLayout';
+import { LeaderBoard as LeaderBoardComponent } from '../../Components/LeaderBoard';
 
-import styles from './LeaderBoard.module.css'
+import styles from './LeaderBoard.module.css';
 
 export function LeaderBoard() {
   return (
@@ -11,5 +11,5 @@ export function LeaderBoard() {
         <LeaderBoardComponent className={styles.leaderboard} />
       </CenteredLayout>
     </div>
-  )
+  );
 }

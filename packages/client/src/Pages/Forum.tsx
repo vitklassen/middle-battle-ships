@@ -1,3 +1,3 @@
 export function Forum() {
-  return <div>Forum</div>
+  return <div>Forum</div>;
 }

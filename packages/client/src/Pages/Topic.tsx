@@ -1,3 +1,3 @@
 export function Topic() {
-  return <div>Topic</div>
+  return <div>Topic</div>;
 }
