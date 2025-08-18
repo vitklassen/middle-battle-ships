@@ -15,16 +15,10 @@ export const LeaderBoardList: React.FC<Props> = ({ items }) => (
     }) => (
       <div
         key={position}
-        className={clsx(
-          styles.row,
-          styles.cell,
-          isUser && styles.cellAccent,
-        )}
+        className={clsx(styles.row, styles.cell, isUser && styles.cellAccent)}
       >
         <span className={clsx(styles.item, styles.itemAlignRight)}>
-          {hasStar && (
-          <img src={star} alt="star" className={styles.itemIcon} />
-          )}
+          {hasStar && <img src={star} alt="star" className={styles.itemIcon} />}
           {position}
         </span>
         <span className={clsx(styles.item, styles.itemStretched)}>
