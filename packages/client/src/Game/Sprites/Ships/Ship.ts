@@ -21,4 +21,20 @@ export class Ship {
   public draw(): void {
     this.context.drawImage(this.image, this.x, this.y, this.width, this.height)
   }
+  public isMouseInShip(x: number, y: number): boolean {
+    const leftBorder = this.x
+    const rightBorder = this.x + this.width
+    const topBorder = this.y
+    const bottomBorder = this.y + this.height
+    const isHorizontalMatch = x > leftBorder && x < rightBorder
+    const isVerticalMatch = y > topBorder && y < bottomBorder
+    if(isHorizontalMatch && isVerticalMatch) {
+      return true
+    }
+    return false
+  }
+  public setNewPosition(x: number, y: number): void {
+    this.x += x
+    this.y += y
+  }
 }
