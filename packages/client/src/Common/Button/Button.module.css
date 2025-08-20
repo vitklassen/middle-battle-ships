@@ -1,0 +1,63 @@
+.button {
+  font-weight: 300;
+  font-size: 20px;
+  cursor: pointer;
+
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  color: var(--col-primary);
+  border: 1px solid var(--col-primary);
+  border-radius: 4px;
+
+  line-height: 1.5em;
+  padding-left: 3em;
+  padding-right: 3em;
+
+  box-shadow: 0 0 0 0 transparent;
+  transition: all 0.2s ease-in;
+}
+
+.button:hover {
+  color: white;
+  background-color: var(--color-third);
+  transition: all 0.2s ease-out;
+}
+
+.button:hover::before {
+  animation: shine 0.5s 0s linear;
+}
+
+.button:active {
+  box-shadow: 0 0 0 0 transparent;
+  transition: box-shadow 0.2s ease-in;
+}
+
+.button::before {
+  content: '';
+  display: block;
+  width: 0px;
+  height: 86%;
+  position: absolute;
+  top: 7%;
+  left: 0%;
+
+  opacity: 0;
+  background: white;
+  box-shadow: 0 0 15px 3px white;
+  transform: skewX(-20deg);
+}
+
+@keyframes shine {
+  from {
+    opacity: 0;
+    left: 0%;
+  }
+  50% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    left: 100%;
+  }
+}

@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'Inter';
+  src: url('./assets/fonts/Inter_24pt-Regular.ttf');
+}
+
+:root {
+  font-family: 'Inter', 'sans-serif';
+
+  --color-basic: rgb(27, 27, 27);
+  --color-primary: rgba(105, 155, 247);
+  --color-secondary: rgba(255, 133, 119);
+}
