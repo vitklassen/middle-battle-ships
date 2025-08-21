@@ -1,0 +1,21 @@
+.root {
+  display: flex;
+  padding: 8px;
+  gap: 16px;
+}
+
+.icon {
+  background-color: var(--color-tertiary);
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  box-shadow: 2px 2px 0 0 var(--color-basic);
+  border: 2px solid var(--color-basic);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contentText {
+  font-weight: 600;
+}

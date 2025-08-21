@@ -1,0 +1,30 @@
+.button {
+  padding: 12px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 2px 2px 0 0 var(--color-basic);
+  border: 2px solid var(--color-basic);
+  transition: all 0.1s ease-in;
+}
+
+.buttonPrimary {
+  background-color: var(--color-basic);
+}
+
+.button:hover,
+.button:active {
+  background-color: var(--color-tertiary);
+  color: var(--color-basic);
+}
+
+.buttonSecondary {
+  background-color: white;
+  color: var(--color-basic);
+}
+
+.buttonStretched {
+  width: 100%;
+}
