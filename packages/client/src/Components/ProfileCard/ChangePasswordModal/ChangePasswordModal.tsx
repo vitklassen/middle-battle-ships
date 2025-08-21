@@ -1,13 +1,13 @@
-import { useForm } from 'react-hook-form'
-import { Modal } from '../../../Common/Layouts/Modal'
-import styles from './ChangePasswordModal.module.css'
-import { Button } from '../../../Common/Blocks/Button'
-import { ChangePasswordForm } from './types'
-import profileApi from '../../../api/profileApi'
-import { useState } from 'react'
-import clsx from 'clsx'
-import { CenteredLayout } from '../../../Common/Layouts/CenteredLayout'
-import { Card } from '../../../Common/Blocks/Card'
+import { useForm } from 'react-hook-form';
+import { useState } from 'react';
+import clsx from 'clsx';
+import { Modal } from '../../../Common/Layouts/Modal';
+import styles from './ChangePasswordModal.module.css';
+import { Button } from '../../../Common/Blocks/Button';
+import { ChangePasswordForm } from './types';
+import profileApi from '../../../api/profileApi';
+import { CenteredLayout } from '../../../Common/Layouts/CenteredLayout';
+import { Card } from '../../../Common/Blocks/Card';
 
 const fields = [
   {
@@ -38,31 +38,31 @@ const fields = [
       },
     },
   },
-] as const
+] as const;
 
 type Props = {
   setClosed: VoidFunction
 }
 
 export const ChangePasswordModal: React.FC<Props> = ({ setClosed }) => {
-  const [error, setError] = useState('')
+  const [error, setError] = useState('');
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ChangePasswordForm>()
+  } = useForm<ChangePasswordForm>();
 
   const onSubmit = ({ oldPassword, newPassword }: ChangePasswordForm) => {
     profileApi
       .changePassword(oldPassword, newPassword)
       .then(() => {
-        setClosed()
+        setClosed();
       })
       .catch(({ reason }) => {
-        setError(reason)
-      })
-  }
+        setError(reason);
+      });
+  };
 
   return (
     <Modal onBackdropClick={setClosed}>
@@ -70,25 +70,31 @@ export const ChangePasswordModal: React.FC<Props> = ({ setClosed }) => {
         <Card>
           <h1 className={styles.title}>Смена пароля</h1>
           <form onSubmit={handleSubmit(onSubmit)}>
-            {fields.map(({ name, label, type, options }) => (
+            {fields.map(({
+              name, label, type, options,
+            }) => (
               <div key={name} className={styles.field}>
-                <label>{label}</label>
+                <label htmlFor={name}>{label}</label>
                 <input
+                  id={name}
+                  /* eslint-disable react/jsx-props-no-spreading */
                   {...register(name, options)}
                   type={type}
                   placeholder={label}
                   className={styles.input}
                 />
                 {errors[name] && (
-                  <span className={clsx(styles.error, styles.errorField)}>
-                    {errors[name].message}
-                  </span>
+                <span className={clsx(styles.error, styles.errorField)}>
+                  {errors[name].message}
+                </span>
                 )}
               </div>
             ))}
             {error && (
               <span className={clsx(styles.error, styles.errorGlobal)}>
-                Ошибка: {error}
+                Ошибка:
+                {' '}
+                {error}
               </span>
             )}
             <Button stretched className={styles.button}>
@@ -98,5 +104,5 @@ export const ChangePasswordModal: React.FC<Props> = ({ setClosed }) => {
         </Card>
       </CenteredLayout>
     </Modal>
-  )
-}
+  );
+};

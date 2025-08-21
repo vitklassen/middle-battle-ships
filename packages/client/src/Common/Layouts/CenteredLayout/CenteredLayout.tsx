@@ -11,7 +11,10 @@ type Props = {
 }
 
 export function CenteredLayout({
+  width,
   children,
+  onlyHorizontally,
+  onlyVertically,
   className,
 }: PropsWithChildren<Props>) {
   return (
@@ -20,10 +23,11 @@ export function CenteredLayout({
         styles.root,
         onlyHorizontally && styles.onlyHorizontally,
         onlyVertically && styles.onlyVertically,
-        className
+        className,
       )}
-      style={{ width }}>
+      style={{ width }}
+    >
       {children}
-    </div>;
-  )
+    </div>
+  );
 }
