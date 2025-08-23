@@ -1,5 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from './Store';
 import App from './App';
 
 // Мокаем fetch перед тестами
@@ -10,7 +12,9 @@ global.fetch = jest.fn(() => Promise.resolve({
 test('рендерит корректно', () => {
   render(
     <MemoryRouter initialEntries={['/main']}>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </MemoryRouter>,
   );
 

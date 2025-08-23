@@ -18,6 +18,7 @@
   width: 104px;
   height: 104px;
   margin-bottom: 12px;
+  border-radius: 50%;
 }
 
 .avatarContainer:hover::after {

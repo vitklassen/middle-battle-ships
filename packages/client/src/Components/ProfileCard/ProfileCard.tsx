@@ -1,14 +1,15 @@
 import { useState } from 'react';
-import avatar from '../../assets/images/profile.png';
 import home from '../../assets/images/home.svg';
 import mail from '../../assets/images/mail.svg';
 import phone from '../../assets/images/phone.svg';
 import { Cell } from './Cell';
-import { profileMock } from './mock';
 import { Button } from '../../Common/Blocks/Button';
 import { UploadAvatarModal } from './UploadAvatarModal';
 import styles from './ProfileCard.module.css';
 import { ChangePasswordModal } from './ChangePasswordModal';
+import { getAvatarUrl } from './utils/getAvatarUrl';
+import { useSelector } from '../../Store';
+import { useProfile } from '../../Features/profile';
 
 export const ProfileCard = () => {
   const [isUploadAvatarModalVisible, setIsUploadAvatarModalVisible] =
@@ -16,6 +17,15 @@ export const ProfileCard = () => {
   const [isChangePasswordModalVisible, setIsChangePasswordModalVisible] =
     useState(false);
 
+  useProfile();
+
+  const profile = useSelector((state) => state.profile.value);
+
+  if (!profile) {
+    return;
+  }
+
+  /* eslint-disable consistent-return */
   return (
     <div className={styles.root}>
       {isUploadAvatarModalVisible && (
@@ -36,29 +46,29 @@ export const ProfileCard = () => {
         aria-hidden="true"
       >
         <img
-          src={profileMock.avatar || avatar}
+          src={getAvatarUrl(profile)}
           className={styles.avatar}
           alt="avatar"
         />
       </div>
       <h2>
-        {profileMock.firstName}
+        {profile.firstName}
         {' '}
-        {profileMock.lastName}
+        {profile.lastName}
       </h2>
       <h3>
         @
-        {profileMock.displayName}
+        {profile.displayName}
       </h3>
       <div className={styles.cells}>
         <Cell icon={home} label="Логин">
-          {profileMock.login}
+          {profile.login}
         </Cell>
         <Cell icon={mail} label="Почта">
-          {profileMock.email}
+          {profile.email}
         </Cell>
         <Cell icon={phone} label="Телефон">
-          {profileMock.phone}
+          {profile.phone}
         </Cell>
       </div>
       <Button

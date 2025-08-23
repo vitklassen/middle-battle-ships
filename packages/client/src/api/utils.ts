@@ -32,11 +32,3 @@ export const checkIfAuthorized = () => {
       }
     })
 }
-
-export const throwError = (res: unknown) => {
-  throw new Error(
-    `${(res as XMLHttpRequest).status.toString()} - ${
-      JSON.parse((res as XMLHttpRequest).response).reason
-    }`
-  )
-}

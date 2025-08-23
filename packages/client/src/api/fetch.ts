@@ -1,4 +1,6 @@
 /* eslint-disable no-unused-vars */
+import { setError } from '../Features/error'
+import { store } from '../Store'
 import { queryStringify } from './utils'
 
 enum METHOD { // в упор не видит, что METHOD вызывается в коде
@@ -63,7 +65,7 @@ export class HTTP {
     url = isGet && !!data ? `${url}${queryStringify(data)}` : url
 
     const reqHeaders = new Headers()
-    let body: FormData | string | unknown
+    let body: FormData | string
 
     Object.keys(headers).forEach(key => {
       reqHeaders.set(key, headers[key])
@@ -71,8 +73,6 @@ export class HTTP {
 
     if (formData) {
       body = formData
-    } else if (isGet || (!data && !formData)) {
-      body = ''
     } else {
       reqHeaders.set('content-type', 'application/json')
       const json = JSON.stringify(data)
@@ -81,7 +81,7 @@ export class HTTP {
 
     const newOptions: RequestInit = {
       method,
-      body: body ? (body as BodyInit) : '',
+      body: isGet ? undefined : body,
       headers: reqHeaders,
       credentials: credentials || 'include',
     }
@@ -92,14 +92,22 @@ export class HTTP {
       ...newOptions,
       signal: controller.signal,
     } as RequestInit)
-    let res: Promise<Response>
     try {
-      res = fetch(request)
-    } catch (error) {
+      const res = await fetch(request)
+      const json = await res.json()
+      if (!res.ok) {
+        const error = {
+          reason: json.reason,
+          status: res.status,
+        }
+        throw error;
+      }
+      return json
+    } catch (error: any) {
+      store.dispatch(setError({ reason: error.reason || error.message, status: error.status }))
       clearTimeout(timeoutId)
       throw error
     }
-    return res
     //Идея с timeout взята в https://dev.to/rashidshamloo/adding-timeout-and-multiple-abort-signals-to-fetch-typescriptreact-33bb?ysclid=me8p95k7hh402956849
   }
 }
