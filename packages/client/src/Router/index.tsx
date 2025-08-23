@@ -11,20 +11,27 @@ import {
   Main,
   Error,
 } from '../Pages';
+import { authorizationChecker } from '../Components/AuthorizationChecker';
 
 export function Router() {
   // TODO как появится store произвести замену
   const [isAuth] = useState(false);
+  const WrappedProfile = authorizationChecker(Profile);
+  const WrappedGame = authorizationChecker(Game);
+  const WrappedMain = authorizationChecker(Main);
+  const WrappedLeaderBoard = authorizationChecker(LeaderBoard);
+  const WrappedForum = authorizationChecker(Forum);
+  const WrappedTopic = authorizationChecker(Topic);
 
   return (
     <>
       <Routes>
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/game" element={<Game />} />
-        <Route path="/main" element={<Main />} />
-        <Route path="/leaderBoard" element={<LeaderBoard />} />
-        <Route path="/forum" element={<Forum />} />
-        <Route path="/topic" element={<Topic />} />
+        <Route path="/profile" element={<WrappedProfile />} />
+        <Route path="/game" element={<WrappedGame />} />
+        <Route path="/main" element={<WrappedMain />} />
+        <Route path="/leaderBoard" element={<WrappedLeaderBoard />} />
+        <Route path="/forum" element={<WrappedForum />} />
+        <Route path="/topic" element={<WrappedTopic />} />
         <Route
           path="/not-found"
           element={

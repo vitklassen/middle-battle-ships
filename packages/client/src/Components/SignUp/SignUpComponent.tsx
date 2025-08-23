@@ -9,13 +9,22 @@ import authApi from '../../api/authApi';
 export const SignUpComponent: FC = () => {
   const onSubmitHandler = (data: submitData) => {
     console.log(data);
-    authApi.register(data).then((res: unknown): void => {
-      // данные после авторизации, пока что тут заглушка,
-      // т.к. остальные страницы не реализованы
-      console.log(res);
-      // стоит добавить authApi.getUserInfo();
-      // и затем отлов ошибок и отправка на 404 или 500
-    });
+    authApi.register(data)
+      .then((): void => {
+        authApi.getUserInfo()
+          .then((res: unknown) => {
+            console.log(res);
+            // данные после входа, пока что тут заглушка,
+            // т.к. redux не подключен
+            window.location.href = './main';
+          })
+          .catch((err: Error) => {
+            console.log(err);
+            if (err.message.includes('500')) {
+              window.location.href = './error';
+            }
+          });
+      });
   };
 
   return (
