@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import styles from './CenteredLayout.module.css';
 
 type Props = {

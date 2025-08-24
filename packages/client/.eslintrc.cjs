@@ -24,7 +24,8 @@ module.exports = {
   },
   ignorePatterns: [
     'build',
-    'node_modules'
+    'node_modules',
+    'jest.config.js'
   ],
   rules: {
     'react/react-in-jsx-scope': 'off',

@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import { FC } from 'react';
 import { signUpFields } from './mock';
 import styles from './SignUpComponent.module.css';

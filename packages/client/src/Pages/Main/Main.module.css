@@ -1,0 +1,37 @@
+.root {
+  background-color: var(--color-primary);
+  height: 100vh;
+  position: relative;
+}
+
+.title {
+  padding-top: 48px;
+}
+
+.container {
+  display: flex;
+  column-gap: 30px;
+  margin-top: 20px;
+}
+
+.wrapper {
+  border-radius: 10px;
+  background: var(--color-white);
+  padding: 30px;
+  box-shadow: 2px 2px 0 0 var(--color-basic);
+}
+
+.list {
+  padding: 0;
+  padding-left: 15px;
+}
+
+.desription h2 {
+  font-size: 28px;
+}
+
+.desription p {
+  font-size: 16px;
+  line-height: 1.6px;
+  margin-bottom: 15px;
+}
