@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import { FC } from 'react';
 import { useNavigate } from 'react-router';
 import { signUpFields } from './mock';

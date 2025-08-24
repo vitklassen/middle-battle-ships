@@ -9,6 +9,6 @@ export default {
     __SERVER_PORT__: process.env.SERVER_PORT,
   },
   moduleNameMapper: {
-    '\\.(css|svg|png)$': '<rootDir>/__mocks__/mock.js',
+    '\\.(css|svg|png)$': 'identity-obj-proxy',
   },
 }

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import styles from './Game.module.css';
 import { Engine } from '../../Game';
 import globalGameConfig from '../../Game/globalGameConfig';
+import { Header } from '../../Components/Header';
 
 export const Game = () => {
   const ref = useRef(null);
@@ -30,8 +31,16 @@ export const Game = () => {
     };
   }, []);
   return (
-    <div className={styles.wrapper}>
-      <canvas id="canvas-element" ref={ref} width={width} height={height} />
-    </div>
+    <>
+      <Header />
+      <main className={styles.wrapper}>
+        <canvas
+          id="canvas-element"
+          ref={ref}
+          width={width}
+          height={height}
+        />
+      </main>
+    </>
   );
 };

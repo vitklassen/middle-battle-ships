@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import React, { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormItem } from '../SignInUpForm/types';

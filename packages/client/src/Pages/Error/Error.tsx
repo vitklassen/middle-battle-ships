@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useNavigate } from 'react-router';
 
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import styles from './Error.module.css';
 import { Button } from '../../Common';
 
