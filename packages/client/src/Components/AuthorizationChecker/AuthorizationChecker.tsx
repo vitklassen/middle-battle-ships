@@ -1,19 +1,24 @@
-import { ComponentType, Component } from 'react';
-import { checkIfAuthorized } from '../../api/utils';
+import { ComponentType, FC } from 'react';
+import { useNavigate } from 'react-router';
+import authApi from '../../api/authApi';
 
 export function authorizationChecker(WrappedComponent: ComponentType) {
-  class CheckedComponent extends Component {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    constructor(props: any) {
-      super(props);
-      checkIfAuthorized();
-    }
+  const CheckedComponent: FC = (props) => {
+    const navigate = useNavigate();
 
-    public render() {
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      return <WrappedComponent {...this.props} />;
-    }
-  }
+    authApi
+      .getUserInfo()
+      .catch((err: Error) => {
+        console.log(err);
+        if (err.message.includes('401')) {
+          console.log('unauthorized');
+          navigate('../sign-in');
+        }
+      });
+
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    return (<WrappedComponent {...props} />);
+  };
 
   return CheckedComponent;
 }

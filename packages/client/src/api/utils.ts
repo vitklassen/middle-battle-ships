@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router';
 import authApi from './authApi';
 
 export const queryStringify = (data: { [key: string]: unknown }) => {
@@ -16,17 +17,15 @@ export const queryStringify = (data: { [key: string]: unknown }) => {
 };
 
 export const checkIfAuthorized = () => {
+  const navigate = useNavigate();
   // функция для проверки авторизации (добавить на каждой странице или перед route'ами)
   authApi
     .getUserInfo()
-    .then(() => {
-      console.log('215');
-    })
     .catch((err: Error) => {
       console.log(err);
       if (err.message.includes('401')) {
         console.log('unauthorized');
-        window.location.href = './sign-in';
+        navigate('../sign-in');
       }
     });
 };

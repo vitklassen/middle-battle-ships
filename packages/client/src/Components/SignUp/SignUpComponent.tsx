@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { FC } from 'react';
+import { useNavigate } from 'react-router';
 import { signUpFields } from './mock';
 import styles from './SignUpComponent.module.css';
 import { SignInUpForm } from '../SignInUpForm';
@@ -7,6 +8,7 @@ import { submitData } from '../SignInUpForm/types';
 import authApi from '../../api/authApi';
 
 export const SignUpComponent: FC = () => {
+  const navigate = useNavigate();
   const onSubmitHandler = (data: submitData) => {
     console.log(data);
     authApi.register(data)
@@ -16,12 +18,12 @@ export const SignUpComponent: FC = () => {
             console.log(res);
             // данные после входа, пока что тут заглушка,
             // т.к. redux не подключен
-            window.location.href = './main';
+            navigate('../main');
           })
           .catch((err: Error) => {
             console.log(err);
             if (err.message.includes('500')) {
-              window.location.href = './error';
+              navigate('../error');
             }
           });
       });
