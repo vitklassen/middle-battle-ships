@@ -2,15 +2,15 @@ import { Iargs } from './apiInterfaces'
 import apiInstance from './fetch'
 import BaseAPI from './baseApi'
 
-const authApiInstance = apiInstance
+const authApiInstance = apiInstance;
 
 export class AuthAPI extends BaseAPI {
   _create(args: Iargs) {
     // post
-    const { path, dataToSend } = args
+    const { path, dataToSend } = args;
     return authApiInstance.post(path, {
       data: dataToSend,
-    })
+    });
   }
 
   _request(args: Iargs) {
@@ -28,7 +28,7 @@ export class AuthAPI extends BaseAPI {
   }
 
   getUserInfo() {
-    return this._request({ path: 'auth/user' })
+    return this._request({ path: 'auth/user' });
   }
 
   logout() {
@@ -36,5 +36,5 @@ export class AuthAPI extends BaseAPI {
   }
 }
 
-const authApi = new AuthAPI()
-export default authApi
+const authApi = new AuthAPI();
+export default authApi;
