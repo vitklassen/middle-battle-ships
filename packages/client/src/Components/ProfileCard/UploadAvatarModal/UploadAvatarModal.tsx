@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { Button } from '../../../Common/Blocks/Button';
 import { Modal } from '../../../Common/Layouts/Modal';
 import styles from './UploadAvatarModal.module.css';
-import profileApi from '../../../api/profileApi';
 import { CenteredLayout } from '../../../Common/Layouts/CenteredLayout';
 import { Card } from '../../../Common/Blocks/Card';
+import { useUploadAvatar } from '../../../Features/profile';
 
 type Props = {
   setClosed: VoidFunction
@@ -18,19 +18,16 @@ export const UploadAvatarModal: React.FC<Props> = ({ setClosed }) => {
     setFile(e.target.files?.[0] || null);
   };
 
+  const uploadAvatar = useUploadAvatar({
+    onSuccess: setClosed,
+    onError: setError,
+  });
+
   const handleUploadAvatarClick = () => {
     if (!file) {
       return;
     }
-
-    profileApi
-      .uploadAvatar(file)
-      .then(() => {
-        setClosed();
-      })
-      .catch(({ reason }) => {
-        setError(reason);
-      });
+    uploadAvatar(file);
   };
 
   return (
@@ -51,10 +48,10 @@ export const UploadAvatarModal: React.FC<Props> = ({ setClosed }) => {
           </label>
           <span className={styles.file}>{file && file?.name}</span>
           {error && (
-          <div className={styles.error}>
-            Ошибка:
-            {error}
-          </div>
+            <div className={styles.error}>
+              Ошибка:
+              {error}
+            </div>
           )}
           <Button
             onClick={handleUploadAvatarClick}

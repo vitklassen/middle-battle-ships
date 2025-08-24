@@ -29,14 +29,3 @@ export const checkIfAuthorized = () => {
       }
     });
 };
-
-export const throwError = async (res: unknown) => {
-  console.log(res);
-  const errorData = await (res as Response).json();
-  console.log(errorData);
-  throw new Error(
-    `${(res as XMLHttpRequest).status.toString()} - ${
-      errorData.reason
-    }`,
-  );
-};

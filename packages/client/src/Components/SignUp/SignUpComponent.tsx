@@ -6,6 +6,8 @@ import styles from './SignUpComponent.module.css';
 import { SignInUpForm } from '../SignInUpForm';
 import { submitData } from '../SignInUpForm/types';
 import authApi from '../../api/authApi';
+import { type Error } from '../../Features/error';
+import { GetProfileResponse } from '../../Features/profile';
 
 export const SignUpComponent: FC = () => {
   const navigate = useNavigate();
@@ -14,7 +16,7 @@ export const SignUpComponent: FC = () => {
     authApi.register(data)
       .then((): void => {
         authApi.getUserInfo()
-          .then((res: unknown) => {
+          .then((res: GetProfileResponse) => {
             console.log(res);
             // данные после входа, пока что тут заглушка,
             // т.к. redux не подключен
@@ -22,7 +24,7 @@ export const SignUpComponent: FC = () => {
           })
           .catch((err: Error) => {
             console.log(err);
-            if (err.message.includes('500')) {
+            if (err.status === 500) {
               navigate('../error');
             }
           });

@@ -18,7 +18,11 @@ export const Modal: React.FC<React.PropsWithChildren<Props>> = ({
 
   return createPortal(
     <div className={styles.root}>
-      <div onClick={onBackdropClick} className={styles.backdrop} aria-hidden="true" />
+      <div
+        onClick={onBackdropClick}
+        className={styles.backdrop}
+        aria-hidden="true"
+      />
       {children}
     </div>,
     modalRoot,
