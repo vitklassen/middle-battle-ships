@@ -1,81 +1,40 @@
 import { Iargs } from './apiInterfaces'
-import { throwError } from './utils'
 import apiInstance from './fetch'
 import BaseAPI from './baseApi'
 
-const authApiInstance = apiInstance
+const authApiInstance = apiInstance;
 
 export class AuthAPI extends BaseAPI {
   _create(args: Iargs) {
     // post
-    const { path, dataToSend } = args
+    const { path, dataToSend } = args;
     return authApiInstance.post(path, {
-      credentials: 'include',
-      mode: 'cors',
-      headers: {
-        'Content-type': 'application/json; charset=utf-8',
-        accept: 'application/json',
-      },
       data: dataToSend,
-    })
+    });
   }
 
   _request(args: Iargs) {
     // get
     const { path } = args
-    return authApiInstance
-      .get(path, {
-        credentials: 'include',
-        mode: 'cors',
-        headers: { accept: 'application/json' },
-      })
-      .then((res: unknown): PromiseLike<{ id: string }> => {
-        if ((res as XMLHttpRequest).status >= 400) {
-          throwError(res)
-        }
-        const data = JSON.parse((res as XMLHttpRequest).response)
-        return data
-      }) // напоминалка: после каждого вызова функции прописываем then, catch или finally, и в них обрабатываем
+    return authApiInstance.get(path)
   }
 
   register(args: Iargs) {
-    return this._create({ path: 'auth/signup', dataToSend: args }).then(
-      (res: unknown): PromiseLike<{ id: string }> => {
-        if ((res as XMLHttpRequest).status >= 400) {
-          throwError(res)
-        }
-        const data = JSON.parse((res as XMLHttpRequest).response)
-        return data
-      }
-    ) // напоминалка: после каждого вызова функции прописываем then, catch или finally, и в них обрабатываем
+    return this._create({ path: 'auth/signup', dataToSend: args })
   }
 
   login(args: Iargs) {
-    return this._create({ path: 'auth/signin', dataToSend: args }).then(
-      (res: unknown): PromiseLike<void> => {
-        if ((res as XMLHttpRequest).status >= 400) {
-          throwError(res)
-        }
-        return (res as XMLHttpRequest).response //не сильно и нужен, т.к. тут по сути просто 200 ОК возвращает
-      }
-    ) // напоминалка: после каждого вызова функции прописываем then, catch или finally, и в них обрабатываем
+    return this._create({ path: 'auth/signin', dataToSend: args })
   }
 
   getUserInfo() {
-    return this._request({ path: 'auth/user' })
+    return this._request({ path: 'auth/user' });
   }
 
   logout() {
-    return this._create({ path: 'auth/logout', dataToSend: '' }).then(
-      (res: unknown): PromiseLike<{ id: string }> => {
-        if ((res as XMLHttpRequest).status >= 400) {
-          throwError(res)
-        }
-        return (res as XMLHttpRequest).response
-      }
-    )
+    return this._create({ path: 'auth/logout', dataToSend: '' })
   }
 }
 
-const authApi = new AuthAPI()
-export default authApi
+const authApi = new AuthAPI();
+export default authApi;

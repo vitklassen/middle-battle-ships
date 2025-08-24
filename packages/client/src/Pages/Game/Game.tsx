@@ -31,12 +31,7 @@ export const Game = () => {
   }, []);
   return (
     <div className={styles.wrapper}>
-      <canvas
-        id="canvas-element"
-        ref={ref}
-        width={width}
-        height={height}
-      />
+      <canvas id="canvas-element" ref={ref} width={width} height={height} />
     </div>
   );
 };
