@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import './App.module.css';
 import { Router } from './Router';
+import { ErrorSnackbar } from './Components/ErrorSnackbar';
 
 function App() {
   useEffect(() => {
@@ -13,9 +13,11 @@ function App() {
 
     fetchServerData();
   }, []);
+
   return (
     <div className="App">
       <Router />
+      <ErrorSnackbar />
     </div>
   );
 }

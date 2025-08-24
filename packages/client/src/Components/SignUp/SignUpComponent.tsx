@@ -1,21 +1,34 @@
 import { clsx } from 'clsx';
 import { FC } from 'react';
+import { useNavigate } from 'react-router';
 import { signUpFields } from './mock';
 import styles from './SignUpComponent.module.css';
 import { SignInUpForm } from '../SignInUpForm';
 import { submitData } from '../SignInUpForm/types';
 import authApi from '../../api/authApi';
+import { type Error } from '../../Features/error';
+import { GetProfileResponse } from '../../Features/profile';
 
 export const SignUpComponent: FC = () => {
+  const navigate = useNavigate();
   const onSubmitHandler = (data: submitData) => {
     console.log(data);
-    authApi.register(data).then((res: unknown): void => {
-      // данные после авторизации, пока что тут заглушка,
-      // т.к. остальные страницы не реализованы
-      console.log(res);
-      // стоит добавить authApi.getUserInfo();
-      // и затем отлов ошибок и отправка на 404 или 500
-    });
+    authApi.register(data)
+      .then((): void => {
+        authApi.getUserInfo()
+          .then((res: GetProfileResponse) => {
+            console.log(res);
+            // данные после входа, пока что тут заглушка,
+            // т.к. redux не подключен
+            navigate('../main');
+          })
+          .catch((err: Error) => {
+            console.log(err);
+            if (err.status === 500) {
+              navigate('../error');
+            }
+          });
+      });
   };
 
   return (
