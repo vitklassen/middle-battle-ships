@@ -1,0 +1,9 @@
+.root {
+  background-color: var(--color-primary);
+  position: relative;
+  height: 100vh;
+}
+
+.title {
+  margin-bottom: 8px;
+}

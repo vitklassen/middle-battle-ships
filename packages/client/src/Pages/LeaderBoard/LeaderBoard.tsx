@@ -6,7 +6,7 @@ import styles from './LeaderBoard.module.css';
 export function LeaderBoard() {
   return (
     <div className={styles.root}>
-      <CenteredLayout>
+      <CenteredLayout onlyHorizontally>
         <h1 className={styles.title}>Лидерборд</h1>
         <LeaderBoardComponent className={styles.leaderboard} />
       </CenteredLayout>
