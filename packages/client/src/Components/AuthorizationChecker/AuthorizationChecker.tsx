@@ -21,9 +21,10 @@ export function authorizationChecker(WrappedComponent: ComponentType) {
 
     useEffect(() => {
       if (!profile) {
-        return;
-      }
-      if (pathname === Path.SignIn || pathname === Path.SignUp) {
+        if (pathname === Path.Main) {
+          navigate(Path.SignIn);
+        }
+      } else if (pathname === Path.SignIn || pathname === Path.SignUp) {
         navigate(Path.Main);
       }
     }, [profile]);

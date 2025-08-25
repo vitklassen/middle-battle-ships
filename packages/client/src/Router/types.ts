@@ -4,7 +4,7 @@ export enum Path {
   Error = '/error',
   Profile = '/profile',
   Game = '/game',
-  Main = '/main',
+  Main = '/',
   Leaderboard = '/leaderboard',
   Forum = '/forum',
   Topic = '/topic',
