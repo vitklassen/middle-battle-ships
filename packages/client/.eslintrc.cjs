@@ -2,25 +2,22 @@ module.exports = {
   extends: [
     'airbnb',
     'plugin:react/recommended',
-    'plugin:@typescript-eslint/recommended'
+    'plugin:@typescript-eslint/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
     },
     ecmaVersion: 'latest',
     sourceType: 'module',
-    project: './tsconfig.json'
+    project: './tsconfig.json',
   },
-  plugins: [
-    'react',
-    '@typescript-eslint'
-  ],
+  plugins: ['react', '@typescript-eslint'],
   settings: {
     react: {
-      version: 'detect'
-    }
+      version: 'detect',
+    },
   },
   ignorePatterns: [
     'build',
@@ -44,7 +41,7 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': 'error',
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'error',
-    'prefer-destructuring': ['error', { 'object': true, 'array': false }],
+    'prefer-destructuring': ['error', { object: true, array: false }],
     'no-param-reassign': 'off',
     'no-constructor-return': 'off',
     'no-restricted-syntax': 'off',
@@ -55,20 +52,20 @@ module.exports = {
     'max-classes-per-file': 'off',
     'import/no-unresolved': 'off',
     'react/jsx-filename-extension': 'off',
-    "react/prop-types": "off",
-    "react/require-default-props": "off",
-    "react/function-component-definition": "off"
+    'react/prop-types': 'off',
+    'react/require-default-props': 'off',
+    'react/function-component-definition': 'off',
   },
   env: {
     browser: true,
-    node: true
+    node: true,
   },
   overrides: [
     {
       files: ['*.js'],
       parserOptions: {
-        sourceType: 'script'
-      }
-    }
-  ]
-};
+        sourceType: 'script',
+      },
+    },
+  ],
+}
