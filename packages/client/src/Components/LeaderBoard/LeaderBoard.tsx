@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import { useMemo } from 'react';
 import { leaderboardMock } from './mock';
 import { sliceLeaderboard } from './utils/sliceLeaderboard';

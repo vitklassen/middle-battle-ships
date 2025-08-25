@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import { LeaderboardItem } from '../types';
 import star from '../../../assets/images/star.svg';
 

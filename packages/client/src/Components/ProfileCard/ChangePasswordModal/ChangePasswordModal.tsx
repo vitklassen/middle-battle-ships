@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import clsx from 'clsx';
+import { clsx } from 'clsx';
 import { Modal } from '../../../Common/Layouts/Modal';
 import styles from './ChangePasswordModal.module.css';
 import { Button } from '../../../Common/Blocks/Button';

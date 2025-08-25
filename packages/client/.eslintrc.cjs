@@ -19,7 +19,11 @@ module.exports = {
       version: 'detect',
     },
   },
-  ignorePatterns: ['build', 'node_modules'],
+  ignorePatterns: [
+    'build',
+    'node_modules',
+    'jest.config.js'
+  ],
   rules: {
     'react/react-in-jsx-scope': 'off',
     'max-len': ['error', 150],
