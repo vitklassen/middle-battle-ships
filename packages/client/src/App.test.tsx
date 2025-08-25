@@ -7,6 +7,9 @@ import App from './App';
 // Мокаем fetch перед тестами
 global.fetch = jest.fn(() => Promise.resolve({
   json: () => Promise.resolve({}),
+  text: () => Promise.resolve(''),
+  headers: new Headers(),
+  ok: true,
 })) as jest.Mock;
 
 test('рендерит корректно', () => {

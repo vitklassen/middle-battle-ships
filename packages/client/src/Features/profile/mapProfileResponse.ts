@@ -1,4 +1,5 @@
-import { GetProfileResponse, Profile } from './types'
+import { GetProfileResponse } from '../../api/types'
+import { Profile } from './types'
 
 export const mapProfileResponse = (response: GetProfileResponse): Profile => {
   return {

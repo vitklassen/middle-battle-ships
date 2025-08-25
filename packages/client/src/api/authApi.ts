@@ -1,22 +1,21 @@
 import { Iargs } from './apiInterfaces'
 import apiInstance from './fetch'
 import BaseAPI from './baseApi'
-
-const authApiInstance = apiInstance;
+import { GetProfileResponse } from './types';
 
 export class AuthAPI extends BaseAPI {
-  _create(args: Iargs) {
+  _create<R>(args: Iargs) {
     // post
     const { path, dataToSend } = args;
-    return authApiInstance.post(path, {
+    return apiInstance.post<R>(path, {
       data: dataToSend,
     });
   }
 
-  _request(args: Iargs) {
+  _request<R>(args: Iargs) {
     // get
     const { path } = args
-    return authApiInstance.get(path)
+    return apiInstance.get<R>(path)
   }
 
   register(args: Iargs) {
@@ -28,11 +27,11 @@ export class AuthAPI extends BaseAPI {
   }
 
   getUserInfo() {
-    return this._request({ path: 'auth/user' });
+    return this._request<GetProfileResponse>({ path: 'auth/user' });
   }
 
   logout() {
-    return this._create({ path: 'auth/logout', dataToSend: '' })
+    return this._create({ path: 'auth/logout' })
   }
 }
 

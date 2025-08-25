@@ -27,31 +27,31 @@ export class HTTP {
     this.url = url;
   }
 
-  get = (path: string, options?: OptionsWithoutMethod) => this.request(
+  get = <R>(path: string, options?: OptionsWithoutMethod) => this.request<R>(
     this.url + path,
     { ...options, method: METHOD.GET },
     options?.timeout as number,
   );
 
-  post = (path: string, options?: OptionsWithoutMethod) => this.request(
+  post = <R>(path: string, options?: OptionsWithoutMethod) => this.request<R>(
     this.url + path,
     { ...options, method: METHOD.POST },
     options?.timeout as number,
   );
 
-  put = (path: string, options?: OptionsWithoutMethod) => this.request(
+  put = <R>(path: string, options?: OptionsWithoutMethod) => this.request<R>(
     this.url + path,
     { ...options, method: METHOD.PUT },
     options?.timeout as number,
   );
 
-  delete = (path: string, options?: OptionsWithoutMethod) => this.request(
+  delete = <R>(path: string, options?: OptionsWithoutMethod) => this.request<R>(
     this.url + path,
     { ...options, method: METHOD.DELETE },
     options?.timeout as number,
   );
 
-  request = async (url: string, options = {}, timeout = 5000) => {
+  request = async <R>(url: string, options = {}, timeout = 5000) => {
     const {
       headers = {},
       method,
@@ -91,23 +91,42 @@ export class HTTP {
     const controller = new AbortController();
     const reason = new DOMException('signal timed out', 'TimeoutError');
     const timeoutId = setTimeout(() => controller.abort(reason), timeout);
-    const request = new Request(url, {
-      ...newOptions,
-      signal: controller.signal,
-    } as RequestInit)
     try {
-      const res = await fetch(request)
-      const json = await res.json()
+      const res = await fetch(url, {
+        ...newOptions,
+        signal: controller.signal,
+      })
+      let reason: string
+      let data
+      if (res.headers.get('content-type')?.includes('application/json')) {
+        const json = await res.json()
+        reason = json.reason
+        data = json
+      } else {
+        const text = await res.text()
+        reason = text
+        data = text
+      }
       if (!res.ok) {
         const error = {
-          reason: json.reason,
+          reason,
           status: res.status,
         }
-        throw error;
+        throw error
       }
-      return json
+      return data as R
     } catch (error: any) {
-      store.dispatch(setError({ reason: error.reason || error.message, status: error.status }))
+      if (error.status !== 401) {
+        store.dispatch(
+          setError({
+            reason: error.reason || error.message,
+            status: error.status,
+          })
+        )
+      }
+      if (error.status === 500) {
+        window.location.href = '/error';
+      }
       clearTimeout(timeoutId)
       throw error
     }

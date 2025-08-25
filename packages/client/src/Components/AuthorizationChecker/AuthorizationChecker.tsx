@@ -1,23 +1,39 @@
-import { ComponentType, FC } from 'react';
-import { useNavigate } from 'react-router';
-import authApi from '../../api/authApi';
+import { ComponentType, FC, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router';
+import { getProfile, setProfile } from '../../Features/profile';
+import { useSelector } from '../../Store';
+import { Path } from '../../Router';
 
 export function authorizationChecker(WrappedComponent: ComponentType) {
   const CheckedComponent: FC = (props) => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { pathname } = useLocation();
 
-    authApi
-      .getUserInfo()
-      .catch((err: Error) => {
-        console.log(err);
-        if (err.message.includes('401')) {
-          console.log('unauthorized');
-          navigate('../sign-in');
-        }
+    const profile = useSelector((state) => state.profile.value);
+
+    useEffect(() => {
+      getProfile().then((profile) => {
+        dispatch(setProfile(profile));
       });
+    }, []);
+
+    useEffect(() => {
+      if (!profile) {
+        return;
+      }
+      if (pathname === Path.SignIn || pathname === Path.SignUp) {
+        navigate(Path.Main);
+      }
+    }, [profile]);
+
+    if (!profile) {
+      return;
+    }
 
     // eslint-disable-next-line react/jsx-props-no-spreading
-    return (<WrappedComponent {...props} />);
+    return <WrappedComponent {...props} />;
   };
 
   return CheckedComponent;
