@@ -3,8 +3,9 @@ import styles from './Game.module.css';
 import { Engine } from '../../Game';
 import globalGameConfig from '../../Game/globalGameConfig';
 import { Header } from '../../Components/Header';
+import { authorizationChecker } from '../../Components/AuthorizationChecker';
 
-export const Game = () => {
+export const Game = authorizationChecker(() => {
   const ref = useRef(null);
   const { width, height } = useMemo(() => {
     const {
@@ -43,4 +44,4 @@ export const Game = () => {
       </main>
     </>
   );
-};
+});

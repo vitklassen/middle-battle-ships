@@ -97,7 +97,7 @@ export const ChangePasswordModal: React.FC<Props> = ({ setClosed }) => {
                 {error}
               </span>
             )}
-            <Button stretched className={styles.button}>
+            <Button stretched className={styles.button} type="submit">
               Изменить пароль
             </Button>
           </form>

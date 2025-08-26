@@ -11,7 +11,7 @@ type Props = {
 }
 
 export function CenteredLayout({
-  width,
+  width = '60%',
   children,
   onlyHorizontally,
   onlyVertically,

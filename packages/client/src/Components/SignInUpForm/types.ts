@@ -16,6 +16,7 @@ type formField = {
   minLength?: lenghtObject
   maxLength?: lenghtObject
   pattern?: patternObject
+  type?: string
 }
 
 type lenghtObject = {

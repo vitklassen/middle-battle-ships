@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import React, { FC } from 'react';
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 import { FormItem } from '../SignInUpForm/types';
 
 import styles from './SignInUpForm.module.css';
@@ -41,6 +42,7 @@ export const SignInUpForm: FC<Props> = ({
           minLength,
           maxLength,
           pattern,
+          type,
         }) => (
           <div key={name} className={clsx(styles.inputContainer)}>
             <span className={clsx(styles.inputName)}>{name}</span>
@@ -48,6 +50,7 @@ export const SignInUpForm: FC<Props> = ({
               className={clsx(styles.input)}
               id={name}
               placeholder={placeholder}
+              type={type}
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...register(name, {
                 required: requiredError,
@@ -67,9 +70,9 @@ export const SignInUpForm: FC<Props> = ({
       <button className={clsx(styles.button)} type="submit">
         {signInUpFields.submitText}
       </button>
-      <a className={clsx(styles.link)} href={link}>
+      <Link className={clsx(styles.link)} to={link}>
         {linkText}
-      </a>
+      </Link>
     </form>
   );
 };
