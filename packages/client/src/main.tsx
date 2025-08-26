@@ -7,13 +7,24 @@ import './index.module.css';
 import './nullify.css';
 // @ts-expect-error: No types available for service worker
 import { registerSW } from './registerServiceWorker';
+import { ErrorBoundary } from './Common/Layouts/ErrorBoundary';
+import { Error } from './Pages';
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <BrowserRouter>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <ErrorBoundary
+      errorComponent={(
+        <Error
+          title="Произошла ошибка"
+          description="Попробуйте перезагрузить страницу"
+        />
+      )}
+    >
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </ErrorBoundary>
   </BrowserRouter>,
 );
 registerSW();

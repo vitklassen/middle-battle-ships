@@ -4,10 +4,6 @@
   position: relative;
 }
 
-.title {
-  padding-top: 48px;
-}
-
 .container {
   display: flex;
   column-gap: 30px;

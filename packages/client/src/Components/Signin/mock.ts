@@ -37,6 +37,7 @@ export const signInFields: FormItem = {
         value: /^.*[A-ZА-ЯЁ\d].*$/,
         message: 'Некорректный пароль',
       },
+      type: 'password',
     },
   ],
 }

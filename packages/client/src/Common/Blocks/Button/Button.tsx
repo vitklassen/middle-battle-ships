@@ -7,6 +7,7 @@ type Props = {
   stretched?: boolean
   onClick?: React.MouseEventHandler
   className?: string
+  type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type']
 }
 
 export const Button: React.FC<PropsWithChildren<Props>> = ({
@@ -14,10 +15,13 @@ export const Button: React.FC<PropsWithChildren<Props>> = ({
   stretched,
   children,
   onClick,
+  type = 'button',
   className,
 }) => (
   <button
-    type="button"
+    /* eslint-disable react/button-has-type */
+    type={type}
+    /* eslint-enable react/button-has-type */
     onClick={onClick}
     className={clsx(
       className,

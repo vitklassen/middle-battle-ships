@@ -116,14 +116,12 @@ export class HTTP {
       }
       return data as R
     } catch (error: any) {
-      if (error.status !== 401) {
-        store.dispatch(
-          setError({
-            reason: error.reason || error.message,
-            status: error.status,
-          })
-        )
-      }
+      store.dispatch(
+        setError({
+          reason: error.reason || error.message,
+          status: error.status,
+        })
+      )
       if (error.status === 500) {
         window.location.href = '/error';
       }

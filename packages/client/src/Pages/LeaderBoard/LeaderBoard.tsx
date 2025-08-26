@@ -1,19 +1,18 @@
 import { CenteredLayout } from '../../Common/Layouts/CenteredLayout';
+import { authorizationChecker } from '../../Components/AuthorizationChecker';
 import { Header } from '../../Components/Header/Header';
 import { LeaderBoard as LeaderBoardComponent } from '../../Components/LeaderBoard';
 
 import styles from './LeaderBoard.module.css';
 
-export function LeaderBoard() {
-  return (
-    <>
-      <Header />
-      <main className={styles.root}>
-        <CenteredLayout onlyHorizontally>
-          <h1 className={styles.title}>Лидерборд</h1>
-          <LeaderBoardComponent className={styles.leaderboard} />
-        </CenteredLayout>
-      </main>
-    </>
-  );
-}
+export const LeaderBoard = authorizationChecker(() => (
+  <>
+    <Header />
+    <main className={styles.root}>
+      <CenteredLayout onlyHorizontally>
+        <h1 className={styles.title}>Лидерборд</h1>
+        <LeaderBoardComponent className={styles.leaderboard} />
+      </CenteredLayout>
+    </main>
+  </>
+));

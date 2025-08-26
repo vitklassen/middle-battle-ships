@@ -87,6 +87,7 @@ export const signUpFields: FormItem = {
         value: /^.*[A-ZА-ЯЁ\d].*$/,
         message: 'Некорректный пароль',
       },
+      type: 'password',
     },
     {
       // Пароль (ещё раз)
@@ -105,6 +106,7 @@ export const signUpFields: FormItem = {
         value: /^.*[A-ZА-ЯЁ\d].*$/,
         message: 'Некорректный пароль',
       },
+      type: 'password',
     },
   ],
 }

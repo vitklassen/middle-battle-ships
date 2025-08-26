@@ -1,8 +1,12 @@
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Router } from './Router';
 import { ErrorSnackbar } from './Components/ErrorSnackbar';
+import { getProfile, setProfile } from './Features/profile';
 
 function App() {
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const fetchServerData = async () => {
       const url = `http://localhost:${__SERVER_PORT__ || 3000} `;
@@ -12,6 +16,12 @@ function App() {
     };
 
     fetchServerData();
+  }, []);
+
+  useEffect(() => {
+    getProfile().then((profile) => {
+      dispatch(setProfile(profile));
+    });
   }, []);
 
   return (
