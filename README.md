@@ -6,6 +6,9 @@
 3. Выполните команду `yarn dev --scope=client` чтобы запустить только клиент
 4. Выполните команду `yarn dev --scope=server` чтобы запустить только server
 
+### Видео
+
+* [Спринты 5-6](https://disk.yandex.ru/i/D2ez4PaMIZZZ7g)
 
 ### Как добавить зависимости?
 В этом проекте используется `monorepo` на основе [`lerna`](https://github.com/lerna/lerna)
