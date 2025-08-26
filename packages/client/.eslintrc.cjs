@@ -55,6 +55,7 @@ module.exports = {
     'react/prop-types': 'off',
     'react/require-default-props': 'off',
     'react/function-component-definition': 'off',
+    'consistent-return': 'off'
   },
   env: {
     browser: true,

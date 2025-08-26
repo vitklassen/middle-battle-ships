@@ -1,4 +1,5 @@
 import apiInstance from './fetch'
+import { GetProfileResponse } from './types'
 
 export class ProfileApi {
   changePassword(oldPassword: string, newPassword: string) {
@@ -14,7 +15,7 @@ export class ProfileApi {
     const formData = new FormData()
     formData.append('avatar', avatar)
 
-    return apiInstance.put('user/profile/avatar', {
+    return apiInstance.put<GetProfileResponse>('user/profile/avatar', {
       formData,
     })
   }

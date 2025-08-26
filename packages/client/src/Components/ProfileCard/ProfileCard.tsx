@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
 import home from '../../assets/images/home.svg';
 import mail from '../../assets/images/mail.svg';
 import phone from '../../assets/images/phone.svg';
@@ -9,15 +11,25 @@ import styles from './ProfileCard.module.css';
 import { ChangePasswordModal } from './ChangePasswordModal';
 import { getAvatarUrl } from './utils/getAvatarUrl';
 import { useSelector } from '../../Store';
-import { useProfile } from '../../Features/profile';
+import authApi from '../../api/authApi';
+import { resetProfile } from '../../Features/profile';
+import { Path } from '../../Router';
 
 export const ProfileCard = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [isUploadAvatarModalVisible, setIsUploadAvatarModalVisible] =
     useState(false);
   const [isChangePasswordModalVisible, setIsChangePasswordModalVisible] =
     useState(false);
 
-  useProfile();
+  const handleLogoutClick = () => {
+    authApi.logout().then(() => {
+      dispatch(resetProfile());
+      navigate(Path.SignIn);
+    });
+  };
 
   const profile = useSelector((state) => state.profile.value);
 
@@ -25,7 +37,6 @@ export const ProfileCard = () => {
     return;
   }
 
-  /* eslint-disable consistent-return */
   return (
     <div className={styles.root}>
       {isUploadAvatarModalVisible && (
@@ -78,7 +89,12 @@ export const ProfileCard = () => {
       >
         Изменить пароль
       </Button>
-      <Button mode="secondary" stretched className={styles.button}>
+      <Button
+        onClick={handleLogoutClick}
+        mode="secondary"
+        stretched
+        className={styles.button}
+      >
         Выйти
       </Button>
     </div>
