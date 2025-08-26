@@ -8,7 +8,7 @@
 
 ### Видео
 
-* [Спринты 5-6](https://disk.yandex.ru/i/D2ez4PaMIZZZ7g)
+* [Спринты 5-6](https://disk.yandex.ru/i/ZLt-5ZC8eqMRsg)
 
 ### Как добавить зависимости?
 В этом проекте используется `monorepo` на основе [`lerna`](https://github.com/lerna/lerna)
