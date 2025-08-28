@@ -5,9 +5,13 @@ import { Path } from '../../Router';
 
 export function authorizationChecker(WrappedComponent: ComponentType) {
   const CheckedComponent: FC = (props) => {
-    const profile = useSelector((state) => state.profile.value);
+    const profile = useSelector((state) => state.profile);
 
-    if (!profile) {
+    if (typeof profile.value === 'undefined') {
+      return;
+    }
+
+    if (profile.value === null) {
       return <Navigate to={Path.SignIn} />;
     }
 

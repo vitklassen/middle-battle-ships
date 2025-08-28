@@ -11,9 +11,8 @@
 
 .fullscreenButton {
   position: absolute;
-  top: 12px;
-  right: 50%;
-  transform: translateX(-50%);
+  bottom: 24px;
+  right: 24px;
   cursor: pointer;
   font-size: 16px;
   transition: all 0.2s ease;

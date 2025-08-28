@@ -1,6 +1,4 @@
 .button {
-  padding: 12px;
-  border-radius: 8px;
   color: white;
   cursor: pointer;
   font-weight: 600;
@@ -27,4 +25,14 @@
 
 .buttonStretched {
   width: 100%;
+}
+
+.buttonMedium {
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.buttonLarge {
+  border-radius: 32px;
+  padding: 16px 32px;
 }

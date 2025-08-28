@@ -1,6 +1,11 @@
 @font-face {
   font-family: 'Inter';
-  src: url('./assets/fonts/Inter_24pt-Regular.ttf');
+  src: url('./assets/fonts/Inter_24pt-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'RobotoMono Bold';
+  src: url('./assets//fonts/RobotoMono-Bold.ttf') format('truetype');
 }
 
 :root {

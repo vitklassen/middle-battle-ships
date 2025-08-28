@@ -8,7 +8,7 @@ export const Profile = authorizationChecker(() => (
   <>
     <Header />
     <main className={styles.root}>
-      <CenteredLayout onlyHorizontally width="468px">
+      <CenteredLayout width="468px">
         <h1 className={styles.title}>Профиль</h1>
         <ProfileCard />
       </CenteredLayout>

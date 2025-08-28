@@ -4,6 +4,7 @@ import styles from './Button.module.css';
 
 type Props = {
   mode?: 'primary' | 'secondary'
+  size?: 'large' | 'medium'
   stretched?: boolean
   onClick?: React.MouseEventHandler
   className?: string
@@ -12,6 +13,7 @@ type Props = {
 
 export const Button: React.FC<PropsWithChildren<Props>> = ({
   mode = 'primary',
+  size = 'medium',
   stretched,
   children,
   onClick,
@@ -28,6 +30,8 @@ export const Button: React.FC<PropsWithChildren<Props>> = ({
       styles.button,
       mode === 'primary' && styles.buttonPrimary,
       mode === 'secondary' && styles.buttonSecondary,
+      size === 'medium' && styles.buttonMedium,
+      size === 'large' && styles.buttonLarge,
       stretched && styles.buttonStretched,
     )}
   >

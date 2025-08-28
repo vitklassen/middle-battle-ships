@@ -10,5 +10,5 @@ export type Profile = {
 }
 
 export interface ProfileState {
-  value: Profile | null
+  value?: Profile | null
 }

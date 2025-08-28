@@ -1,52 +1,55 @@
 .header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	background: var(--color-white);
-	padding: 18px 32px;
-	box-shadow: 5px 0 0 0 var(--color-basic);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-white);
+  padding: 18px 32px;
+  box-shadow: 5px 0 0 0 var(--color-basic);
+  position: fixed;
+  width: 100%;
+  z-index: 100;
 }
 
 .logo {
-	background: url(../../assets/images/logo.svg);
-	background-size: contain;
-	background-repeat: no-repeat;
-	width: 122px;
-	height: 43px;
-	cursor: pointer;
+  background: url(../../assets/images/logo.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 122px;
+  height: 43px;
+  cursor: pointer;
 }
 
 .items {
-	width: 100%;
-	display: flex;
-	justify-content: flex-start;
-	column-gap: 33px;
-	margin-left: 47px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  column-gap: 33px;
+  margin-left: 47px;
 }
 
 .item {
-	color: var(--color-basic);
-	text-decoration: none;
+  color: var(--color-basic);
+  text-decoration: none;
 }
 
 .item:hover {
-	text-decoration: underline;
+  text-decoration: underline;
 }
 
 .bell {
-	background: url(../../assets/images/bell.svg);
-	background-size: contain;
-	background-repeat: no-repeat;
-	width: 24px;
-	height: 24px;
-	margin-right: 19px;
-	cursor: pointer;
+  background: url(../../assets/images/bell.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 24px;
+  height: 24px;
+  margin-right: 19px;
+  cursor: pointer;
 }
 
 .iconProfile {
-	background: url(../../assets/images/user-circle.svg);
-	background-size: contain;
-	background-repeat: no-repeat;
-	width: 24px;
-	height: 24px;
+  background: url(../../assets/images/user-circle.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 24px;
+  height: 24px;
 }
