@@ -1,7 +1,7 @@
-import { configureStore } from '@reduxjs/toolkit'
-import { profileReducer } from '../Features/profile'
-import { errorReducer } from '../Features/error'
-import { getMiddleware } from './middleware'
+import { configureStore } from '@reduxjs/toolkit';
+import { profileReducer } from '../Features/profile';
+import { errorReducer } from '../Features/error';
+import { getMiddleware } from './middleware';
 
 export const store = configureStore({
   reducer: {
@@ -10,4 +10,4 @@ export const store = configureStore({
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware().concat(getMiddleware()),
-})
+});
