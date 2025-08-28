@@ -1,7 +1,7 @@
-import { useCallback } from 'react'
-import profileApi from '../../api/profileApi'
-import { useDispatch } from 'react-redux'
-import { setAvatar } from './profileSlice'
+import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import profileApi from '../../api/profileApi';
+import { setAvatar } from './profileSlice';
 
 type Params = {
   onSuccess?: VoidFunction
@@ -9,17 +9,17 @@ type Params = {
 }
 
 export const useUploadAvatar = ({ onSuccess, onError }: Params) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   return useCallback((file: File) => {
     profileApi
       .uploadAvatar(file)
       .then(({ avatar }) => {
-        dispatch(setAvatar({ avatar }))
-        onSuccess?.()
+        dispatch(setAvatar({ avatar }));
+        onSuccess?.();
       })
       .catch(({ reason }) => {
-        onError?.(reason)
-      })
-  }, [])
-}
+        onError?.(reason);
+      });
+  }, []);
+};

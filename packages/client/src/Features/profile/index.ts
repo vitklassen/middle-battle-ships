@@ -1,3 +1,3 @@
-export * from './profileSlice'
-export * from './useUploadAvatar'
-export * from './types'
+export * from './profileSlice';
+export * from './useUploadAvatar';
+export * from './types';

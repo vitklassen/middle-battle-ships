@@ -8,6 +8,5 @@ export const store = configureStore({
     profile: profileReducer,
     error: errorReducer,
   },
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat(getMiddleware()),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(getMiddleware()),
 });

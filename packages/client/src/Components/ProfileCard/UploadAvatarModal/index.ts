@@ -1,1 +1,1 @@
-export * from './UploadAvatarModal'
+export * from './UploadAvatarModal';

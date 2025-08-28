@@ -1,22 +1,33 @@
-export function throttle(callback: any, wait: number, context: any) {
-  let isThrottled = false
-  let savedArgs: any
-  let savedThis: any
-  function wrapper() {
+export function throttle<Args extends unknown[], Return>(
+  callback: (...args: Args) => Return,
+  wait: number,
+  context?: unknown,
+): (...args: Args) => Return | void {
+  let isThrottled = false;
+  let savedArgs: Args | null = null;
+  let savedThis: unknown = null;
+
+  function wrapper(this: unknown, ...args: Args): Return | void {
     if (isThrottled) {
-      savedArgs = arguments
-      savedThis = context
-      return
+      savedArgs = args;
+      savedThis = context ?? this;
+      return;
     }
-    callback.apply(context, arguments)
-    isThrottled = true
+
+    const result = callback.apply(context ?? this, args);
+    isThrottled = true;
+
     setTimeout(() => {
-      isThrottled = false
-      if (savedArgs) {
-        wrapper.apply(savedThis, savedArgs)
-        savedArgs = savedThis = null
+      isThrottled = false;
+      if (savedArgs && savedThis !== null) {
+        wrapper.apply(savedThis, savedArgs);
+        savedArgs = null;
+        savedThis = null;
       }
-    }, wait)
+    }, wait);
+
+    return result;
   }
-  return wrapper
+
+  return wrapper;
 }

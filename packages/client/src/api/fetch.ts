@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
-import { setError } from '../Features/error'
-import { store } from '../Store'
-import { queryStringify } from './utils'
+import { setError } from '../Features/error';
+import { store } from '../Store';
+import { queryStringify } from './utils';
 
 enum METHOD { // в упор не видит, что METHOD вызывается в коде
   GET = 'GET',
@@ -16,6 +16,12 @@ type Options = {
   credentials: RequestCredentials,
   headers: {[key: string]: string}
   [key: string]: string | number | object,
+}
+
+interface FetchError {
+  reason: string;
+  status?: number;
+  message?: string;
 }
 
 type OptionsWithoutMethod = Omit<Options, 'method'>
@@ -95,42 +101,44 @@ export class HTTP {
       const res = await fetch(url, {
         ...newOptions,
         signal: controller.signal,
-      })
-      let reason: string
-      let data
+      });
+      let reason: string;
+      let data;
       if (res.headers.get('content-type')?.includes('application/json')) {
-        const json = await res.json()
-        reason = json.reason
-        data = json
+        const jsonResponse = await res.json();
+        const { reason: responseReason, ...responseData } = jsonResponse;
+        reason = responseReason;
+        data = responseData;
       } else {
-        const text = await res.text()
-        reason = text
-        data = text
+        const text = await res.text();
+        reason = text;
+        data = text;
       }
       if (!res.ok) {
         const error = {
           reason,
           status: res.status,
-        }
-        throw error
+        };
+        throw error;
       }
-      return data as R
-    } catch (error: any) {
+      return data as R;
+    } catch (error: unknown) {
+      const fetchError = error as FetchError;
       store.dispatch(
         setError({
-          reason: error.reason || error.message,
-          status: error.status,
-        })
-      )
-      if (error.status === 500) {
+          reason: fetchError.reason || fetchError.message || 'Unknown error',
+          status: fetchError.status,
+        }),
+      );
+      if (fetchError.status === 500) {
         window.location.href = '/error';
       }
-      clearTimeout(timeoutId)
-      throw error
+      clearTimeout(timeoutId);
+      throw error;
     }
     // eslint-disable-next-line max-len
-    //Идея с timeout взята в https://dev.to/rashidshamloo/adding-timeout-and-multiple-abort-signals-to-fetch-typescriptreact-33bb?ysclid=me8p95k7hh402956849
-  }
+    // Идея с timeout взята в https://dev.to/rashidshamloo/adding-timeout-and-multiple-abort-signals-to-fetch-typescriptreact-33bb?ysclid=me8p95k7hh402956849
+  };
 }
 
 const apiInstance = new HTTP('https://ya-praktikum.tech/api/v2/');

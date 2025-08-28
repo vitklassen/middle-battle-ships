@@ -1,5 +1,5 @@
-import apiInstance from './fetch'
-import { GetProfileResponse } from './types'
+import apiInstance from './fetch';
+import { GetProfileResponse } from './types';
 
 export class ProfileApi {
   changePassword(oldPassword: string, newPassword: string) {
@@ -8,19 +8,19 @@ export class ProfileApi {
         oldPassword,
         newPassword,
       },
-    })
+    });
   }
 
   uploadAvatar(avatar: File) {
-    const formData = new FormData()
-    formData.append('avatar', avatar)
+    const formData = new FormData();
+    formData.append('avatar', avatar);
 
     return apiInstance.put<GetProfileResponse>('user/profile/avatar', {
       formData,
-    })
+    });
   }
 }
 
-const profileApi = new ProfileApi()
+const profileApi = new ProfileApi();
 
-export default profileApi
+export default profileApi;
