@@ -1,11 +1,14 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Router } from './Router';
+import { useLocation, useNavigate } from 'react-router';
+import { Path, Router } from './Router';
 import { ErrorSnackbar } from './Components/ErrorSnackbar';
 import { getProfile, setProfile } from './Features/profile';
 
 function App() {
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchServerData = async () => {
@@ -19,9 +22,16 @@ function App() {
   }, []);
 
   useEffect(() => {
-    getProfile().then((profile) => {
-      dispatch(setProfile(profile));
-    });
+    getProfile()
+      .then((profile) => {
+        dispatch(setProfile(profile));
+        if (pathname === Path.SignIn || pathname === Path.SignUp) {
+          navigate(Path.Main, { replace: true });
+        }
+      })
+      .catch(() => {
+        dispatch(setProfile(null));
+      });
   }, []);
 
   return (

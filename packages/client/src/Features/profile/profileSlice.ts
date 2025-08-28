@@ -4,15 +4,13 @@ import { Profile, ProfileState } from './types'
 import authApi from '../../api/authApi'
 import { mapProfileResponse } from './mapProfileResponse'
 
-const initialState: ProfileState = {
-  value: null,
-}
+const initialState: ProfileState = {}
 
 export const profileSlice = createSlice({
   name: 'profile',
   initialState,
   reducers: {
-    setProfile: (state, action: PayloadAction<Profile>) => {
+    setProfile: (state, action: PayloadAction<Profile | null>) => {
       state.value = action.payload
     },
     setAvatar: (state, action: PayloadAction<Pick<Profile, 'avatar'>>) => {

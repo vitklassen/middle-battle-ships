@@ -9,7 +9,7 @@ export const LeaderBoard = authorizationChecker(() => (
   <>
     <Header />
     <main className={styles.root}>
-      <CenteredLayout onlyHorizontally>
+      <CenteredLayout>
         <h1 className={styles.title}>Лидерборд</h1>
         <LeaderBoardComponent className={styles.leaderboard} />
       </CenteredLayout>

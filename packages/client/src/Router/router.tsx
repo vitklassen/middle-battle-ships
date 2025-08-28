@@ -11,11 +11,8 @@ import {
   Topic,
 } from '../Pages';
 import { Path } from './types';
-import { useSelector } from '../Store';
 
 export function Router() {
-  const profile = useSelector((state) => state.profile.value);
-
   return (
     <Routes>
       <Route path={Path.Profile} element={<Profile />} />
@@ -24,12 +21,8 @@ export function Router() {
       <Route path={Path.Leaderboard} element={<LeaderBoard />} />
       <Route path={Path.Forum} element={<Forum />} />
       <Route path={Path.Topic} element={<Topic />} />
-      {!profile && (
-        <>
-          <Route path={Path.SignIn} element={<SignIn />} />
-          <Route path={Path.SignUp} element={<SignUp />} />
-        </>
-      )}
+      <Route path={Path.SignIn} element={<SignIn />} />
+      <Route path={Path.SignUp} element={<SignUp />} />
       <Route
         path={Path.Error}
         element={<Error title="500 ошибка" description="Произошла ошибка" />}
