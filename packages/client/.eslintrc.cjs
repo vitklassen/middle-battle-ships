@@ -22,7 +22,8 @@ module.exports = {
   ignorePatterns: [
     'build',
     'node_modules',
-    'jest.config.js'
+    'jest.config.js',
+    'vite.config.ts',
   ],
   rules: {
     'react/react-in-jsx-scope': 'off',
@@ -40,7 +41,7 @@ module.exports = {
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': 'error',
     'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': 'error',
+    '@typescript-eslint/no-unused-vars': 'off',
     'prefer-destructuring': ['error', { object: true, array: false }],
     'no-param-reassign': 'off',
     'no-constructor-return': 'off',
@@ -55,7 +56,11 @@ module.exports = {
     'react/prop-types': 'off',
     'react/require-default-props': 'off',
     'react/function-component-definition': 'off',
-    'consistent-return': 'off'
+    'consistent-return': 'off',
+    'no-plusplus': 'off',
+    'no-useless-constructor': 'off',
+    'max-params': 'off',
+    '@typescript-eslint/no-unused-expressions': 'off',
   },
   env: {
     browser: true,

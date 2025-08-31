@@ -1,1 +1,1 @@
-export * from './StartGameScreen'
+export * from './StartGameScreen';

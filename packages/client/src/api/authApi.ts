@@ -1,6 +1,6 @@
-import { Iargs } from './apiInterfaces'
-import apiInstance from './fetch'
-import BaseAPI from './baseApi'
+import { Iargs } from './apiInterfaces';
+import apiInstance from './fetch';
+import BaseAPI from './baseApi';
 import { GetProfileResponse } from './types';
 
 export class AuthAPI extends BaseAPI {
@@ -14,16 +14,16 @@ export class AuthAPI extends BaseAPI {
 
   _request<R>(args: Iargs) {
     // get
-    const { path } = args
-    return apiInstance.get<R>(path)
+    const { path } = args;
+    return apiInstance.get<R>(path);
   }
 
   register(args: Iargs) {
-    return this._create({ path: 'auth/signup', dataToSend: args })
+    return this._create({ path: 'auth/signup', dataToSend: args });
   }
 
   login(args: Iargs) {
-    return this._create({ path: 'auth/signin', dataToSend: args })
+    return this._create({ path: 'auth/signin', dataToSend: args });
   }
 
   getUserInfo() {
@@ -31,7 +31,7 @@ export class AuthAPI extends BaseAPI {
   }
 
   logout() {
-    return this._create({ path: 'auth/logout' })
+    return this._create({ path: 'auth/logout' });
   }
 }
 

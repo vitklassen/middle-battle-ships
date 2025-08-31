@@ -1,4 +1,4 @@
-import { FormItem } from '../SignInUpForm/types'
+import { FormItem } from '../SignInUpForm/types';
 
 export const signInFields: FormItem = {
   pageName: 'Вход',
@@ -40,4 +40,4 @@ export const signInFields: FormItem = {
       type: 'password',
     },
   ],
-}
+};

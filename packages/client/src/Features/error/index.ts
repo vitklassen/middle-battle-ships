@@ -1,2 +1,2 @@
-export * from './errorSlice'
-export * from './types'
+export * from './errorSlice';
+export * from './types';

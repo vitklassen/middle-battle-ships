@@ -1,4 +1,4 @@
-import { LeaderboardItem } from './types'
+import { LeaderboardItem } from './types';
 
 export const leaderboardMock: LeaderboardItem[] = Array(50)
   .fill(0)
@@ -9,4 +9,4 @@ export const leaderboardMock: LeaderboardItem[] = Array(50)
     avatar: null,
     name: 'Иван Иванов',
     points: 100 - i * 2,
-  }))
+  }));

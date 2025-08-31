@@ -1,8 +1,10 @@
-import globalGameConfig from '../globalGameConfig'
-import { FleetTemplate } from '../Sprites/types'
+import globalGameConfig from '../globalGameConfig';
+import { FleetTemplate } from '../Sprites/types';
 
-const { battleFieldWidth, cellCount, startXPosition, startYPosition } =
-  globalGameConfig.sizeSettings
+const {
+  battleFieldWidth, cellCount, startXPosition, startYPosition,
+} =
+  globalGameConfig.sizeSettings;
 
 export const fleetTemplate: FleetTemplate[] = [
   {
@@ -40,4 +42,4 @@ export const fleetTemplate: FleetTemplate[] = [
     y: startYPosition + battleFieldWidth + 100,
     id: 5,
   },
-]
+];
