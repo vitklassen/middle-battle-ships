@@ -38,7 +38,7 @@ function App() {
       }).then((res): void => {
         getProfile().then((profile) => {
           dispatch(setProfile(profile));
-          navigate(Path.Main);
+          // убрал navigate(Path.Main), т.к. этот запрос проводится на странице Main
         });
       });
     }
