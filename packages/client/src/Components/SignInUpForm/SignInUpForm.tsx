@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import { clsx } from 'clsx';
 import React, { FC } from 'react';
 import { useForm } from 'react-hook-form';
@@ -7,19 +8,24 @@ import { FormItem } from '../SignInUpForm/types';
 import styles from './SignInUpForm.module.css';
 
 import { submitData } from './types';
+import { Button } from '../../Common/Blocks/Button';
 
 type Props = {
   signInUpFields: FormItem
   onSubmitHandler: (data: submitData) => void
+  onYandexAuthHandler?: (data: submitData) => void
   link: string
-  linkText: string
+  linkText: string,
+  yandexOathEnabled: boolean,
 }
 
 export const SignInUpForm: FC<Props> = ({
   signInUpFields,
   onSubmitHandler,
+  onYandexAuthHandler,
   link,
   linkText,
+  yandexOathEnabled,
 }: Props) => {
   const {
     register,
@@ -29,6 +35,12 @@ export const SignInUpForm: FC<Props> = ({
 
   const onSubmit = (data: submitData) => {
     onSubmitHandler(data);
+  };
+
+  const onYandexAuth = () => {
+    if (onYandexAuthHandler) {
+      onYandexAuthHandler({ redirect_uri: window.location.origin });
+    }
   };
 
   return (
@@ -67,9 +79,15 @@ export const SignInUpForm: FC<Props> = ({
           </div>
         ),
       )}
-      <button className={clsx(styles.button)} type="submit">
+      <Button stretched className={clsx(styles.button)} type="submit">
         {signInUpFields.submitText}
-      </button>
+      </Button>
+      {yandexOathEnabled && (
+        <>
+          <span className={clsx(styles.additionalText)}>Войти через Яндекс</span>
+          <button className={clsx(styles.yandexButton)} onClick={onYandexAuth} type="button" />
+        </>
+      )}
       <Link className={clsx(styles.link)} to={link}>
         {linkText}
       </Link>

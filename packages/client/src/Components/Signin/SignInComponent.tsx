@@ -24,13 +24,34 @@ export const SignInComponent: FC = () => {
     });
   };
 
+  const onYandexAuthHandler = (data: submitData) => {
+    authApi.getYandexOAuthID(data).then((res): void => {
+      console.log(res);
+      const URL = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${res.service_id}&redirect_uri=${data.redirect_uri}`;
+      document.location.href = URL;
+      /*
+      authApi.signInUpWithYandex({
+        code: res.service_id,
+        redirect_uri: data.redirect_uri,
+      }).then((res): void => {
+        getProfile().then((profile) => {
+          dispatch(setProfile(profile));
+          navigate(Path.Main);
+        });
+      });
+      */
+    });
+  };
+
   return (
     <div className={clsx(styles.root)}>
       <SignInUpForm
         signInUpFields={signInFields}
         onSubmitHandler={onSubmitHandler}
+        onYandexAuthHandler={onYandexAuthHandler}
         link={Path.SignUp}
         linkText="Нет аккаунта?"
+        yandexOathEnabled
       />
     </div>
   );
