@@ -3,14 +3,9 @@ import { Navigate } from 'react-router';
 import { useSelector } from '../../Store';
 import { Path } from '../../Router';
 
-export function authorizationChecker(WrappedComponent: ComponentType, isMain?: boolean) {
+export function authorizationChecker(WrappedComponent: ComponentType) {
   const CheckedComponent: FC = (props) => {
     const profile = useSelector((state) => state.profile);
-
-    if (isMain) {
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      return <WrappedComponent {...props} />;
-    }
 
     if (typeof profile.value === 'undefined') {
       return;

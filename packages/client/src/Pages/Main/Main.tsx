@@ -9,7 +9,7 @@ import { authorizationChecker } from '../../Components/AuthorizationChecker';
 // Т.к. авторизация через OAuth Яндекса будет редиректить на главную страницу
 const isMain = true;
 
-export const Main = authorizationChecker(() => (
+export const Main = () => (
   <>
     <Header />
     <main className={styles.root}>
@@ -44,4 +44,4 @@ export const Main = authorizationChecker(() => (
       </CenteredLayout>
     </main>
   </>
-), isMain);
+);
