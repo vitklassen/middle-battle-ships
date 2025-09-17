@@ -16,7 +16,6 @@ function App() {
       const url = `http://localhost:${__SERVER_PORT__ || 3000} `;
       const response = await fetch(url);
       const data = await response.json();
-      console.log(data);
     };
 
     fetchServerData();
@@ -29,9 +28,7 @@ function App() {
     const codeSubstr = 'code=';
     const cutSubstr = queryStr.slice(queryStr.lastIndexOf(codeSubstr) + codeSubstr.length);
     const oAuthCode = cutSubstr.slice(0, cutSubstr.indexOf('&'));
-    console.log(oAuthCode);
     if (oAuthCode.length > 0) {
-      console.log(window.location.origin);
       authApi.signInUpWithYandex({
         code: oAuthCode,
         redirect_uri: window.location.origin,
