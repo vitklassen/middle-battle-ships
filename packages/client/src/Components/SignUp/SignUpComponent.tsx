@@ -30,6 +30,7 @@ export const SignUpComponent: FC = () => {
         onSubmitHandler={onSubmitHandler}
         link={Path.SignIn}
         linkText="Есть аккаунт?"
+        yandexOathEnabled={false}
       />
     </div>
   );

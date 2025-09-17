@@ -1,10 +1,15 @@
+import { useEffect } from 'react';
 import styles from './Main.module.css';
 import { CenteredLayout } from '../../Common/Layouts/CenteredLayout';
 import { Header } from '../../Components/Header';
 import { Statistics } from '../../Components/Statistics';
 import { authorizationChecker } from '../../Components/AuthorizationChecker';
 
-export const Main = authorizationChecker(() => (
+// Чтобы выключить проверку авторизации на эту страницу
+// Т.к. авторизация через OAuth Яндекса будет редиректить на главную страницу
+const isMain = true;
+
+export const Main = () => (
   <>
     <Header />
     <main className={styles.root}>
@@ -39,4 +44,4 @@ export const Main = authorizationChecker(() => (
       </CenteredLayout>
     </main>
   </>
-));
+);

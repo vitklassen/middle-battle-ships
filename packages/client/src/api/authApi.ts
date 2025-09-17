@@ -1,7 +1,7 @@
 import { Iargs } from './apiInterfaces';
 import apiInstance from './fetch';
 import BaseAPI from './baseApi';
-import { GetProfileResponse } from './types';
+import { GetAppID, GetProfileResponse } from './types';
 
 export class AuthAPI extends BaseAPI {
   _create<R>(args: Iargs) {
@@ -14,7 +14,12 @@ export class AuthAPI extends BaseAPI {
 
   _request<R>(args: Iargs) {
     // get
-    const { path } = args;
+    const { path, dataToSend } = args;
+    if (dataToSend) {
+      return apiInstance.get<R>(path, {
+        data: dataToSend,
+      });
+    }
     return apiInstance.get<R>(path);
   }
 
@@ -32,6 +37,14 @@ export class AuthAPI extends BaseAPI {
 
   logout() {
     return this._create({ path: 'auth/logout' });
+  }
+
+  getYandexOAuthID(args: Iargs) {
+    return this._request<GetAppID>({ path: 'oauth/yandex/service-id', dataToSend: args });
+  }
+
+  signInUpWithYandex(args: Iargs) {
+    return this._create({ path: 'oauth/yandex', dataToSend: args });
   }
 }
 

@@ -8,3 +8,7 @@ export type GetProfileResponse = {
   avatar: string | null
   email: string
 }
+
+export type GetAppID = {
+  service_id: string
+}

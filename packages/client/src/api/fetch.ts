@@ -91,9 +91,10 @@ export class HTTP {
       credentials: credentials || 'include',
     };
 
-    if (body) {
+    if (!isGet && body) {
       newOptions.body = body as BodyInit;
     }
+
     const controller = new AbortController();
     const reason = new DOMException('signal timed out', 'TimeoutError');
     const timeoutId = setTimeout(() => controller.abort(reason), timeout);
