@@ -46,10 +46,34 @@
   cursor: pointer;
 }
 
+.altBell{
+  background-image: url(../../assets/images/altTheme/bell-alt.png);
+}
+
+
 .iconProfile {
   background: url(../../assets/images/user-circle.svg);
   background-size: contain;
   background-repeat: no-repeat;
   width: 24px;
   height: 24px;
+  margin-right: 19px;
+}
+
+.altProfileIcon{
+  background-image: url(../../assets/images/altTheme/user-circle-alt.png);
+}
+
+.clicker {
+  background: url(../../assets/images/switch-off.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 24px;
+  height: 24px;
+  margin-right: 19px;
+  cursor: pointer;
+}
+
+.altClicker {
+  background-image: url(../../assets/images/switch-on.svg);
 }

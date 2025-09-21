@@ -7,6 +7,7 @@ export type Profile = {
   phone: string
   email: string
   login: string
+  isThemeAlt: boolean
 }
 
 export interface ProfileState {
