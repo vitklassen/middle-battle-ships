@@ -65,9 +65,10 @@ function App() {
   useEffect(() => {
     const root = document.getElementById('root') as HTMLElement;
     if (profileInfo.value?.isThemeAlt) {
-      root.classList.add(rootStyles.altTheme);
+      // проставил вопросы чисто для тестов
+      root?.classList.add(rootStyles.altTheme);
     } else {
-      root.classList.remove(rootStyles.altTheme);
+      root?.classList.remove(rootStyles.altTheme);
     }
   }, [profileInfo]);
 
