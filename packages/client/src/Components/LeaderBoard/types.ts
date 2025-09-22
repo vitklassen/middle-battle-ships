@@ -1,8 +1,12 @@
 export type LeaderboardItem = {
-  position: number
-  isUser: boolean
-  hasStar: boolean
-  avatar: string | null
-  name: string
-  points: number
+  data: {
+    id: number
+    position: number
+    isUser: boolean
+    hasStar: boolean
+    avatar: string | null
+    firstName: string
+    otherField: number
+    email: string
+  }
 }

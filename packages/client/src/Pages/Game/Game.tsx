@@ -1,45 +1,69 @@
-import { useEffect, useRef, useState } from 'react';
-import { authorizationChecker } from '../../Components/AuthorizationChecker';
-import { useCanvasFullscreen } from '../../hooks/useCanvasFullscreen';
-import { Button } from '../../Common/Blocks/Button';
-import { StartGameScreen } from './StartGameScreen';
-import { GameCanvas } from './GameCanvas';
-import { Header } from '../../Components/Header';
-import styles from './Game.module.css';
+import { useEffect, useRef, useState } from 'react'
+import { authorizationChecker } from '../../Components/AuthorizationChecker'
+import { useCanvasFullscreen } from '../../hooks/useCanvasFullscreen'
+import { Button } from '../../Common/Blocks/Button'
+import { StartGameScreen } from './StartGameScreen'
+import { GameCanvas } from './GameCanvas'
+import { Header } from '../../Components/Header'
+import styles from './Game.module.css'
+import leaderBoardApi from '../../api/leaderBoardApi'
+import { useSelector } from '../../Store'
 
 export const Game = authorizationChecker(() => {
-  const ref = useRef(null);
+  const ref = useRef(null)
+  const { firstName, lastName, id, avatar, email } = useSelector(
+    state => state.profile.value
+  )
 
-  const { isFullscreen, toggleFullscreen } = useCanvasFullscreen(ref);
-  const [isGameStarted, setIsGameStarted] = useState(false);
+  const { isFullscreen, toggleFullscreen } = useCanvasFullscreen(ref)
+  const [isGameStarted, setIsGameStarted] = useState(false)
+
+  // Эффект для размонтирования
+  useEffect(() => {
+    return () => {
+      leaderBoardApi.addUserToLeaderBoard({
+        data: {
+          firstName,
+          lastName,
+          id,
+          avatar,
+          email,
+          otherField: 315,
+        },
+        ratingFieldName: 'otherField',
+        teamName: 'wolves',
+      })
+    }
+  }, [])
 
   // Обработчик клавиши F для полноэкранного режима
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
       if (event.key === 'f' || event.key === 'F') {
-        event.preventDefault();
-        toggleFullscreen();
+        event.preventDefault()
+        toggleFullscreen()
       }
 
       if (event.key === 'Escape' && isFullscreen) {
-        event.preventDefault();
-        toggleFullscreen();
+        event.preventDefault()
+        toggleFullscreen()
       }
-    };
+    }
 
-    document.addEventListener('keydown', handleKeyPress);
-    return () => document.removeEventListener('keydown', handleKeyPress);
-  }, [isFullscreen, toggleFullscreen]);
+    document.addEventListener('keydown', handleKeyPress)
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress)
+    }
+  }, [isFullscreen, toggleFullscreen])
 
   return (
     <>
-      {isFullscreen ? undefined : <Header /> }
+      {isFullscreen ? undefined : <Header />}
       <main className={styles.wrapper} ref={ref}>
         {isFullscreen ? undefined : (
           <Button
             onClick={toggleFullscreen}
-            className={styles.fullscreenButton}
-          >
+            className={styles.fullscreenButton}>
             Полноэкранный режим
           </Button>
         )}
@@ -50,5 +74,5 @@ export const Game = authorizationChecker(() => {
         )}
       </main>
     </>
-  );
-});
+  )
+})

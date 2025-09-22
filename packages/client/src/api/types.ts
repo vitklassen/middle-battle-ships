@@ -9,6 +9,13 @@ export type GetProfileResponse = {
   email: string
 }
 
-export type GetAppID = {
-  service_id: string
+export type leaderBoardParams = {
+  ratingFieldName: string
+  limit: number
+  cursor: number
+}
+
+export type userResult<T> = Pick<leaderBoardParams, 'ratingFieldName'> & {
+  data: T
+  teamName: string
 }
