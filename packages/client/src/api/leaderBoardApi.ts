@@ -1,10 +1,10 @@
-import { LeaderboardItem } from '../Components/LeaderBoard/types'
-import apiInstance from './fetch'
-import { leaderBoardParams, userParams } from './types'
+import { LeaderboardItem } from '../Components/LeaderBoard/types';
+import apiInstance from './fetch';
+import { leaderBoardParams, userParams } from './types';
 
 export class LeaderBoardApi {
   getAllLeaderBoard(
-    params: leaderBoardParams
+    params: leaderBoardParams,
   ): Promise<Array<LeaderboardItem>> {
     return apiInstance.post('leaderboard/wolves', {
       data: {
@@ -12,7 +12,7 @@ export class LeaderBoardApi {
         limit: params.limit,
         cursor: params.cursor,
       },
-    })
+    });
   }
 
   addUserToLeaderBoard(params: userParams) {
@@ -22,10 +22,10 @@ export class LeaderBoardApi {
         ratingFieldName: params.ratingFieldName,
         data: params.data,
       },
-    })
+    });
   }
 }
 
-const leaderBoardApi = new LeaderBoardApi()
+const leaderBoardApi = new LeaderBoardApi();
 
-export default leaderBoardApi
+export default leaderBoardApi;

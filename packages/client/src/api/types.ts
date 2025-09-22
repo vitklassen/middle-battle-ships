@@ -1,4 +1,4 @@
-import { LeaderboardItem } from '../Components/LeaderBoard/types'
+import { LeaderboardItem } from '../Components/LeaderBoard/types';
 
 export type GetProfileResponse = {
   id: number
