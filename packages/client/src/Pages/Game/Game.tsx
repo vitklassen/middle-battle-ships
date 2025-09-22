@@ -12,7 +12,7 @@ import { useSelector } from '../../Store';
 export const Game = authorizationChecker(() => {
   const ref = useRef(null);
   const {
-    firstName, lastName, id, avatar, email,
+    firstName, secondName, lastName, id, avatar, email,
   } = useSelector(
     (state) => state.profile.value,
   );
@@ -21,20 +21,24 @@ export const Game = authorizationChecker(() => {
   const [isGameStarted, setIsGameStarted] = useState(false);
 
   // Эффект для размонтирования
-  useEffect(() => () => {
-    leaderBoardApi.addUserToLeaderBoard({
-      data: {
-        firstName,
-        lastName,
-        id,
-        avatar,
-        email,
-        otherField: 315,
-      },
-      ratingFieldName: 'otherField',
-      teamName: 'wolves',
-    });
-  }, []);
+  useEffect(
+    () => () => {
+      // пока тестовые данные
+      leaderBoardApi.addUserToLeaderBoard({
+        data: {
+          firstName,
+          id,
+          avatar,
+          email,
+          lastName,
+          otherField: 315,
+        },
+        ratingFieldName: 'otherField',
+        teamName: 'wolves',
+      });
+    },
+    [],
+  );
 
   // Обработчик клавиши F для полноэкранного режима
   useEffect(() => {

@@ -1,3 +1,5 @@
+import { LeaderboardItem } from '../Components/LeaderBoard/types'
+
 export type GetProfileResponse = {
   id: number
   first_name: string
@@ -19,7 +21,12 @@ export type leaderBoardParams = {
   cursor: number
 }
 
-export type userResult<T> = Pick<leaderBoardParams, 'ratingFieldName'> & {
-  data: T
+type userParamsData = Pick<
+  LeaderboardItem['data'],
+  'id' | 'firstName' | 'lastName' | 'email' | 'avatar' | 'otherField'
+>
+
+export type userParams = Pick<leaderBoardParams, 'ratingFieldName'> & {
+  data: userParamsData
   teamName: string
 }

@@ -6,6 +6,7 @@ export type LeaderboardItem = {
     hasStar: boolean
     avatar: string | null
     firstName: string
+    lastName: string
     otherField: number
     email: string
   }

@@ -13,8 +13,10 @@ export const LeaderBoardList: React.FC<Props> = ({ items }) => (
   <>
     {items.map(({ data }, index) => {
       const {
-        id, avatar, firstName, otherField, isUser, position,
-      } = data;
+        id, avatar, firstName, lastName, otherField, isUser, position,
+      } =
+        data;
+      const fullName = `${firstName} ${lastName}`;
       return (
         <div
           key={id}
@@ -32,7 +34,7 @@ export const LeaderBoardList: React.FC<Props> = ({ items }) => (
           </span>
           <span className={clsx(styles.item, styles.itemStretched)}>
             {avatar}
-            {firstName}
+            {fullName}
           </span>
           <span className={styles.item}>{otherField}</span>
         </div>
