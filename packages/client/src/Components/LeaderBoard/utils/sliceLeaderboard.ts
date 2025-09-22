@@ -1,39 +1,13 @@
-import { LeaderboardItem } from '../types'
+import { LeaderboardItem } from '../types';
 
-interface IResult {
-  leaderboard: LeaderboardItem[]
-  leaderboardAfterLimit: LeaderboardItem[]
-}
+const LIMIT = 10;
 
-export const sliceLeaderboard = (
-  leaderboard: LeaderboardItem[],
-  limit: number,
-  email: string
-) => {
-  const sortedData = leaderboard.sort(
-    (a, b) => b.data.otherField - a.data.otherField
-  )
+export const sliceLeaderboard = (leaderboard: LeaderboardItem[]) => {
+  const userItem = leaderboard.find((item) => item.isUser);
 
-  const result: IResult = { leaderboard: [], leaderboardAfterLimit: [] }
-  const finish = sortedData.length < limit ? sortedData.length : limit
-
-  for (let i = 0; i < finish; i++) {
-    const curEmail = sortedData[i]?.data?.email
-    const isUser = curEmail === email
-
-    const cur = {
-      ...sortedData[i]?.data,
-      position: i,
-      hasStar: i <= 2,
-      isUser,
-    }
-
-    if (isUser && i > limit) {
-      result.leaderboardAfterLimit.push({ data: cur })
-    } else {
-      result.leaderboard.push({ data: cur })
-    }
-  }
-
-  return result
-}
+  return {
+    leaderboard: leaderboard.slice(0, LIMIT),
+    leaderboardAfterLimit:
+      userItem && userItem.position > LIMIT ? [userItem] : [],
+  };
+};

@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom';
 import {
   SignIn,
   SignUp,
@@ -9,8 +9,8 @@ import {
   Main,
   Profile,
   Topic,
-} from '../Pages'
-import { Path } from './types'
+} from '../Pages';
+import { Path } from './types';
 
 export function Router() {
   return (
@@ -32,5 +32,5 @@ export function Router() {
         element={<Error title="404 ошибка" description="Страница не найдена" />}
       />
     </Routes>
-  )
+  );
 }
