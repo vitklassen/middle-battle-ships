@@ -33,6 +33,8 @@ export const ProfileCard = () => {
 
   const profile = useSelector((state) => state.profile.value);
 
+  console.log(profile);
+
   if (!profile) {
     return;
   }
