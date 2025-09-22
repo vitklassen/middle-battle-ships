@@ -6,12 +6,35 @@ import { StartGameScreen } from './StartGameScreen';
 import { GameCanvas } from './GameCanvas';
 import { Header } from '../../Components/Header';
 import styles from './Game.module.css';
+import leaderBoardApi from '../../api/leaderBoardApi';
+import { useSelector } from '../../Store';
 
 export const Game = authorizationChecker(() => {
   const ref = useRef(null);
+  const {
+    firstName, lastName, id, avatar, email,
+  } = useSelector(
+    (state) => state.profile.value,
+  );
 
   const { isFullscreen, toggleFullscreen } = useCanvasFullscreen(ref);
   const [isGameStarted, setIsGameStarted] = useState(false);
+
+  // Эффект для размонтирования
+  useEffect(() => () => {
+    leaderBoardApi.addUserToLeaderBoard({
+      data: {
+        firstName,
+        lastName,
+        id,
+        avatar,
+        email,
+        otherField: 315,
+      },
+      ratingFieldName: 'otherField',
+      teamName: 'wolves',
+    });
+  }, []);
 
   // Обработчик клавиши F для полноэкранного режима
   useEffect(() => {
@@ -28,12 +51,14 @@ export const Game = authorizationChecker(() => {
     };
 
     document.addEventListener('keydown', handleKeyPress);
-    return () => document.removeEventListener('keydown', handleKeyPress);
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
   }, [isFullscreen, toggleFullscreen]);
 
   return (
     <>
-      {isFullscreen ? undefined : <Header /> }
+      {isFullscreen ? undefined : <Header />}
       <main className={styles.wrapper} ref={ref}>
         {isFullscreen ? undefined : (
           <Button
