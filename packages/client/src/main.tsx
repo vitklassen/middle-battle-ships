@@ -1,4 +1,4 @@
-import { createRoot } from 'react-dom/client';
+import { hydrateRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './Store';
@@ -10,8 +10,9 @@ import { registerSW } from './registerServiceWorker';
 import { ErrorBoundary } from './Common/Layouts/ErrorBoundary';
 import { Error } from './Pages';
 
-const root = createRoot(document.getElementById('root') as HTMLElement);
-root.render(
+const container = document.getElementById('root') as HTMLElement;
+hydrateRoot(
+  container,
   <BrowserRouter>
     <ErrorBoundary
       errorComponent={(
@@ -27,4 +28,5 @@ root.render(
     </ErrorBoundary>
   </BrowserRouter>,
 );
+
 registerSW();
