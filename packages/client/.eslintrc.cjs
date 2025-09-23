@@ -1,4 +1,5 @@
 module.exports = {
+  root: true, 
   extends: [
     'airbnb',
     'plugin:react/recommended',
@@ -23,7 +24,9 @@ module.exports = {
     'build',
     'node_modules',
     'jest.config.js',
-    'vite.config.ts',
+    '*.config.ts',
+    'dist/**',
+    '*.d.ts'
   ],
   rules: {
     'react/react-in-jsx-scope': 'off',

@@ -1,4 +1,14 @@
 {
+  "compilerOptions": {
+    "outDir": "./dist"
+  },
+  "exclude": [
+    "src/**/*.d.ts",
+    "dist",
+    "node_modules",
+    "**/*.test.ts",
+    "**/*.mock.ts",
+    "**/__test__"
+  ],
   "extends": "./tsconfig",
-  "exclude": ["**/*.test.ts", "**/*.mock.ts", "**/__test__"]
 }

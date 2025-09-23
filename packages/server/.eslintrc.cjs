@@ -1,4 +1,5 @@
 module.exports = {
+  root: true, 
   extends: [
     'airbnb',
     'plugin:react/recommended',
@@ -19,7 +20,12 @@ module.exports = {
       version: 'detect',
     },
   },
-  ignorePatterns: ['build', 'node_modules'],
+  ignorePatterns: [
+    'node_modules',
+    '*.config.ts',
+    '*.d.ts',
+    'dist/**',
+    'ssr-dist/**' ],
   rules: {
     'react/react-in-jsx-scope': 'off',
     'max-len': ['error', 150],
@@ -48,6 +54,11 @@ module.exports = {
     'max-classes-per-file': 'off',
     'import/no-unresolved': 'off',
     'react/jsx-filename-extension': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    'react/jsx-filename-extension': 'off',
+    'comma-dangle': ['error', 'always-multiline'], 
+    'react/jsx-wrap-multilines': 'off',
+    'react/jsx-closing-bracket-location': 'off',
   },
   env: {
     browser: true,
