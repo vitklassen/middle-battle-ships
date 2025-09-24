@@ -3,6 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { Profile, ProfileState } from './types';
 import authApi from '../../api/authApi';
 import { mapProfileResponse } from './mapProfileResponse';
+import { loadThemeInfo } from './useUploadTheme';
 
 const initialState: ProfileState = {};
 
@@ -11,7 +12,7 @@ export const profileSlice = createSlice({
   initialState,
   reducers: {
     setProfile: (state, action: PayloadAction<Profile | null>) => {
-      state.value = action.payload;
+      state.value = action.payload ? loadThemeInfo(action.payload) : action.payload;
     },
     setAvatar: (state, action: PayloadAction<Pick<Profile, 'avatar'>>) => {
       if (!state.value) {
@@ -19,13 +20,24 @@ export const profileSlice = createSlice({
       }
       state.value = { ...state.value, avatar: action.payload.avatar };
     },
+    setTheme: (state, action: PayloadAction<Pick<Profile, 'isThemeAlt'>>) => {
+      if (!state.value) {
+        return;
+      }
+      state.value = { ...state.value, isThemeAlt: action.payload.isThemeAlt };
+    },
     resetProfile: (state) => {
       state.value = null;
     },
   },
 });
 
-export const { setProfile, setAvatar, resetProfile } = profileSlice.actions;
+export const {
+  setProfile,
+  setTheme,
+  setAvatar,
+  resetProfile,
+} = profileSlice.actions;
 
 export const getProfile = async (cookie?: string) => {
   const profile = await authApi.getUserInfo(cookie);
