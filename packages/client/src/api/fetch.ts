@@ -11,17 +11,17 @@ enum METHOD { // в упор не видит, что METHOD вызывается
 }
 
 type Options = {
-  method: string,
-  data: {[key: string]: unknown},
-  credentials: RequestCredentials,
-  headers: {[key: string]: string}
-  [key: string]: string | number | object,
+  method: string
+  data: { [key: string]: unknown }
+  credentials: RequestCredentials
+  headers: { [key: string]: string }
+  [key: string]: string | number | object
 }
 
 interface FetchError {
-  reason: string;
-  status?: number;
-  message?: string;
+  reason: string
+  status?: number
+  message?: string
 }
 
 type OptionsWithoutMethod = Omit<Options, 'method'>
@@ -36,25 +36,25 @@ export class HTTP {
   get = <R>(path: string, options?: OptionsWithoutMethod) => this.request<R>(
     this.url + path,
     { ...options, method: METHOD.GET },
-    options?.timeout as number,
+      options?.timeout as number,
   );
 
   post = <R>(path: string, options?: OptionsWithoutMethod) => this.request<R>(
     this.url + path,
     { ...options, method: METHOD.POST },
-    options?.timeout as number,
+      options?.timeout as number,
   );
 
   put = <R>(path: string, options?: OptionsWithoutMethod) => this.request<R>(
     this.url + path,
     { ...options, method: METHOD.PUT },
-    options?.timeout as number,
+      options?.timeout as number,
   );
 
   delete = <R>(path: string, options?: OptionsWithoutMethod) => this.request<R>(
     this.url + path,
     { ...options, method: METHOD.DELETE },
-    options?.timeout as number,
+      options?.timeout as number,
   );
 
   request = async <R>(url: string, options = {}, timeout = 5000) => {

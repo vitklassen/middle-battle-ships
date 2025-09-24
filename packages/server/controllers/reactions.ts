@@ -45,7 +45,7 @@ router.post('/', async (req, res) => {
     }
 
     res.send('OK');
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {
     res.status(500);
     res.send({ status: 500, reason: e.message });
@@ -67,20 +67,28 @@ router.get('/comments/:comment_id', async (req, res) => {
       return;
     }
 
-    const reactions = (await Reaction.findAll({
-      where: { comment_id: commentId },
-      raw: true,
-      include: {
-        model: User,
-        required: true,
-        foreignKey: 'owner_id',
-        attributes: [],
-      },
-      attributes: ['id', 'code', 'User.first_name', 'User.last_name', 'User.avatar'],
-    })).map((reaction) => ({ ...reaction, code: reaction.code?.toString(16) }));
+    const reactions = (
+      await Reaction.findAll({
+        where: { comment_id: commentId },
+        raw: true,
+        include: {
+          model: User,
+          required: true,
+          foreignKey: 'owner_id',
+          attributes: [],
+        },
+        attributes: [
+          'id',
+          'code',
+          'User.first_name',
+          'User.last_name',
+          'User.avatar',
+        ],
+      })
+    ).map((reaction) => ({ ...reaction, code: reaction.code?.toString(16) }));
 
     res.send(reactions);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {
     res.status(500);
     res.send({ status: 500, reason: e.message });

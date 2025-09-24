@@ -38,7 +38,8 @@ export default class Cell extends Square {
       }
       this.cellState = CellState.EMPTY;
       return true;
-    } if (!this.isEmpty) {
+    }
+    if (!this.isEmpty) {
       this.cellState = CellState.BUSY;
       return false;
     }

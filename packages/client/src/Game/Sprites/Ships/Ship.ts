@@ -46,7 +46,8 @@ export class Ship {
     this.initialX = x;
     this.initialY = y;
     this.width = (size * battleFieldWidth) / cellCount;
-    ((this.height = battleFieldWidth / cellCount), (this.context = context));
+    this.height = battleFieldWidth / cellCount;
+    this.context = context;
     this.size = size;
     this.shipId = id;
     this.setShipImage(type);
@@ -91,21 +92,29 @@ export class Ship {
     return false;
   }
 
-  public addShipCells(cellsInfo: Record<string, number | Cell>[], allCells: Cell[][]) {
+  public addShipCells(
+    cellsInfo: Record<string, number | Cell>[],
+    allCells: Cell[][],
+  ) {
     this.ownCells = cellsInfo.map((cellInfo) => cellInfo.cell as Cell);
     this.fillEnvironmentCells(cellsInfo, allCells);
     this.ownCells.forEach((cell) => cell.setStateCell('busy'));
     this.environmentCells.forEach((cell) => cell.setStateCell('busy'));
   }
 
-  private fillEnvironmentCells(cellsInfo: Record<string, number | Cell>[], allCells: Cell[][]): void {
+  private fillEnvironmentCells(
+    cellsInfo: Record<string, number | Cell>[],
+    allCells: Cell[][],
+  ): void {
     const rowIndex = cellsInfo[0].i as number;
     const colLeftIndex = cellsInfo[0].j as number;
     const colRightIndex = cellsInfo[cellsInfo.length - 1].j as number;
     const topBorderIndex = rowIndex - 1 >= 0 ? rowIndex - 1 : rowIndex;
     const bottomBorderIndex = rowIndex + 1 < cellCount ? rowIndex + 1 : rowIndex;
-    const leftBorderIndex = colLeftIndex - 1 >= 0 ? colLeftIndex - 1 : colLeftIndex;
-    const rightBorderIndex = colRightIndex + 1 < cellCount ? colRightIndex + 1 : colRightIndex;
+    const leftBorderIndex =
+      colLeftIndex - 1 >= 0 ? colLeftIndex - 1 : colLeftIndex;
+    const rightBorderIndex =
+      colRightIndex + 1 < cellCount ? colRightIndex + 1 : colRightIndex;
     for (let i = topBorderIndex; i <= bottomBorderIndex; i++) {
       if (i === rowIndex) {
         if (leftBorderIndex < colLeftIndex) {

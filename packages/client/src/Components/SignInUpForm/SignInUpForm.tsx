@@ -15,8 +15,8 @@ type Props = {
   onSubmitHandler: (data: submitData) => void
   onYandexAuthHandler?: (data: submitData) => void
   link: string
-  linkText: string,
-  yandexOathEnabled: boolean,
+  linkText: string
+  yandexOathEnabled: boolean
 }
 
 export const SignInUpForm: FC<Props> = ({
@@ -84,8 +84,14 @@ export const SignInUpForm: FC<Props> = ({
       </Button>
       {yandexOathEnabled && (
         <>
-          <span className={clsx(styles.additionalText)}>Войти через Яндекс</span>
-          <button className={clsx(styles.yandexButton)} onClick={onYandexAuth} type="button" />
+          <span className={clsx(styles.additionalText)}>
+            Войти через Яндекс
+          </span>
+          <button
+            className={clsx(styles.yandexButton)}
+            onClick={onYandexAuth}
+            type="button"
+          />
         </>
       )}
       <Link className={clsx(styles.link)} to={link}>

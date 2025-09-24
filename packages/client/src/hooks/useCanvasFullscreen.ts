@@ -1,6 +1,8 @@
 import { useState, useCallback, useEffect } from 'react';
 
-export const useCanvasFullscreen = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
+export const useCanvasFullscreen = (
+  canvasRef: React.RefObject<HTMLCanvasElement>,
+) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const enterFullscreen = useCallback(async () => {
@@ -45,8 +47,14 @@ export const useCanvasFullscreen = (canvasRef: React.RefObject<HTMLCanvasElement
 
     return () => {
       document.removeEventListener('fullscreenchange', handleFullscreenChange);
-      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
-      document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
+      document.removeEventListener(
+        'webkitfullscreenchange',
+        handleFullscreenChange,
+      );
+      document.removeEventListener(
+        'mozfullscreenchange',
+        handleFullscreenChange,
+      );
       document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
     };
   }, []);

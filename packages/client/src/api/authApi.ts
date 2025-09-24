@@ -40,7 +40,10 @@ export class AuthAPI extends BaseAPI {
   }
 
   getYandexOAuthID(args: Iargs) {
-    return this._request<GetAppID>({ path: 'oauth/yandex/service-id', dataToSend: args });
+    return this._request<GetAppID>({
+      path: 'oauth/yandex/service-id',
+      dataToSend: args,
+    });
   }
 
   signInUpWithYandex(args: Iargs) {

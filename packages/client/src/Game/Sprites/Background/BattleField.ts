@@ -171,15 +171,17 @@ export default class BattleField extends Square {
 
   private initShips(isEnemyShips: boolean): void {
     // const dx = isEnemyShips ? distanceBetweenFields + battleFieldWidth : 0
-    this.ships = fleetTemplate.map((shipTemplate) => new Ship(
-      {
-        context: this.context,
-        x: shipTemplate.x,
-        y: shipTemplate.y,
-      },
-      shipTemplate.type,
-      shipTemplate.size,
-      shipTemplate.id,
-    ));
+    this.ships = fleetTemplate.map(
+      (shipTemplate) => new Ship(
+        {
+          context: this.context,
+          x: shipTemplate.x,
+          y: shipTemplate.y,
+        },
+        shipTemplate.type,
+        shipTemplate.size,
+        shipTemplate.id,
+      ),
+    );
   }
 }

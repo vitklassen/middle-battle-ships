@@ -33,7 +33,7 @@ export const Game = authorizationChecker(() => {
 
   return (
     <>
-      {isFullscreen ? undefined : <Header /> }
+      {isFullscreen ? undefined : <Header />}
       <main className={styles.wrapper} ref={ref}>
         {isFullscreen ? undefined : (
           <Button

@@ -19,12 +19,7 @@ module.exports = {
       version: 'detect',
     },
   },
-  ignorePatterns: [
-    'build',
-    'node_modules',
-    'jest.config.js',
-    'vite.config.ts',
-  ],
+  ignorePatterns: ['build', 'node_modules', 'jest.config.js', 'vite.config.ts'],
   rules: {
     'react/react-in-jsx-scope': 'off',
     'max-len': ['error', 150],

@@ -26,18 +26,22 @@ function App() {
     // Но при этом к ней прилепляется query с переменной code, для продолжения входа
     const queryStr = window.location.search;
     const codeSubstr = 'code=';
-    const cutSubstr = queryStr.slice(queryStr.lastIndexOf(codeSubstr) + codeSubstr.length);
+    const cutSubstr = queryStr.slice(
+      queryStr.lastIndexOf(codeSubstr) + codeSubstr.length,
+    );
     const oAuthCode = cutSubstr.slice(0, cutSubstr.indexOf('&'));
     if (oAuthCode.length > 0) {
-      authApi.signInUpWithYandex({
-        code: oAuthCode,
-        redirect_uri: window.location.origin,
-      }).then((res): void => {
-        getProfile().then((profile) => {
-          dispatch(setProfile(profile));
-          // убрал navigate(Path.Main), т.к. этот запрос проводится на странице Main
+      authApi
+        .signInUpWithYandex({
+          code: oAuthCode,
+          redirect_uri: window.location.origin,
+        })
+        .then((res): void => {
+          getProfile().then((profile) => {
+            dispatch(setProfile(profile));
+            // убрал navigate(Path.Main), т.к. этот запрос проводится на странице Main
+          });
         });
-      });
     }
   }, []);
 
