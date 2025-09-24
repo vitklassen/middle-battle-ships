@@ -4,9 +4,9 @@ import { Request as ExpressRequest, Response as ExpressResponse } from 'express'
 import { Provider } from 'react-redux';
 import { createStaticHandler, createStaticRouter, StaticRouterProvider } from 'react-router-dom/server';
 import { matchRoutes } from 'react-router';
-import { Path, routes } from './src/Router';
 import { reducer } from './src/Store';
-import './src/index.css';
+import { Path, routes } from './src/Router';
+import './src/index.module.css';
 import './src/nullify.css';
 import App from './src/App';
 

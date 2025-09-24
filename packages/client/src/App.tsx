@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 import { ErrorSnackbar } from './Components/ErrorSnackbar';
 import { getProfile, setProfile } from './Features/profile';
 import authApi from './api/authApi';
+import { useSelector } from './Store';
+import rootStyles from './index.module.css';
 import { ErrorBoundary } from './Common/Layouts/ErrorBoundary';
 import { Error } from './Components/Error';
 
@@ -38,11 +40,24 @@ function App({ router, modalRoot }: AppProps) {
       }).then((res): void => {
         getProfile().then((profile) => {
           dispatch(setProfile(profile));
-          // убрал navigate(Path.Main), т.к. этот запрос проводится на странице Main
         });
       });
     }
   }, []);
+
+  const profileInfo = useSelector((state) => state.profile, {
+    devModeChecks: { stabilityCheck: 'always' },
+  });
+
+  useEffect(() => {
+    const root = document.getElementById('root') as HTMLElement;
+    if (profileInfo.value?.isThemeAlt) {
+      // проставил вопросы чисто для тестов
+      root?.classList.add(rootStyles.altTheme);
+    } else {
+      root?.classList.remove(rootStyles.altTheme);
+    }
+  }, [profileInfo]);
 
   return (
     <ErrorBoundary

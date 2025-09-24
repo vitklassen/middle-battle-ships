@@ -2,7 +2,7 @@ import { hydrateRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './Store';
-import './index.css';
+import './index.module.css';
 import './nullify.css';
 // @ts-expect-error: No types available for service worker
 import { registerSW } from './registerServiceWorker';
@@ -21,4 +21,4 @@ hydrateRoot(
   </Provider>,
 );
 
-registerSW();
+// registerSW();

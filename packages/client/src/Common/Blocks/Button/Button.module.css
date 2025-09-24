@@ -1,5 +1,5 @@
 .button {
-  color: white;
+  color: var(--color-white);
   cursor: pointer;
   font-weight: 600;
   font-size: 14px;
@@ -19,7 +19,7 @@
 }
 
 .buttonSecondary {
-  background-color: white;
+  background-color: var(--color-white);
   color: var(--color-basic);
 }
 
