@@ -77,3 +77,12 @@
 .altClicker {
   background-image: url(../../assets/images/switch-on.svg);
 }
+
+.iconGeolocation {
+  background: url(../../assets/images/geolocation.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}

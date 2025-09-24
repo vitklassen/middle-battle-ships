@@ -6,10 +6,13 @@ import styles from './Header.module.css';
 import { Path } from '../../Router';
 import { setTheme } from '../../Features/profile';
 import { useSelector } from '../../Store';
+import { useGeolocationApi } from '../../hooks/useGeolocationApi';
+import { GeoPopup } from '../GeoPopup';
 
 export const Header = () => {
   const dispatch = useDispatch();
   const isThemeAlt = useSelector((state) => state.profile.value?.isThemeAlt);
+  const { data, setData, getUserPosition } = useGeolocationApi();
 
   const changeTheme = () => {
     // Затычка пока не подключили сервер
@@ -27,6 +30,8 @@ export const Header = () => {
       <div className={`${styles.bell} ${isThemeAlt ? styles.altBell : ''}`} />
       <Link to={Path.Profile} className={`${styles.iconProfile} ${isThemeAlt ? styles.altProfileIcon : ''}`} />
       <button className={`${styles.clicker} ${isThemeAlt ? styles.altClicker : ''}`} type="button" id="theme_switcher" onClick={changeTheme} />
+      <button type="button" className={styles.iconGeolocation} onClick={getUserPosition} />
+      {data && <GeoPopup data={data} onResetData={setData} />}
     </header>
   );
 };
