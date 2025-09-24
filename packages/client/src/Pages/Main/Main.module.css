@@ -2,6 +2,7 @@
   background-color: var(--color-primary);
   height: 100vh;
   position: relative;
+  color: var(--color-basic);
 }
 
 .container {

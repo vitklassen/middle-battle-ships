@@ -7,7 +7,7 @@ import styles from './SignUpComponent.module.css';
 import { SignInUpForm } from '../SignInUpForm';
 import { submitData } from '../SignInUpForm/types';
 import authApi from '../../api/authApi';
-import { setProfile, getProfile } from '../../Features/profile';
+import { setProfile, getProfile, loadThemeInfo } from '../../Features/profile';
 import { Path } from '../../Router';
 
 export const SignUpComponent: FC = () => {
@@ -17,6 +17,7 @@ export const SignUpComponent: FC = () => {
   const onSubmitHandler = (data: submitData) => {
     authApi.register(data).then((): void => {
       getProfile().then((profile) => {
+        profile = loadThemeInfo(profile);
         dispatch(setProfile(profile));
         navigate(Path.Main);
       });

@@ -19,13 +19,24 @@ export const profileSlice = createSlice({
       }
       state.value = { ...state.value, avatar: action.payload.avatar };
     },
+    setTheme: (state, action: PayloadAction<Pick<Profile, 'isThemeAlt'>>) => {
+      if (!state.value) {
+        return;
+      }
+      state.value = { ...state.value, isThemeAlt: action.payload.isThemeAlt };
+    },
     resetProfile: (state) => {
       state.value = null;
     },
   },
 });
 
-export const { setProfile, setAvatar, resetProfile } = profileSlice.actions;
+export const {
+  setProfile,
+  setTheme,
+  setAvatar,
+  resetProfile,
+} = profileSlice.actions;
 
 export const getProfile = async () => {
   const profile = await authApi.getUserInfo();
