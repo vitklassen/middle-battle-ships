@@ -10,7 +10,25 @@ export default defineConfig({
     port: Number(process.env.CLIENT_PORT) || 3000,
   },
   define: {
-    __SERVER_PORT__: process.env.SERVER_PORT,
+    __SERVER_PORT__: process.env.SERVER_PORT || 3001,
   },
   plugins: [react()],
-})
+  css: {
+    modules: {
+      localsConvention: 'camelCase',
+    },
+  },
+  build: {
+    outDir: './dist',
+    emptyOutDir: true,
+    assetsDir: 'assets',
+    rollupOptions: {
+      input: {
+        main: './index.html',
+      },
+      output: {
+        assetFileNames: 'assets/[name]-[hash][extname]',
+      },
+    },
+  },
+});

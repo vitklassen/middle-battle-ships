@@ -3,11 +3,6 @@ import styles from './Main.module.css';
 import { CenteredLayout } from '../../Common/Layouts/CenteredLayout';
 import { Header } from '../../Components/Header';
 import { Statistics } from '../../Components/Statistics';
-import { authorizationChecker } from '../../Components/AuthorizationChecker';
-
-// Чтобы выключить проверку авторизации на эту страницу
-// Т.к. авторизация через OAuth Яндекса будет редиректить на главную страницу
-const isMain = true;
 
 export const Main = () => (
   <>

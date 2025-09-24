@@ -3,8 +3,10 @@ import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 import { Path, Router } from './Router';
 import { ErrorSnackbar } from './Components/ErrorSnackbar';
-import { getProfile, setProfile } from './Features/profile';
+import { getProfile, setProfile, loadThemeInfo } from './Features/profile';
 import authApi from './api/authApi';
+import { useSelector } from './Store';
+import rootStyles from './index.module.css';
 
 function App() {
   const dispatch = useDispatch();
@@ -31,32 +33,46 @@ function App() {
     );
     const oAuthCode = cutSubstr.slice(0, cutSubstr.indexOf('&'));
     if (oAuthCode.length > 0) {
-      authApi
-        .signInUpWithYandex({
-          code: oAuthCode,
-          redirect_uri: window.location.origin,
-        })
-        .then((res): void => {
-          getProfile().then((profile) => {
-            dispatch(setProfile(profile));
-            // убрал navigate(Path.Main), т.к. этот запрос проводится на странице Main
-          });
+      authApi.signInUpWithYandex({
+        code: oAuthCode,
+        redirect_uri: window.location.origin,
+      }).then((res): void => {
+        getProfile().then((profile) => {
+          profile = loadThemeInfo(profile);
+          dispatch(setProfile(profile));
         });
+      });
     }
   }, []);
+
+  const profileInfo = useSelector((state) => state.profile, {
+    devModeChecks: { stabilityCheck: 'always' },
+  });
 
   useEffect(() => {
     getProfile()
       .then((profile) => {
+        profile = loadThemeInfo(profile);
         dispatch(setProfile(profile));
         if (pathname === Path.SignIn || pathname === Path.SignUp) {
           navigate(Path.Main, { replace: true });
         }
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log(e);
         dispatch(setProfile(null));
       });
   }, []);
+
+  useEffect(() => {
+    const root = document.getElementById('root') as HTMLElement;
+    if (profileInfo.value?.isThemeAlt) {
+      // проставил вопросы чисто для тестов
+      root?.classList.add(rootStyles.altTheme);
+    } else {
+      root?.classList.remove(rootStyles.altTheme);
+    }
+  }, [profileInfo]);
 
   return (
     <div className="App">

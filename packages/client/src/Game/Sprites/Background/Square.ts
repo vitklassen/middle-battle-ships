@@ -13,8 +13,8 @@ export default class Square {
 
   constructor(config: CommonSpritesConfig) {
     this.context = config.context;
-    this.width = config.width || 0;
-    this.height = config.height || 0;
+    this.width = config.width ?? 0;
+    this.height = config.height ?? 0;
     this.xPos = config.x;
     this.yPos = config.y;
   }
