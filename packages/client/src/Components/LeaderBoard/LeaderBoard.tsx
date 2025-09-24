@@ -1,19 +1,46 @@
+import { useSelector } from 'react-redux';
 import { clsx } from 'clsx';
-import { useMemo } from 'react';
-import { leaderboardMock } from './mock';
+import { useEffect, useState } from 'react';
 import { sliceLeaderboard } from './utils/sliceLeaderboard';
 import styles from './LeaderBoard.module.css';
 import { LeaderBoardList } from './LeaderBoardList';
+import leaderBoardApi from '../../api/leaderBoardApi';
+import { LeaderboardItem } from './types';
 
 type Props = {
   className?: string
 }
 
+const params = {
+  ratingFieldName: 'otherField',
+  limit: 10,
+  cursor: 0,
+};
+
 export const LeaderBoard: React.FC<Props> = ({ className }: Props) => {
-  const { leaderboard, leaderboardAfterLimit } = useMemo(
-    () => sliceLeaderboard(leaderboardMock),
-    [],
-  );
+  const [loading, setLoading] = useState(true);
+  const { email } = useSelector((state) => state.profile.value);
+  const [leaderboard, setLeaderboard] = useState<Array<LeaderboardItem>>([]);
+  const [leaderboardAfterLimit, setLeaderboardAfterLimit] = useState<
+    Array<LeaderboardItem>
+  >([]);
+
+  useEffect(() => {
+    leaderBoardApi.getAllLeaderBoard(params).then((data) => {
+      const { leaderboard, leaderboardAfterLimit } = sliceLeaderboard(
+        Object.values(data),
+        params.limit,
+        email,
+      );
+
+      setLeaderboard(leaderboard);
+      setLeaderboardAfterLimit(leaderboardAfterLimit);
+
+      setLoading(false);
+    });
+  }, []);
+
+  if (loading) return null;
 
   return (
     <div className={clsx(styles.root, className)}>
