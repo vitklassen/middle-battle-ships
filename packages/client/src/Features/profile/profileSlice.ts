@@ -27,8 +27,8 @@ export const profileSlice = createSlice({
 
 export const { setProfile, setAvatar, resetProfile } = profileSlice.actions;
 
-export const getProfile = async () => {
-  const profile = await authApi.getUserInfo();
+export const getProfile = async (cookie?: string) => {
+  const profile = await authApi.getUserInfo(cookie);
   return mapProfileResponse(profile);
 };
 

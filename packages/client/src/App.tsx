@@ -1,15 +1,18 @@
-import { useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router';
-import { Path, Router } from './Router';
 import { ErrorSnackbar } from './Components/ErrorSnackbar';
 import { getProfile, setProfile } from './Features/profile';
 import authApi from './api/authApi';
+import { ErrorBoundary } from './Common/Layouts/ErrorBoundary';
+import { Error } from './Components/Error';
 
-function App() {
+type AppProps = {
+  router: ReactNode;
+  modalRoot: HTMLElement | null
+}
+
+function App({ router, modalRoot }: AppProps) {
   const dispatch = useDispatch();
-  const { pathname } = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchServerData = async () => {
@@ -41,24 +44,18 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    getProfile()
-      .then((profile) => {
-        dispatch(setProfile(profile));
-        if (pathname === Path.SignIn || pathname === Path.SignUp) {
-          navigate(Path.Main, { replace: true });
-        }
-      })
-      .catch(() => {
-        dispatch(setProfile(null));
-      });
-  }, []);
-
   return (
-    <div className="App">
-      <Router />
-      <ErrorSnackbar />
-    </div>
+    <ErrorBoundary
+      errorComponent={(
+        <Error
+          title="Произошла ошибка"
+          description="Попробуйте перезагрузить страницу"
+        />
+      )}
+    >
+      {router}
+      <ErrorSnackbar modalRoot={modalRoot} />
+    </ErrorBoundary>
   );
 }
 

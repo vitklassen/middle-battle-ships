@@ -142,5 +142,5 @@ export class HTTP {
   };
 }
 
-const apiInstance = new HTTP('https://ya-praktikum.tech/api/v2/');
+const apiInstance = new HTTP('http://localhost:3001/api/v2/');
 export default apiInstance;
