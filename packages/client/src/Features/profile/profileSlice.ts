@@ -25,6 +25,12 @@ export const profileSlice = createSlice({
       }
       state.value = { ...state.value, isThemeAlt: action.payload.isThemeAlt };
     },
+    setPositions: (state, action: PayloadAction<Pick<Profile, 'positions'>>) => {
+      if (!state.value) {
+        return;
+      }
+      state.value = { ...state.value, positions: action.payload.positions };
+    },
     resetProfile: (state) => {
       state.value = null;
     },
