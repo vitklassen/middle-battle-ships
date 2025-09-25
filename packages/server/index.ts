@@ -10,6 +10,7 @@ import cookieParser from 'cookie-parser';
 
 import { createClientAndConnect } from './db';
 import reactionsController from './controllers/reactions';
+import themeController from './controllers/themes';
 
 dotenv.config();
 const isDev = () => process.env.NODE_ENV === 'development';
@@ -27,6 +28,7 @@ async function startServer() {
   app.use(cookieParser());
 
   app.use('/reactions', reactionsController);
+  app.use('/theme', themeController);
 
   app.use('/api/v2', createProxyMiddleware({
     changeOrigin: true,
