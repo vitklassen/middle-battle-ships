@@ -8,6 +8,9 @@ import fs from 'fs';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import cookieParser from 'cookie-parser';
 
+import { createClientAndConnect } from './db';
+import reactionsController from './controllers/reactions';
+
 dotenv.config();
 const isDev = () => process.env.NODE_ENV === 'development';
 
@@ -19,7 +22,11 @@ async function startServer() {
     credentials: true,
   }));
 
+  app.use(express.json());
+
   app.use(cookieParser());
+
+  app.use('/reactions', reactionsController);
 
   app.use('/api/v2', createProxyMiddleware({
     changeOrigin: true,
@@ -118,4 +125,5 @@ async function startServer() {
   });
 }
 
+createClientAndConnect();
 startServer();
