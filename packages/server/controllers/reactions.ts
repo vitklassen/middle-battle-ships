@@ -45,11 +45,14 @@ router.post('/', async (req, res) => {
     }
 
     res.send('OK');
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (e: any) {
-    res.status(500);
-    res.send({ status: 500, reason: e.message });
+  } catch (e) {
     console.error(e);
+
+    if (e instanceof Error) {
+      res.status(500).send({ reason: e.message });
+    } else {
+      res.status(500).send();
+    }
   }
 });
 
@@ -80,11 +83,14 @@ router.get('/comments/:comment_id', async (req, res) => {
     })).map((reaction) => ({ ...reaction, code: reaction.code?.toString(16) }));
 
     res.send(reactions);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (e: any) {
-    res.status(500);
-    res.send({ status: 500, reason: e.message });
+  } catch (e) {
     console.error(e);
+
+    if (e instanceof Error) {
+      res.status(500).send({ reason: e.message });
+    } else {
+      res.status(500).send();
+    }
   }
 });
 
