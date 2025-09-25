@@ -3,7 +3,11 @@ import { Snackbar } from '../../Common/Blocks/Snackbar';
 import { resetError } from '../../Features/error';
 import { useSelector } from '../../Store';
 
-export const ErrorSnackbar = () => {
+type Props = {
+  modalRoot: HTMLElement | null
+}
+
+export const ErrorSnackbar = ({ modalRoot }: Props) => {
   const dispatch = useDispatch();
 
   const error = useSelector((state) => state.error.value);
@@ -13,7 +17,7 @@ export const ErrorSnackbar = () => {
 
   return (
     error && (
-      <Snackbar message={error.reason} mode="error" onClose={handleClose} />
+      <Snackbar message={error.reason} modalRoot={modalRoot} mode="error" onClose={handleClose} />
     )
   );
 };

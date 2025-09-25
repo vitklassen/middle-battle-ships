@@ -1,7 +1,10 @@
-import { setTheme } from './profileSlice';
 import { Profile } from './types';
 
 export const loadThemeInfo = (profile: Profile) => {
+  if (typeof window === 'undefined') {
+    return profile;
+  }
+
   // выгружаем из localStorage
   // (потом сделаем с сервера!)
   // это затычка пока не подкючили сервер

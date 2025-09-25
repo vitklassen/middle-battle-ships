@@ -1,3 +1,5 @@
+import { AppDispatch, GlobalState } from '../Store';
+
 export enum Path {
   SignIn = '/sign-in',
   SignUp = '/sign-up',
@@ -8,4 +10,10 @@ export enum Path {
   Leaderboard = '/leaderboard',
   Forum = '/forum',
   Topic = '/topic',
+}
+
+export type PageInitArgs = {
+  state: GlobalState
+  dispatch: AppDispatch
+  cookie?: string;
 }

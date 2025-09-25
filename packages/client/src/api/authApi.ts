@@ -14,13 +14,20 @@ export class AuthAPI extends BaseAPI {
 
   _request<R>(args: Iargs) {
     // get
-    const { path, dataToSend } = args;
+    const { path, dataToSend, cookie } = args;
     if (dataToSend) {
       return apiInstance.get<R>(path, {
         data: dataToSend,
+        headers: {
+          cookie,
+        },
       });
     }
-    return apiInstance.get<R>(path);
+    return apiInstance.get<R>(path, {
+      headers: {
+        cookie,
+      },
+    });
   }
 
   register(args: Iargs) {
@@ -31,8 +38,8 @@ export class AuthAPI extends BaseAPI {
     return this._create({ path: 'auth/signin', dataToSend: args });
   }
 
-  getUserInfo() {
-    return this._request<GetProfileResponse>({ path: 'auth/user' });
+  getUserInfo(cookie?: string) {
+    return this._request<GetProfileResponse>({ path: 'auth/user', cookie });
   }
 
   logout() {
