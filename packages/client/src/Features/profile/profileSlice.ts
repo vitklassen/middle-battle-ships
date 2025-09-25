@@ -41,6 +41,7 @@ export const {
   setProfile,
   setTheme,
   setAvatar,
+  setPositions,
   resetProfile,
 } = profileSlice.actions;
 
