@@ -8,15 +8,16 @@ import styles from './Snackbar.module.css';
 
 type Props = {
   message: string
+  modalRoot: HTMLElement | null
   mode?: 'error'
   onClose?: VoidFunction
 }
 
-export const Snackbar: React.FC<Props> = ({ message, mode, onClose }) => {
-  const modalRoot = useMemo(() => document.getElementById('modal'), []);
-
+export const Snackbar: React.FC<Props> = ({
+  message, modalRoot, mode, onClose,
+}) => {
   if (!modalRoot) {
-    throw Error('No modal root found');
+    return;
   }
 
   return createPortal(

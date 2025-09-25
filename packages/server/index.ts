@@ -5,17 +5,42 @@ import express, { Request, Response, NextFunction } from 'express';
 import { createServer as createViteServer } from 'vite';
 import type { ViteDevServer } from 'vite';
 import fs from 'fs';
+import { createProxyMiddleware } from 'http-proxy-middleware';
+import cookieParser from 'cookie-parser';
+
+import { createClientAndConnect } from './db';
+import reactionsController from './controllers/reactions';
 
 dotenv.config();
 const isDev = () => process.env.NODE_ENV === 'development';
 
 async function startServer() {
   const app = express();
-  app.use(cors());
+
+  app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  }));
+
+  app.use(express.json());
+
+  app.use(cookieParser());
+
+  app.use('/reactions', reactionsController);
+
+  app.use('/api/v2', createProxyMiddleware({
+    changeOrigin: true,
+    cookieDomainRewrite: {
+      '*': '',
+    },
+    target: 'https://ya-praktikum.tech/api/v2',
+    logger: console,
+  }));
+
   const port = Number(process.env.SERVER_PORT) || 3001;
   let vite: ViteDevServer | undefined;
   const serverDir = __dirname;
-  const clientRootPath = path.resolve(serverDir, '../../client');
+  const clientRootPath = path.resolve(serverDir, isDev() ? '../client' : '../../client');
   const clientDistPath = path.resolve(clientRootPath, 'dist');
   const ssrClientPath = path.resolve(clientRootPath, 'ssr-dist/ssr.cjs');
 
@@ -36,11 +61,13 @@ async function startServer() {
   if (!isDev()) {
     app.use('/assets', express.static(path.resolve(clientDistPath, 'assets')));
 
-    app.use(express.static(clientDistPath));
+    app.use(express.static(clientDistPath, { index: false }));
   }
 
   app.use('*', async (req: Request, res: Response, next: NextFunction) => {
     const url = req.originalUrl;
+
+    console.log(`[SSR] ${req.method} ${url}`);
 
     try {
       let template: string;
@@ -57,7 +84,7 @@ async function startServer() {
         );
         template = await vite!.transformIndexHtml(url, template);
       }
-      let render: (url: string) => Promise<{ html: string; state: any }>;
+      let render: (req: express.Request, res: express.Response) => Promise<{ html: string; state: any }>;
 
       if (!isDev()) {
         ({ render } = await import(ssrClientPath));
@@ -67,14 +94,18 @@ async function startServer() {
         ));
       }
 
-      const { html: appHtml, state } = await render(url);
+      const result = await render(req, res);
+
+      if (!result) {
+        return;
+      }
 
       const html = template
-        .replace('<!--ssr-outlet-->', appHtml)
+        .replace('<!--ssr-outlet-->', result.html)
         .replace(
           '<!--state-outlet-->',
           `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(
-            state,
+            result.state,
           )}</script>`,
         );
 
@@ -94,4 +125,5 @@ async function startServer() {
   });
 }
 
+createClientAndConnect();
 startServer();

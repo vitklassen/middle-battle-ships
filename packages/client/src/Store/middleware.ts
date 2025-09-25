@@ -1,5 +1,18 @@
 import { Middleware } from '@reduxjs/toolkit';
-import logger from 'redux-logger';
+
+export const logger: Middleware = (store) => (next) => (action) => {
+  // @ts-expect-error action type is unknown
+  console.groupCollapsed(`Action: ${action.type}`);
+  console.log('Previous State:', store.getState());
+  console.log('Action:', action);
+
+  const result = next(action);
+
+  console.log('Next State:', store.getState());
+  console.groupEnd();
+
+  return result;
+};
 
 export const asyncFunctionMiddleware: Middleware = (store) => (next) => (action) => {
   if (typeof action === 'function') {

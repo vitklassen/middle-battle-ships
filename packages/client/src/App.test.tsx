@@ -14,11 +14,9 @@ global.fetch = jest.fn(() => Promise.resolve({
 
 test('рендерит корректно', () => {
   render(
-    <MemoryRouter initialEntries={['/main']}>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </MemoryRouter>,
+    <Provider store={store}>
+      <App router={<MemoryRouter initialEntries={['/']} />} modalRoot={null} />
+    </Provider>,
   );
 
   screen.findByText('Main');

@@ -1,17 +1,20 @@
-import { useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router';
-import { Path, Router } from './Router';
 import { ErrorSnackbar } from './Components/ErrorSnackbar';
-import { getProfile, setProfile, loadThemeInfo } from './Features/profile';
+import { getProfile, setProfile } from './Features/profile';
 import authApi from './api/authApi';
 import { useSelector } from './Store';
 import rootStyles from './index.module.css';
+import { ErrorBoundary } from './Common/Layouts/ErrorBoundary';
+import { Error } from './Components/Error';
 
-function App() {
+type AppProps = {
+  router: ReactNode;
+  modalRoot: HTMLElement | null
+}
+
+function App({ router, modalRoot }: AppProps) {
   const dispatch = useDispatch();
-  const { pathname } = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchServerData = async () => {
@@ -36,7 +39,6 @@ function App() {
         redirect_uri: window.location.origin,
       }).then((res): void => {
         getProfile().then((profile) => {
-          profile = loadThemeInfo(profile);
           dispatch(setProfile(profile));
         });
       });
@@ -46,21 +48,6 @@ function App() {
   const profileInfo = useSelector((state) => state.profile, {
     devModeChecks: { stabilityCheck: 'always' },
   });
-
-  useEffect(() => {
-    getProfile()
-      .then((profile) => {
-        profile = loadThemeInfo(profile);
-        dispatch(setProfile(profile));
-        if (pathname === Path.SignIn || pathname === Path.SignUp) {
-          navigate(Path.Main, { replace: true });
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-        dispatch(setProfile(null));
-      });
-  }, []);
 
   useEffect(() => {
     const root = document.getElementById('root') as HTMLElement;
@@ -73,10 +60,17 @@ function App() {
   }, [profileInfo]);
 
   return (
-    <div className="App">
-      <Router />
-      <ErrorSnackbar />
-    </div>
+    <ErrorBoundary
+      errorComponent={(
+        <Error
+          title="Произошла ошибка"
+          description="Попробуйте перезагрузить страницу"
+        />
+      )}
+    >
+      {router}
+      <ErrorSnackbar modalRoot={modalRoot} />
+    </ErrorBoundary>
   );
 }
 

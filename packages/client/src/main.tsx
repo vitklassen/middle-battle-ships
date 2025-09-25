@@ -1,32 +1,24 @@
 import { hydrateRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './Store';
-import App from './App';
 import './index.module.css';
 import './nullify.css';
 // @ts-expect-error: No types available for service worker
 import { registerSW } from './registerServiceWorker';
-import { ErrorBoundary } from './Common/Layouts/ErrorBoundary';
-import { Error } from './Pages';
+import { routes } from './Router';
+import App from './App';
+
+const router = createBrowserRouter(routes);
 
 const container = document.getElementById('root') as HTMLElement;
+const modalRoot = document.getElementById('modal');
+
 hydrateRoot(
   container,
-  <BrowserRouter>
-    <ErrorBoundary
-      errorComponent={(
-        <Error
-          title="Произошла ошибка"
-          description="Попробуйте перезагрузить страницу"
-        />
-      )}
-    >
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </ErrorBoundary>
-  </BrowserRouter>,
+  <Provider store={store}>
+    <App router={<RouterProvider router={router} />} modalRoot={modalRoot} />
+  </Provider>,
 );
 
-registerSW();
+// registerSW();

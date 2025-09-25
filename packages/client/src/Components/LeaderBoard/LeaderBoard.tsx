@@ -1,4 +1,3 @@
-import { useSelector } from 'react-redux';
 import { clsx } from 'clsx';
 import { useEffect, useState } from 'react';
 import { sliceLeaderboard } from './utils/sliceLeaderboard';
@@ -6,6 +5,7 @@ import styles from './LeaderBoard.module.css';
 import { LeaderBoardList } from './LeaderBoardList';
 import leaderBoardApi from '../../api/leaderBoardApi';
 import { LeaderboardItem } from './types';
+import { useSelector } from '../../Store';
 
 type Props = {
   className?: string
@@ -19,7 +19,7 @@ const params = {
 
 export const LeaderBoard: React.FC<Props> = ({ className }: Props) => {
   const [loading, setLoading] = useState(true);
-  const { email } = useSelector((state) => state.profile.value);
+  const profile = useSelector((state) => state.profile.value);
   const [leaderboard, setLeaderboard] = useState<Array<LeaderboardItem>>([]);
   const [leaderboardAfterLimit, setLeaderboardAfterLimit] = useState<
     Array<LeaderboardItem>
@@ -27,10 +27,14 @@ export const LeaderBoard: React.FC<Props> = ({ className }: Props) => {
 
   useEffect(() => {
     leaderBoardApi.getAllLeaderBoard(params).then((data) => {
+      if (!profile) {
+        return;
+      }
+
       const { leaderboard, leaderboardAfterLimit } = sliceLeaderboard(
         Object.values(data),
         params.limit,
-        email,
+        profile.email,
       );
 
       setLeaderboard(leaderboard);
