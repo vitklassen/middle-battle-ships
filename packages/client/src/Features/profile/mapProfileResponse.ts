@@ -11,4 +11,5 @@ export const mapProfileResponse = (response: GetProfileResponse): Profile => ({
   avatar: response.avatar,
   email: response.email,
   isThemeAlt: false,
+  positions: null,
 });
