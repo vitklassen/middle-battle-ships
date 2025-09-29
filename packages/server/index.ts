@@ -23,12 +23,7 @@ async function startServer() {
     credentials: true,
   }));
 
-  app.use(express.json());
-
   app.use(cookieParser());
-
-  app.use('/reactions', reactionsController);
-  app.use('/theme', themeController);
 
   app.use('/api/v2', createProxyMiddleware({
     changeOrigin: true,
@@ -38,6 +33,11 @@ async function startServer() {
     target: 'https://ya-praktikum.tech/api/v2',
     logger: console,
   }));
+
+  app.use(express.json());
+
+  app.use('/reactions', reactionsController);
+  app.use('/theme', themeController);
 
   const port = Number(process.env.SERVER_PORT) || 3001;
   let vite: ViteDevServer | undefined;
