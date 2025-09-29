@@ -36,4 +36,8 @@ export class User extends Model {
     @AllowNull(false)
     @Column(DataType.STRING(50))
       login: string | undefined;
+
+    @AllowNull(false)
+    @Column(DataType.STRING)
+      theme: boolean | undefined;
 }

@@ -10,6 +10,7 @@ import cookieParser from 'cookie-parser';
 
 import { createClientAndConnect } from './db';
 import reactionsController from './controllers/reactions';
+import themeController from './controllers/themes';
 
 dotenv.config();
 const isDev = () => process.env.NODE_ENV === 'development';
@@ -36,6 +37,7 @@ async function startServer() {
   app.use(express.json());
 
   app.use('/reactions', reactionsController);
+  app.use('/theme', themeController);
 
   const port = Number(process.env.SERVER_PORT) || 3001;
   let vite: ViteDevServer | undefined;

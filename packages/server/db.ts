@@ -32,6 +32,7 @@ async function ensureData() {
       phone: '+7 (987) 654-01-23',
       email: 'john@mail.com',
       login: 'johnsmith',
+      theme: false,
     },
   });
 
