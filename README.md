@@ -82,3 +82,7 @@
 
 Если вам понадобится только один сервис, просто уточните какой в команде
 `docker compose up {sevice_name}`, например `docker compose up server`
+
+## Для командного зачёта №2
+
+[Ссылка на видео](https://www.loom.com/share/f82f3d9f653546919f1c8d4bed3d7ae7?sid=467f9116-0ba3-4368-a3ee-04345d3bb2e8)
