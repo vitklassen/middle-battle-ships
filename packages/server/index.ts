@@ -11,6 +11,7 @@ import cookieParser from 'cookie-parser';
 import { createClientAndConnect } from './db';
 import reactionsController from './controllers/reactions';
 import themeController from './controllers/themes';
+import forumController from './controllers/forum';
 
 dotenv.config();
 const isDev = () => process.env.NODE_ENV === 'development';
@@ -18,31 +19,40 @@ const isDev = () => process.env.NODE_ENV === 'development';
 async function startServer() {
   const app = express();
 
-  app.use(cors({
-    origin: 'http://localhost:3000',
-    credentials: true,
-  }));
+  app.use(
+    cors({
+      origin: 'http://localhost:3000',
+      credentials: true,
+    }),
+  );
 
   app.use(cookieParser());
 
-  app.use('/api/v2', createProxyMiddleware({
-    changeOrigin: true,
-    cookieDomainRewrite: {
-      '*': '',
-    },
-    target: 'https://ya-praktikum.tech/api/v2',
-    logger: console,
-  }));
+  app.use(
+    '/api/v2',
+    createProxyMiddleware({
+      changeOrigin: true,
+      cookieDomainRewrite: {
+        '*': '',
+      },
+      target: 'https://ya-praktikum.tech/api/v2',
+      logger: console,
+    }),
+  );
 
   app.use(express.json());
 
   app.use('/reactions', reactionsController);
   app.use('/theme', themeController);
+  app.use('/topics', forumController);
 
   const port = Number(process.env.SERVER_PORT) || 3001;
   let vite: ViteDevServer | undefined;
   const serverDir = __dirname;
-  const clientRootPath = path.resolve(serverDir, isDev() ? '../client' : '../../client');
+  const clientRootPath = path.resolve(
+    serverDir,
+    isDev() ? '../client' : '../../client',
+  );
   const clientDistPath = path.resolve(clientRootPath, 'dist');
   const ssrClientPath = path.resolve(clientRootPath, 'ssr-dist/ssr.cjs');
 
@@ -86,7 +96,10 @@ async function startServer() {
         );
         template = await vite!.transformIndexHtml(url, template);
       }
-      let render: (req: express.Request, res: express.Response) => Promise<{ html: string; state: any }>;
+      let render: (
+        req: express.Request,
+        res: express.Response
+      ) => Promise<{ html: string; state: any }>;
 
       if (!isDev()) {
         ({ render } = await import(ssrClientPath));
