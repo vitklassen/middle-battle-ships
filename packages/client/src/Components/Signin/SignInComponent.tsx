@@ -7,7 +7,9 @@ import styles from './SignInComponent.module.css';
 import { SignInUpForm } from '../SignInUpForm';
 import { submitData } from '../SignInUpForm/types';
 import authApi from '../../api/authApi';
-import { getProfile, setProfile, loadThemeInfo } from '../../Features/profile';
+import {
+  getProfile, setProfile, loadThemeInfo, setPositions,
+} from '../../Features/profile';
 import { Path } from '../../Router';
 
 export const SignInComponent: FC = () => {
@@ -20,6 +22,12 @@ export const SignInComponent: FC = () => {
         profile = loadThemeInfo(profile);
         dispatch(setProfile(profile));
         navigate(Path.Main);
+        const handleSuccess = (event: GeolocationPosition) => {
+          const { latitude, longitude } = event.coords;
+          const positions = { latitude, longitude };
+          dispatch(setPositions({ positions }));
+        };
+        navigator.geolocation.getCurrentPosition(handleSuccess);
       });
     });
   };

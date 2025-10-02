@@ -8,6 +8,7 @@ export type Profile = {
   email: string
   login: string
   isThemeAlt: boolean
+  positions: Record <string, number> | null
 }
 
 export interface ProfileState {

@@ -82,3 +82,7 @@
  1. Полная пересборка: docker-compose -f docker-compose.prod.yml build --no-cache
  2. Запуск: docker-compose -f docker-compose.prod.yml up -d
  3. Прекращение работы: docker-compose -f docker-compose.prod.yml down
+
+## Для командного зачёта №2
+
+[Ссылка на видео](https://www.loom.com/share/f82f3d9f653546919f1c8d4bed3d7ae7?sid=467f9116-0ba3-4368-a3ee-04345d3bb2e8)

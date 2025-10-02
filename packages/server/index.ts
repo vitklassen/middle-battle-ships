@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 
 import { createClientAndConnect } from './db';
 import reactionsController from './controllers/reactions';
+import themeController from './controllers/themes';
 
 dotenv.config();
 
@@ -33,6 +34,7 @@ async function startServer() {
   app.use(express.json());
 
   app.use('/reactions', reactionsController);
+  app.use('/theme', themeController);
 
   const port = Number(process.env.SERVER_PORT) || 3001;
 
