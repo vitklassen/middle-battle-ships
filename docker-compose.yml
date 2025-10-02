@@ -3,10 +3,12 @@ services:
   postgres:
     image: postgres:15-alpine
     container_name: myapp-postgres
+    env_file:
+      - .env
     environment:
-      POSTGRES_DB: myapp_db
-      POSTGRES_USER: myapp_user
-      POSTGRES_PASSWORD: myapp_password
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -18,43 +20,39 @@ services:
   # Серверное приложение
   server:
     build:
-      context: /packages/server
-      dockerfile: DockerFile
+      context: ./packages/server
+      dockerfile: Dockerfile
     container_name: myapp-server
+    env_file:
+      - .env
     environment:
-      DATABASE_URL: postgresql://myapp_user:myapp_password@postgres:5432/myapp_db
-      NODE_ENV: development
+      DATABASE_URL: ${DATABASE_URL}
+      NODE_ENV: ${NODE_ENV}
+      SERVER_PORT: ${SERVER_PORT}
     ports:
       - "3001:3001"
-    volumes:
-       - .:/app
-       - /app/node_modules
-       - /app/packages/server/node_modules
     depends_on:
       - postgres
     networks:
       - myapp-network
-    command: yarn dev
 
   # Клиентское приложение
   client:
     build:
-      context: packages/client
-      dockerfile: DockerFile
+      context: ./packages/client
+      dockerfile: Dockerfile
+      target: development
     container_name: myapp-client
+    env_file:
+      - .env
     environment:
-      REACT_APP_API_URL: http://localhost:3001
+      REACT_APP_API_URL: ${REACT_APP_API_URL}
     ports:
       - "3000:3000"
-    volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/packages/client/node_modules
     depends_on:
       - server
     networks:
       - myapp-network
-    command: yarn start
 
 volumes:
   postgres_data:
