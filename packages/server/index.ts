@@ -21,7 +21,7 @@ async function startServer() {
           ? ['http://localhost:8080', 'http://client:80']
           : ['http://localhost:3000', 'http://127.0.0.1:3000'],
       credentials: true,
-    })
+    }),
   );
 
   app.use(cookieParser());
@@ -35,7 +35,7 @@ async function startServer() {
       },
       target: 'https://ya-praktikum.tech/api/v2',
       logger: console,
-    })
+    }),
   );
 
   app.use(express.json());
@@ -64,7 +64,7 @@ async function startServer() {
 
     if (process.env.NODE_ENV === 'production') {
       console.log(
-        `[SERVER] Serving API only, HTML should be served by nginx: ${req.method} ${url}`
+        `[SERVER] Serving API only, HTML should be served by nginx: ${req.method} ${url}`,
       );
       return res.status(404).json({
         error: 'Not found - please use client app',
