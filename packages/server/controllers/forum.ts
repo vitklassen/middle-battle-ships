@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import { Comment, Topic } from '../models';
+import { col, fn } from 'sequelize';
+import { Comment, Topic, User } from '../models';
 
 const router = Router();
 
@@ -21,13 +22,36 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    await Topic.create({
+    const topic = await Topic.create({
       title,
       content,
       owner_id: ownerId,
     });
 
-    res.send('OK');
+    const createdTopic = await Topic.findOne({
+      where: { id: topic.id },
+      raw: true,
+      include: {
+        model: User,
+        required: true,
+        foreignKey: 'owner_id',
+        attributes: [],
+      },
+      attributes: [
+        'id',
+        'title',
+        'content',
+        'User.first_name',
+        'User.last_name',
+        'User.avatar',
+      ],
+    });
+
+    const comments = await Comment.findAll({
+      where: { topic_id: topic.id },
+    });
+
+    res.send({ ...createdTopic, comments_count: comments.length });
   } catch (e) {
     console.error(e);
 
@@ -194,7 +218,39 @@ router.post('/comment', async (req, res) => {
 // получение всех топиков
 router.get('/', async (_req, res) => {
   try {
-    const topics = await Topic.findAll();
+    const topics = await Topic.findAll({
+      raw: true,
+      include: [
+        {
+          model: Comment,
+          attributes: [],
+          duplicating: false,
+        },
+        {
+          model: User,
+          attributes: [],
+        },
+      ],
+      group: [
+        'Topic.id',
+        'Topic.title',
+        'Topic.content',
+        'User.id',
+        'User.first_name',
+        'User.first_name',
+        'User.avatar',
+      ],
+      order: [['id', 'ASC']],
+      attributes: [
+        'id',
+        'title',
+        'content',
+        [fn('COUNT', col('Comments.id')), 'comments_count'],
+        'User.last_name',
+        'User.first_name',
+        'User.avatar',
+      ],
+    });
 
     res.send(topics);
   } catch (e) {
@@ -221,6 +277,21 @@ router.get('/:id', async (req, res) => {
   try {
     const topic = await Topic.findOne({
       where: { id: topicId },
+      raw: true,
+      include: {
+        model: User,
+        required: true,
+        foreignKey: 'owner_id',
+        attributes: [],
+      },
+      attributes: [
+        'id',
+        'title',
+        'content',
+        'User.first_name',
+        'User.last_name',
+        'User.avatar',
+      ],
     });
 
     if (topic === null) {
@@ -229,7 +300,11 @@ router.get('/:id', async (req, res) => {
       return;
     }
 
-    res.send(topic);
+    const comments = await Comment.findAll({
+      where: { topic_id: topicId },
+    });
+
+    res.send({ ...topic, comments_count: comments.length });
   } catch (e) {
     console.error(e);
 

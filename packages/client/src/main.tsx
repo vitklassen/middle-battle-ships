@@ -5,7 +5,7 @@ import { store } from './Store';
 import './index.module.css';
 import './nullify.css';
 // @ts-expect-error: No types available for service worker
-import { registerSW } from './registerServiceWorker';
+import { registerSW, unregisterSW } from './registerServiceWorker';
 import { routes } from './Router';
 import App from './App';
 
@@ -21,4 +21,4 @@ hydrateRoot(
   </Provider>,
 );
 
-// registerSW();
+unregisterSW();

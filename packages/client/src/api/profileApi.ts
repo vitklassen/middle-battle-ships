@@ -3,7 +3,7 @@ import { GetProfileResponse } from './types';
 
 export class ProfileApi {
   changePassword(oldPassword: string, newPassword: string) {
-    return apiInstance.put('user/password', {
+    return apiInstance.put('/api/v2/user/password', {
       data: {
         oldPassword,
         newPassword,
@@ -15,7 +15,7 @@ export class ProfileApi {
     const formData = new FormData();
     formData.append('avatar', avatar);
 
-    return apiInstance.put<GetProfileResponse>('user/profile/avatar', {
+    return apiInstance.put<GetProfileResponse>('/api/v2/user/profile/avatar', {
       formData,
     });
   }

@@ -9,7 +9,8 @@
 }
 
 .buttonPrimary {
-  background-color: var(--color-white);
+  background-color: var(--color-basic);
+  color: var(--color-white);
 }
 
 .button:hover,

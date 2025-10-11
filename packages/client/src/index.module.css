@@ -7,8 +7,8 @@
   font-family: 'RobotoMono Bold';
   src: url('./assets//fonts/RobotoMono-Bold.ttf') format('truetype');
 }
-  
-:global(body) {
+
+body {
   font-family: 'Inter', 'sans-serif';
 
   --color-basic: rgb(27, 27, 27);

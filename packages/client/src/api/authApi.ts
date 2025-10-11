@@ -1,57 +1,36 @@
-import { Iargs } from './apiInterfaces';
 import apiInstance from './fetch';
-import BaseAPI from './baseApi';
 import { GetAppID, GetProfileResponse } from './types';
 
-export class AuthAPI extends BaseAPI {
-  _create<R>(args: Iargs) {
-    // post
-    const { path, dataToSend } = args;
-    return apiInstance.post<R>(path, {
-      data: dataToSend,
-    });
-  }
+export interface Iargs {
+  // затычка ленивой типизации
+  [key: string]: string;
+}
 
-  _request<R>(args: Iargs) {
-    // get
-    const { path, dataToSend, cookie } = args;
-    if (dataToSend) {
-      return apiInstance.get<R>(path, {
-        data: dataToSend,
-        headers: {
-          cookie,
-        },
-      });
-    }
-    return apiInstance.get<R>(path, {
+export class AuthAPI {
+  getUserInfo(cookie?: string) {
+    return apiInstance.get<GetProfileResponse>('/api/v2/auth/user', {
       headers: {
         cookie,
       },
     });
   }
 
-  register(args: Iargs) {
-    return this._create({ path: 'auth/signup', dataToSend: args });
-  }
-
   login(args: Iargs) {
-    return this._create({ path: 'auth/signin', dataToSend: args });
-  }
-
-  getUserInfo(cookie?: string) {
-    return this._request<GetProfileResponse>({ path: 'auth/user', cookie });
+    return apiInstance.post('/api/v2/auth/signin', { data: args });
   }
 
   logout() {
-    return this._create({ path: 'auth/logout' });
+    return apiInstance.post('/api/v2/auth/logout');
   }
 
   getYandexOAuthID(args: Iargs) {
-    return this._request<GetAppID>({ path: 'oauth/yandex/service-id', dataToSend: args });
+    return apiInstance.get<GetAppID>('/api/v2/oauth/yandex/service-id', {
+      data: args,
+    });
   }
 
   signInUpWithYandex(args: Iargs) {
-    return this._create({ path: 'oauth/yandex', dataToSend: args });
+    return apiInstance.post('/api/v2/oauth/yandex', { data: args });
   }
 }
 

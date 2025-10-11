@@ -1,5 +1,5 @@
-import { Profile } from '../../../Features/profile/types';
-import avatarPlaceholder from '../../../assets/images/profile.png';
+import { Profile } from '../../Features/profile/types';
+import avatarPlaceholder from '../../assets/images/profile.png';
 
 export function getAvatarUrl({ avatar }: Pick<Profile, 'avatar'>) {
   if (!avatar) {

@@ -16,6 +16,5 @@ export const loadThemeInfo = (profile: Profile) => {
     const isThemeAlt = false;
     profile = { ...profile, isThemeAlt };
   }
-  console.log(profile);
   return profile;
 };

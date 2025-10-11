@@ -9,7 +9,7 @@ import { Button } from '../../Common/Blocks/Button';
 import { UploadAvatarModal } from './UploadAvatarModal';
 import styles from './ProfileCard.module.css';
 import { ChangePasswordModal } from './ChangePasswordModal';
-import { getAvatarUrl } from './utils/getAvatarUrl';
+import { getAvatarUrl } from '../../Common/utils/getAvatarUrl';
 import { useSelector } from '../../Store';
 import authApi from '../../api/authApi';
 import { resetProfile } from '../../Features/profile';

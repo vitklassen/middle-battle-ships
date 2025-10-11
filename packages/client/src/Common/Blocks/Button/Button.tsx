@@ -3,13 +3,13 @@ import { clsx } from 'clsx';
 import styles from './Button.module.css';
 
 type Props = {
-  mode?: 'primary' | 'secondary'
-  size?: 'large' | 'medium'
-  stretched?: boolean
-  onClick?: React.MouseEventHandler
-  className?: string
-  type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type']
-}
+  mode?: 'primary' | 'secondary';
+  size?: 'large' | 'medium';
+  stretched?: boolean;
+  onClick?: React.MouseEventHandler;
+  className?: string;
+  type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
+};
 
 export const Button: React.FC<PropsWithChildren<Props>> = ({
   mode = 'primary',
