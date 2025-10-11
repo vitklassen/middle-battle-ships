@@ -10,6 +10,6 @@ export async function initPage({ state, dispatch, cookie }: PageInitArgs) {
     .then((profile) => dispatch(setProfile(profile)))
     .catch((error) => {
       dispatch(setProfile(null));
-      return dispatch(setError(error));
+      return dispatch(setError({ reason: error.reason || error.message, status: error.status }));
     });
 }

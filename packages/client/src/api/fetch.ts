@@ -86,7 +86,6 @@ export class HTTP {
 
     const newOptions: RequestInit = {
       method,
-      body: isGet ? undefined : body,
       headers: reqHeaders,
       credentials: credentials || 'include',
     };
