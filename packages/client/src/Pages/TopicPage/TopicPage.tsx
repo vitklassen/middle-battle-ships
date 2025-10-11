@@ -1,4 +1,5 @@
 import { useParams } from 'react-router';
+import { useState } from 'react';
 import { authorizationChecker } from '../../Components/AuthorizationChecker';
 import { TopicView } from '../../Components/TopicView';
 import { initPage, PageInitArgs, usePage } from '../../Router';
@@ -7,6 +8,7 @@ import { Header } from '../../Components/Header';
 import styles from './TopicPage.module.css';
 import { getTopic, setTopic } from '../../Features/forum';
 import { setError } from '../../Features/error';
+import { AddCommentModal } from './AddCommentModal';
 
 export const initTopicPage = async (args: PageInitArgs) => {
   await initPage(args);
@@ -25,7 +27,7 @@ export const initTopicPage = async (args: PageInitArgs) => {
 export const TopicPage = authorizationChecker(() => {
   usePage({ initPage: initTopicPage });
 
-  const { id } = useParams();
+  const [isAddCommentModalVisible, setIsAddCommentModalVisible] = useState(false);
 
   const topic = useSelector((state) => state.forum.currentTopic);
 
@@ -35,9 +37,10 @@ export const TopicPage = authorizationChecker(() => {
 
   return (
     <>
+      {isAddCommentModalVisible && <AddCommentModal setClosed={() => setIsAddCommentModalVisible(false)} />}
       <Header />
       <main className={styles.root}>
-        <TopicView topic={topic} />
+        <TopicView topic={topic} onAddCommentClick={() => setIsAddCommentModalVisible(true)} />
       </main>
     </>
   );
