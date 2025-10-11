@@ -56,9 +56,13 @@ export type Comment = {
   id: number;
   parent_id: number | null;
   content: string;
-  first_name: string;
-  last_name: string;
-  avatar: string;
+  createdAt: string;
+  User: {
+    first_name: string;
+    last_name: string;
+    avatar: string | null;
+  };
+  Reactions?: Array<{ code: number; count: number; }>
 }
 
 export type GetTopicResponse = Topic & {
@@ -69,4 +73,9 @@ export type AddCommentRequest = {
   content: string;
   topicId: number;
   commentId?: number;
+}
+
+export type AddReactionRequest = {
+  comment_id: number;
+  code: string;
 }

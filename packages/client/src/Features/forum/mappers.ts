@@ -22,11 +22,13 @@ export function mapComment(comment: Comment): TComment {
     id: comment.id,
     parentId: comment.parent_id,
     content: comment.content,
+    createdAt: comment.createdAt,
     owner: {
-      firstName: comment.first_name,
-      lastName: comment.last_name,
-      avatar: comment.avatar,
+      firstName: comment.User.first_name,
+      lastName: comment.User.last_name,
+      avatar: comment.User.avatar,
     },
+    reactions: comment.Reactions,
   };
 }
 

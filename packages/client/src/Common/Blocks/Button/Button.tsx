@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { forwardRef, PropsWithChildren, RefObject } from 'react';
 import { clsx } from 'clsx';
 import styles from './Button.module.css';
 
@@ -9,6 +9,7 @@ type Props = {
   onClick?: React.MouseEventHandler;
   className?: string;
   type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
+  rootRef?: RefObject<HTMLElement>;
 };
 
 export const Button: React.FC<PropsWithChildren<Props>> = ({
@@ -18,9 +19,11 @@ export const Button: React.FC<PropsWithChildren<Props>> = ({
   children,
   onClick,
   type = 'button',
+  rootRef,
   className,
 }) => (
   <button
+    ref={rootRef}
     /* eslint-disable react/button-has-type */
     type={type}
     /* eslint-enable react/button-has-type */

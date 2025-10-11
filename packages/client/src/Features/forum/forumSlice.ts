@@ -1,13 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
-  ForumState, TComment, TTopic, TTopicPreview,
+  ForumState, Reaction, TComment, TTopic, TTopicPreview,
 } from './types';
 import forumApi from '../../api/forumApi';
 import {
   mapComment, mapGetTopicResponse, mapGetTopicsResponse, mapTopic,
 } from './mappers';
-import { AddCommentRequest, CreateTopicRequest, GetTopicRequest } from '../../api/types';
+import {
+  AddCommentRequest, AddReactionRequest, CreateTopicRequest, GetTopicRequest,
+} from '../../api/types';
 
 const initialState: ForumState = {};
 
@@ -31,8 +33,19 @@ export const forumSlice = createSlice({
       if (state.currentTopic) {
         state.currentTopic = {
           ...state.currentTopic,
-          comments: [...state.currentTopic.comments, action.payload],
+          comments: [...state.currentTopic.comments, action.payload]
+            .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1)),
           commentCount: state.currentTopic.commentCount + 1,
+        };
+      }
+    },
+    setComment: (state, action: PayloadAction<TComment>) => {
+      if (state.currentTopic) {
+        state.currentTopic = {
+          ...state.currentTopic,
+          comments: [...state.currentTopic.comments
+            .filter((comment) => comment.id !== action.payload.id), action.payload]
+            .sort((a, b) => (a.createdAt < b.createdAt ? -1 : 1)),
         };
       }
     },
@@ -40,7 +53,7 @@ export const forumSlice = createSlice({
 });
 
 export const {
-  setTopics, addTopic, setTopic, addComment,
+  setTopics, addTopic, setTopic, addComment, setComment,
 } = forumSlice.actions;
 
 export const getTopics = async (cookie?: string) => {
@@ -62,5 +75,7 @@ export const createComment = async (request: AddCommentRequest, cookie?: string)
   const comment = await forumApi.addComment(request, cookie);
   return mapComment(comment);
 };
+
+export const addReaction = async (request: AddReactionRequest, cookie?: string) => forumApi.addReaction(request, cookie);
 
 export const forumReducer = forumSlice.reducer;

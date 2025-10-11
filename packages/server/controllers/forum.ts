@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { col, fn } from 'sequelize';
-import { Comment, Topic, User } from '../models';
+import {
+  Comment, Reaction, Topic, User,
+} from '../models';
 
 const router = Router();
 
@@ -333,15 +335,21 @@ router.get('/:id', async (req, res) => {
     }
 
     const comments = await Comment.findAll({
-      where: { topic_id: topicId },
-      raw: true,
-      include: {
-        model: User,
-        required: true,
-        foreignKey: 'owner_id',
-        attributes: [],
-      },
-      attributes: ['id', 'parent_id', 'updatedAt', 'content', 'User.first_name', 'User.last_name', 'User.avatar'],
+      include: [
+        {
+          model: User,
+          attributes: ['first_name', 'last_name', 'avatar'],
+        },
+        {
+          model: Reaction,
+          attributes: ['code', [fn('COUNT', col('Reactions.code')), 'count']],
+        }],
+      group: ['Comment.id', 'Reactions.id', 'User.id'],
+      attributes: [
+        'id',
+        'parent_id',
+        'createdAt',
+        'content'],
     });
 
     res.send({ ...topic, comments_count: comments.length, comments });

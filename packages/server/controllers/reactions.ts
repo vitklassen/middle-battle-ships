@@ -33,16 +33,20 @@ router.post('/', async (req, res) => {
     }
 
     const reaction = await Reaction.findOne({
-      where: { [Op.and]: [{ owner_id: ownerId }, { code: numericCode }] },
+      where: { [Op.and]: [{ owner_id: ownerId }, { code: numericCode }, { comment_id: commentId }] },
     });
 
-    if (!reaction) {
-      await Reaction.create({
-        code: numericCode,
-        comment_id: commentId,
-        owner_id: ownerId,
-      });
+    if (reaction) {
+      res.status(400);
+      res.send({ reason: 'User already set this reaction ' });
+      return;
     }
+
+    await Reaction.create({
+      code: numericCode,
+      comment_id: commentId,
+      owner_id: ownerId,
+    });
 
     res.send('OK');
   } catch (e) {

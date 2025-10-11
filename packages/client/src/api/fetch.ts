@@ -134,7 +134,7 @@ export class HTTP {
         }),
       );
       if (error.status === 500) {
-        window.location.href = '/error';
+        // window.location.href = '/error';
       }
       clearTimeout(timeoutId);
       throw error;

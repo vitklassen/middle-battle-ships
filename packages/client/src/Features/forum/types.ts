@@ -10,15 +10,22 @@ export type TTopicPreview = {
   };
 };
 
+export type Reaction = {
+  code: number;
+  count: number;
+}
+
 export type TComment = {
   id: number;
   parentId: number | null;
   content: string;
+  createdAt: string;
   owner: {
     firstName: string;
     lastName: string;
     avatar: string | null;
-  }
+  },
+  reactions?: Reaction[];
 }
 
 export type TTopic = TTopicPreview & {
