@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import { Button } from '../../Common/Blocks/Button';
 import { authorizationChecker } from '../../Components/AuthorizationChecker';
 import { Header } from '../../Components/Header';
@@ -32,6 +33,12 @@ export const ForumPage = authorizationChecker(() => {
 
   const topics = useSelector((state) => state.forum.topics);
 
+  const navigate = useNavigate();
+
+  const navigateToTopicPage = (id: number) => {
+    navigate(`/topic/${id}`);
+  };
+
   return (
     <>
       {isCreateTopicModalVisible && (
@@ -46,7 +53,7 @@ export const ForumPage = authorizationChecker(() => {
           <Button onClick={() => setIsCreateTopicModalVisible(true)}>Создать тему</Button>
         </div>
         {!topics ? '...Loading' : topics.map((topic) => (
-          <TopicPreview key={topic.id} topic={topic} />
+          <TopicPreview key={topic.id} topic={topic} onClick={navigateToTopicPage} />
         ))}
       </main>
     </>

@@ -47,3 +47,20 @@ export type CreateTopicRequest = {
   title: string;
   content: string;
 }
+
+export type GetTopicRequest = {
+  id: number;
+}
+
+export type Comment = {
+  id: number;
+  parent_id: number | null;
+  content: string;
+  first_name: string;
+  last_name: string;
+  avatar: string;
+}
+
+export type GetTopicResponse = Topic & {
+  comments: Comment[];
+}

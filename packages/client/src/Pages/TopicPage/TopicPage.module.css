@@ -1,0 +1,16 @@
+.root {
+    padding: 100px 12px 0;
+    background-color: var(--color-primary);
+    height: 100vh;
+}
+
+.title {
+    padding-bottom: 16px;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}

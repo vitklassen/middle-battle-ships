@@ -268,7 +268,7 @@ router.get('/', async (_req, res) => {
 router.get('/:id', async (req, res) => {
   const { id: topicId } = req.params;
 
-  if (!topicId || typeof topicId !== 'number') {
+  if (!topicId || typeof Number(topicId) !== 'number') {
     res.status(400);
     res.send({ status: 400, reason: 'Invalid topic ID' });
     return;
@@ -302,9 +302,17 @@ router.get('/:id', async (req, res) => {
 
     const comments = await Comment.findAll({
       where: { topic_id: topicId },
+      raw: true,
+      include: {
+        model: User,
+        required: true,
+        foreignKey: 'owner_id',
+        attributes: [],
+      },
+      attributes: ['id', 'parent_id', 'owner_id', 'updatedAt', 'content', 'User.first_name', 'User.last_name', 'User.avatar'],
     });
 
-    res.send({ ...topic, comments_count: comments.length });
+    res.send({ ...topic, comments_count: comments.length, comments });
   } catch (e) {
     console.error(e);
 

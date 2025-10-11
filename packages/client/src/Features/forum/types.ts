@@ -1,4 +1,4 @@
-export type TTopic = {
+export type TTopicPreview = {
   id: number;
   title: string;
   content: string;
@@ -10,6 +10,22 @@ export type TTopic = {
   };
 };
 
+export type Comment = {
+  id: number;
+  parentId: number | null;
+  content: string;
+  owner: {
+    firstName: string;
+    lastName: string;
+    avatar: string | null;
+  }
+}
+
+export type TTopic = TTopicPreview & {
+  comments: Comment[];
+};
+
 export type ForumState = {
-  topics?: TTopic[];
+  topics?: TTopicPreview[];
+  currentTopic?: TTopic | null;
 };

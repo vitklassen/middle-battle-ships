@@ -9,7 +9,7 @@ export enum Path {
   Main = '/',
   Leaderboard = '/leaderboard',
   Forum = '/forum',
-  Topic = '/topic',
+  Topic = '/topic/:id',
 }
 
 export type PageInitArgs = {

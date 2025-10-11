@@ -1,14 +1,15 @@
 import { Card } from '../../Common/Blocks/Card';
 import { getAvatarUrl } from '../../Common/utils/getAvatarUrl';
-import { TTopic } from '../../Features/forum';
+import { TTopicPreview } from '../../Features/forum';
 import styles from './TopicPreview.module.css';
 
 type Props = {
-  topic: TTopic;
+  topic: TTopicPreview;
+  onClick?: (id: number) => void;
 };
 
-export const TopicPreview = ({ topic }: Props) => (
-  <Card>
+export const TopicPreview = ({ topic, onClick }: Props) => (
+  <Card onClick={onClick && (() => onClick(topic.id))}>
     <p>
       <img src={getAvatarUrl(topic.owner)} alt="" className={styles.avatar} />
       {topic.owner.firstName}
