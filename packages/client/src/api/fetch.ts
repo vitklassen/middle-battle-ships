@@ -142,9 +142,5 @@ export class HTTP {
   };
 }
 
-const BASE_URL = process.env.NODE_ENV === 'production'
-  ? '/api/v2/'
-  : 'http://localhost:3001/api/v2/';
-
-const apiInstance = new HTTP(BASE_URL);
+const apiInstance = new HTTP('http://localhost:3001/api/v2/');
 export default apiInstance;

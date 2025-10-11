@@ -6,4 +6,3 @@ node_modules/
 dist
 tmp
 ssr-dist
-.env

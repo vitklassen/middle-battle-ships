@@ -18,9 +18,7 @@ function App({ router, modalRoot }: AppProps) {
 
   useEffect(() => {
     const fetchServerData = async () => {
-      const url = process.env.NODE_ENV === 'production'
-        ? '/api'
-        : `http://localhost:${__SERVER_PORT__ || 3001}/api`;
+      const url = `http://localhost:${__SERVER_PORT__ || 3000} `;
       const response = await fetch(url);
       const data = await response.json();
     };
