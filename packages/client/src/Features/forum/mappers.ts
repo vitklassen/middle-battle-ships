@@ -1,5 +1,7 @@
-import { GetTopicResponse, GetTopicsResponse, Topic } from '../../api/types';
-import { TTopic, TTopicPreview } from './types';
+import {
+  Comment, GetTopicResponse, GetTopicsResponse, Topic,
+} from '../../api/types';
+import { TComment, TTopic, TTopicPreview } from './types';
 
 export function mapTopic(topic: Topic): TTopicPreview {
   return {
@@ -15,6 +17,19 @@ export function mapTopic(topic: Topic): TTopicPreview {
   };
 }
 
+export function mapComment(comment: Comment): TComment {
+  return {
+    id: comment.id,
+    parentId: comment.parent_id,
+    content: comment.content,
+    owner: {
+      firstName: comment.first_name,
+      lastName: comment.last_name,
+      avatar: comment.avatar,
+    },
+  };
+}
+
 export function mapGetTopicsResponse(response: GetTopicsResponse): TTopicPreview[] {
   return response.map(mapTopic);
 }
@@ -22,15 +37,6 @@ export function mapGetTopicsResponse(response: GetTopicsResponse): TTopicPreview
 export function mapGetTopicResponse(response: GetTopicResponse): TTopic {
   return {
     ...mapTopic(response),
-    comments: response.comments.map((comment) => ({
-      id: comment.id,
-      parentId: comment.parent_id,
-      content: comment.content,
-      owner: {
-        firstName: comment.first_name,
-        lastName: comment.last_name,
-        avatar: comment.avatar,
-      },
-    })),
+    comments: response.comments.map(mapComment),
   };
 }

@@ -1,6 +1,10 @@
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
 import { Button } from '../../Common/Blocks/Button';
 import { Form } from '../../Common/Blocks/Form';
+import { addComment, createComment } from '../../Features/forum';
+import { setError } from '../../Features/error';
 
 type TAddCommentForm = {
   content: string;
@@ -15,15 +19,29 @@ const fields = [{
   },
 }];
 
-export const AddCommentForm = () => {
+type Props = {
+  commentId?: number;
+  onSubmit?: VoidFunction;
+}
+
+export const AddCommentForm = ({ commentId, onSubmit }: Props) => {
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm<TAddCommentForm>();
 
-  const onAddCommentSubmit = (data: TAddCommentForm) => {
-    console.log(data);
+  const dispatch = useDispatch();
+
+  const { id } = useParams();
+
+  const onAddCommentSubmit = ({ content }: TAddCommentForm) => {
+    createComment({ content, commentId, topicId: Number(id) })
+      .then((comment) => {
+        onSubmit?.();
+        return dispatch(addComment(comment));
+      })
+      .catch((error) => dispatch(setError(error)));
   };
 
   return (

@@ -64,3 +64,9 @@ export type Comment = {
 export type GetTopicResponse = Topic & {
   comments: Comment[];
 }
+
+export type AddCommentRequest = {
+  content: string;
+  topicId: number;
+  commentId?: number;
+}

@@ -169,19 +169,27 @@ router.delete('/:id', async (req, res) => {
 });
 
 // добавление комментария
-router.post('/comment', async (req, res) => {
-  const { topic_id: topicId, content } = req.body;
+router.post('/:id/comment', async (req, res) => {
+  const { id: topicId } = req.params;
+
+  const { comment_id: commentId, content } = req.body;
   const ownerId = 1;
 
-  if (!topicId || typeof topicId !== 'number') {
+  if (!topicId || typeof Number(topicId) !== 'number') {
     res.status(400);
-    res.send({ status: 400, reason: 'Invalid topic_id param' });
+    res.send({ status: 400, reason: 'Invalid id' });
     return;
   }
 
   if (!content) {
     res.status(400);
     res.send({ status: 400, reason: 'Invalid content param' });
+    return;
+  }
+
+  if (commentId && typeof Number(commentId) !== 'number') {
+    res.status(400);
+    res.send({ status: 400, reason: 'Invalid comment_id param' });
     return;
   }
 
@@ -196,14 +204,38 @@ router.post('/comment', async (req, res) => {
       return;
     }
 
-    await Comment.create({
+    if (commentId) {
+      const comment = await Comment.findOne({
+        where: { id: commentId },
+      });
+
+      if (!comment || comment.topic_id !== Number(topicId)) {
+        res.status(400);
+        res.send({ status: 400, reason: 'Invalid comment_id param' });
+        return;
+      }
+    }
+
+    const createdComment = await Comment.create({
       content,
       topic_id: topicId,
-      parent_id: null,
+      parent_id: commentId || null,
       owner_id: ownerId,
     });
 
-    res.send('OK');
+    const comment = await Comment.findOne({
+      where: { id: createdComment.id },
+      raw: true,
+      include: {
+        model: User,
+        required: true,
+        foreignKey: 'owner_id',
+        attributes: [],
+      },
+      attributes: ['id', 'parent_id', 'updatedAt', 'content', 'User.first_name', 'User.last_name', 'User.avatar'],
+    });
+
+    res.send(comment);
   } catch (e) {
     console.error(e);
 
@@ -309,7 +341,7 @@ router.get('/:id', async (req, res) => {
         foreignKey: 'owner_id',
         attributes: [],
       },
-      attributes: ['id', 'parent_id', 'owner_id', 'updatedAt', 'content', 'User.first_name', 'User.last_name', 'User.avatar'],
+      attributes: ['id', 'parent_id', 'updatedAt', 'content', 'User.first_name', 'User.last_name', 'User.avatar'],
     });
 
     res.send({ ...topic, comments_count: comments.length, comments });

@@ -26,7 +26,7 @@ export const TopicView = ({ topic, onAddCommentClick }: Props) => (
     {
       topic.comments
         .filter((comment) => comment.parentId === null)
-        .map((comment) => <Comments key={comment.id} comment={comment} comments={topic.comments} />)
+        .map((comment) => <Comments key={comment.id} comment={comment} comments={topic.comments} level={0} />)
     }
   </>
 );

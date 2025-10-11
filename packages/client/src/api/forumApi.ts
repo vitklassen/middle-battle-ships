@@ -1,5 +1,7 @@
 import apiInstance from './fetch';
 import {
+  AddCommentRequest,
+  Comment,
   CreateTopicRequest, GetTopicRequest, GetTopicResponse, GetTopicsResponse, Topic,
 } from './types';
 
@@ -20,6 +22,15 @@ export class ForumApi {
   getTopic(request: GetTopicRequest, cookie?: string) {
     return apiInstance.get<GetTopicResponse>(`/topics/${request.id}`, {
       headers: { cookie },
+    });
+  }
+
+  addComment(request: AddCommentRequest, cookie?: string) {
+    return apiInstance.post<Comment>(`/topics/${request.topicId}/comment`, {
+      data: { comment_id: request.commentId, content: request.content },
+      headers: {
+        cookie,
+      },
     });
   }
 }

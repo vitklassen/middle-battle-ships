@@ -10,7 +10,7 @@ export type TTopicPreview = {
   };
 };
 
-export type Comment = {
+export type TComment = {
   id: number;
   parentId: number | null;
   content: string;
@@ -22,7 +22,7 @@ export type Comment = {
 }
 
 export type TTopic = TTopicPreview & {
-  comments: Comment[];
+  comments: TComment[];
 };
 
 export type ForumState = {

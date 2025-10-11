@@ -12,6 +12,6 @@ type Props = {
 
 export const AddCommentModal = ({ setClosed }: Props) => (
   <Modal onBackdropClick={setClosed}>
-    <CenteredLayout><Card><AddCommentForm /></Card></CenteredLayout>
+    <CenteredLayout><Card><AddCommentForm onSubmit={setClosed} /></Card></CenteredLayout>
   </Modal>
 );
