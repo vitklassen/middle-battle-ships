@@ -3,7 +3,7 @@ import { LeaderboardItem } from '../types';
 import star from '../../../assets/images/star.svg';
 
 import styles from '../LeaderBoard.module.css';
-import { useSelector } from '../../../Store';
+import { getAvatarUrl } from '../../../Common/utils/getAvatarUrl';
 
 type Props = {
   items: LeaderboardItem[]
@@ -33,7 +33,7 @@ export const LeaderBoardList: React.FC<Props> = ({ items }) => (
             {position}
           </span>
           <span className={clsx(styles.item, styles.itemStretched)}>
-            {avatar}
+            <img src={getAvatarUrl({ avatar })} alt="" className={styles.avatar} />
             {fullName}
           </span>
           <span className={styles.item}>{otherField}</span>
