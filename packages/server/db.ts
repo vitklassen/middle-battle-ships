@@ -20,45 +20,6 @@ const sequelizeOptions: SequelizeOptions = {
   dialect: 'postgres',
 };
 
-async function ensureData() {
-  await User.findOrCreate({
-    where: { id: 1 },
-    defaults: {
-      id: 1,
-      avatar: null,
-      yandex_id: 1,
-      first_name: 'John',
-      second_name: 'Smith',
-      display_name: null,
-      phone: '+7 (987) 654-01-23',
-      email: 'john@mail.com',
-      login: 'johnsmith',
-      theme: false,
-    },
-  });
-
-  await Topic.findOrCreate({
-    where: { id: 1 },
-    defaults: {
-      id: 1,
-      title: 'Topic',
-      content: 'Topic content',
-      owner_id: 1,
-    },
-  });
-
-  await Comment.findOrCreate({
-    where: { id: 1 },
-    defaults: {
-      id: 1,
-      content: 'Comment content',
-      parent_id: null,
-      topic_id: 1,
-      owner_id: 1,
-    },
-  });
-}
-
 export const createClientAndConnect = async (): Promise<Sequelize | null> => {
   try {
     const sequelize = new Sequelize(sequelizeOptions);
@@ -81,10 +42,6 @@ export const createClientAndConnect = async (): Promise<Sequelize | null> => {
 
     Comment.hasMany(Reaction, { foreignKey: 'comment_id' });
     Reaction.belongsTo(Comment, { foreignKey: 'comment_id' });
-
-    await sequelize.sync();
-
-    ensureData();
 
     await sequelize.sync();
 

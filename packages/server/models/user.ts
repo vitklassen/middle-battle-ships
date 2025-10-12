@@ -35,9 +35,8 @@ export class User extends Model {
     @Column(DataType.STRING(50))
       display_name: string | null | undefined;
 
-    @AllowNull(false)
     @Column(DataType.STRING(25))
-      phone: string | undefined;
+      phone: string | null | undefined;
 
     @AllowNull(false)
     @IsEmail

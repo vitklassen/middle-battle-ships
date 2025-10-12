@@ -12,3 +12,9 @@
 .field {
   margin-top: 16px;
 }
+
+.error {
+  font-size: 14px;
+  color: var(--color-secondary);
+  display: inline-block;
+}
