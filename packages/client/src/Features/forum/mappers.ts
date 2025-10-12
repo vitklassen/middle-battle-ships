@@ -8,6 +8,7 @@ export function mapTopic(topic: Topic): TTopicPreview {
     id: topic.id,
     content: topic.content,
     title: topic.title,
+    createdAt: topic.createdAt,
     commentCount: Number(topic.comments_count),
     owner: {
       firstName: topic.first_name,

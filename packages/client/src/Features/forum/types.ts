@@ -3,6 +3,7 @@ export type TTopicPreview = {
   title: string;
   content: string;
   commentCount: number;
+  createdAt: string;
   owner: {
     firstName: string;
     lastName: string;

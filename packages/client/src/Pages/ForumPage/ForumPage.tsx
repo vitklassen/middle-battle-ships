@@ -49,11 +49,10 @@ export const ForumPage = authorizationChecker(() => {
       <Header />
       <main className={styles.root}>
         <div className={styles.header}>
-          <h1 className={styles.title}>Форум</h1>
           <Button onClick={() => setIsCreateTopicModalVisible(true)}>Создать тему</Button>
         </div>
         {!topics ? '...Loading' : topics.map((topic) => (
-          <TopicPreview key={topic.id} topic={topic} onClick={navigateToTopicPage} />
+          <TopicPreview key={topic.id} topic={topic} onClick={navigateToTopicPage} className={styles.topic} />
         ))}
       </main>
     </>

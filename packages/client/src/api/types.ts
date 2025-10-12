@@ -39,6 +39,7 @@ export type Topic = {
   first_name: string;
   second_name: string;
   avatar: null;
+  createdAt: string;
 }
 
 export type GetTopicsResponse = Array<Topic>;

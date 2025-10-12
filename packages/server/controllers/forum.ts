@@ -45,6 +45,7 @@ router.post('/', async (req, res) => {
         'User.first_name',
         'User.second_name',
         'User.avatar',
+        'createdAt',
       ],
     });
 
@@ -276,6 +277,7 @@ router.get('/', async (_req, res) => {
         'id',
         'title',
         'content',
+        'createdAt',
         [fn('COUNT', col('Comments.id')), 'comments_count'],
         'User.second_name',
         'User.first_name',
