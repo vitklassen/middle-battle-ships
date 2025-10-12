@@ -14,7 +14,7 @@ import { CreateTopicModal } from './CreateTopicModal';
 export const initForumPage = async (args: PageInitArgs) => {
   await initPage(args);
 
-  const { state, dispatch, cookie } = args;
+  const { state, dispatch, context: { cookie } } = args;
 
   if (typeof state.forum.topics !== 'undefined') {
     return;

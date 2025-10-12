@@ -30,14 +30,26 @@ export function Form<T extends FieldValues>({
       }) => (
         <div key={name} className={styles.field}>
           <label htmlFor={name}>{label}</label>
-          <input
-            id={name}
-          // eslint-disable-next-line react/jsx-props-no-spreading
-            {...register(name, options)}
-            type={type}
-            placeholder={label}
-            className={styles.input}
-          />
+          {
+            type === 'textarea' ? (
+              <textarea
+                id={name}
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                {...register(name, options)}
+                placeholder={label}
+                className={styles.input}
+              />
+            ) : (
+              <input
+                id={name}
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                {...register(name, options)}
+                type={type}
+                placeholder={label}
+                className={styles.input}
+              />
+            )
+          }
           {errors[name] && (
           <span className={clsx(styles.error, styles.errorField)}>
             {errors[name].message}

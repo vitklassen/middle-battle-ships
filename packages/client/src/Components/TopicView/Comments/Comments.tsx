@@ -1,23 +1,37 @@
 import { useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import clsx from 'clsx';
 import { addReaction, setComment, TComment } from '../../../Features/forum';
 import { Card } from '../../../Common/Blocks/Card';
 import { Button } from '../../../Common/Blocks/Button';
 import { AddCommentForm } from '../../AddCommentForm';
 import { AddReactionPopout } from '../AddReactionPopout';
+import styles from './Comments.module.css';
+import { getAvatarUrl } from '../../../Common/utils/getAvatarUrl';
 
 type Props = {
   comment: TComment;
   comments: TComment[];
   level: number;
+  className?: string;
 }
 
-export const Comments = ({ comment, comments, level }: Props) => {
+const shortDateFormatter = new Intl.DateTimeFormat('fr-FR', {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: 'numeric',
+  minute: 'numeric',
+});
+
+export const Comments = ({
+  comment, comments, level, className,
+}: Props) => {
   const [isAddCommentFormVisible, setIsAddCommentFormVisible] = useState(false);
   const [isChildCommentVisible, setIsChildCommentVisible] = useState(false);
   const [isAddReactionPopoutVisible, setIsAddReactionPopoutVisible] = useState(false);
 
-  const addReactionPopoutAnchor = useRef<HTMLElement | null>(null);
+  const addReactionPopoutAnchor = useRef<HTMLButtonElement | null>(null);
 
   const childComments = useMemo(
     () => comments.filter((childComment) => childComment.parentId === comment.id),
@@ -45,7 +59,7 @@ export const Comments = ({ comment, comments, level }: Props) => {
   }
 
   return (
-    <div>
+    <div className={className} style={{ marginLeft: `${level * 10}px` }}>
       {isAddReactionPopoutVisible && (
       <AddReactionPopout
         onSelectReaction={handleSelectReaction}
@@ -53,28 +67,40 @@ export const Comments = ({ comment, comments, level }: Props) => {
         setClosed={() => setIsAddReactionPopoutVisible(false)}
       />
       )}
-      <Card key={comment.id}>
-        <p>{`${comment.owner.firstName} ${comment.owner.lastName}`}</p>
+      <Card key={comment.id} className={styles.card}>
+        <div className={styles.info}>
+          <div className={styles.user}>
+            <img src={getAvatarUrl(comment.owner)} alt="" className={styles.avatar} />
+            <p>{`${comment.owner.firstName} ${comment.owner.lastName}`}</p>
+          </div>
+          <span>{`${shortDateFormatter.format(Date.parse(comment.createdAt))}`}</span>
+        </div>
         <p>{comment.content}</p>
+        <div className={styles.reactions}>
+          {comment.reactions && comment.reactions.map((reaction) => (
+            <Button mode="secondary" key={reaction.code} className={styles.reactionButton}>
+              {`${reaction.count}`}
+              <span className={styles.reaction}>{`${String.fromCodePoint(reaction.code)}`}</span>
+            </Button>
+          ))}
+          <Button
+            mode="secondary"
+            rootRef={addReactionPopoutAnchor}
+            className={styles.reactionButton}
+            onClick={() => setIsAddReactionPopoutVisible(true)}
+          >
+            +
+          </Button>
+        </div>
         {childComments.length !== 0 && (
-          <Button onClick={() => setIsChildCommentVisible((value) => !value)}>
+          <Button mode="tertiary" onClick={() => setIsChildCommentVisible((value) => !value)}>
             {isChildCommentVisible ? 'Скрыть комментарии' : 'Показать комментарии'}
           </Button>
         )}
-        <Button mode="secondary" onClick={() => setIsAddCommentFormVisible(true)}>Ответить</Button>
-        <Button mode="secondary" rootRef={addReactionPopoutAnchor} onClick={() => setIsAddReactionPopoutVisible(true)}>Добавить реакцию</Button>
-        {
-        comment.reactions && comment.reactions.map((reaction) => (
-          <div key={reaction.code}>
-            {`${reaction.count} ${String.fromCodePoint(reaction.code)}`}
-          </div>
-        ))
-      }
+        <Button mode="tertiary" onClick={() => setIsAddCommentFormVisible(true)}>Ответить</Button>
       </Card>
       {isAddCommentFormVisible && (
-      <Card>
-        <AddCommentForm commentId={comment.id} onSubmit={() => setIsAddCommentFormVisible(false)} />
-      </Card>
+        <AddCommentForm commentId={comment.id} onSubmit={() => setIsAddCommentFormVisible(false)} onClose={() => setIsAddCommentFormVisible(false)} />
       )}
       {isChildCommentVisible && childComments.map((childComment) => (
         <Comments

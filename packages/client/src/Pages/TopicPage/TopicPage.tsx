@@ -13,13 +13,13 @@ import { AddCommentModal } from './AddCommentModal';
 export const initTopicPage = async (args: PageInitArgs) => {
   await initPage(args);
 
-  const { state, dispatch, cookie } = args;
+  const { state, dispatch, context: { cookie, path } } = args;
 
   if (typeof state.forum.currentTopic !== 'undefined') {
     return;
   }
 
-  return getTopic({ id: 1 }, cookie)
+  return getTopic({ id: Number(path.split('/').slice(-1)) }, cookie)
     .then((topic) => dispatch(setTopic(topic)))
     .catch((error) => dispatch(setError(error)));
 };

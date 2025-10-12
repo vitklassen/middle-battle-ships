@@ -15,6 +15,15 @@ export class AuthAPI {
     });
   }
 
+  register(args: Iargs, cookie?: string) {
+    return apiInstance.post<Iargs>('/api/v2/auth/signup', {
+      data: args,
+      headers: {
+        cookie,
+      },
+    });
+  }
+
   login(args: Iargs) {
     return apiInstance.post('/api/v2/auth/signin', { data: args });
   }

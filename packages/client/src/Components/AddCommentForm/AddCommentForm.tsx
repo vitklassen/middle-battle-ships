@@ -5,6 +5,7 @@ import { Button } from '../../Common/Blocks/Button';
 import { Form } from '../../Common/Blocks/Form';
 import { addComment, createComment } from '../../Features/forum';
 import { setError } from '../../Features/error';
+import styles from './AddCommentForm.module.css';
 
 type TAddCommentForm = {
   content: string;
@@ -13,7 +14,7 @@ type TAddCommentForm = {
 const fields = [{
   name: 'content' as const,
   label: 'Комментарий',
-  type: 'text',
+  type: 'textarea',
   options: {
     required: 'Обязательное поле',
   },
@@ -22,9 +23,10 @@ const fields = [{
 type Props = {
   commentId?: number;
   onSubmit?: VoidFunction;
+  onClose?: VoidFunction;
 }
 
-export const AddCommentForm = ({ commentId, onSubmit }: Props) => {
+export const AddCommentForm = ({ commentId, onSubmit, onClose }: Props) => {
   const {
     register,
     formState: { errors },
@@ -50,7 +52,12 @@ export const AddCommentForm = ({ commentId, onSubmit }: Props) => {
       register={register}
       errors={errors}
       onSubmit={handleSubmit(onAddCommentSubmit)}
-      submitButton={<Button stretched type="submit">Отправить</Button>}
+      submitButton={(
+        <>
+          <Button type="submit" className={styles.button}>Отправить</Button>
+          <Button type="button" mode="secondary" className={styles.button} onClick={onClose}>Закрыть</Button>
+        </>
+)}
     />
   );
 };

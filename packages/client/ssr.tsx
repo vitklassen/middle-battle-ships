@@ -68,7 +68,7 @@ export async function render(req: ExpressRequest, res: ExpressResponse) {
     await init?.({
       state: store.getState(),
       dispatch: store.dispatch,
-      cookie: Object.entries(req.cookies).map(([key, value]) => `${key}=${value}`).join('; '),
+      context: { path: req.originalUrl, cookie: Object.entries(req.cookies).map(([key, value]) => `${key}=${value}`).join('; ') },
     });
 
     const state = store.getState();

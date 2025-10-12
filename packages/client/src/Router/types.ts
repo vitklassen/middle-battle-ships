@@ -15,5 +15,8 @@ export enum Path {
 export type PageInitArgs = {
   state: GlobalState
   dispatch: AppDispatch
-  cookie?: string;
+  context: {
+    path: string;
+    cookie?: string;
+  }
 }

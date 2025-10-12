@@ -1,7 +1,7 @@
 .root {
-    padding: 100px 12px 0;
+    padding: 100px 24px 12px;
     background-color: var(--color-primary);
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .title {

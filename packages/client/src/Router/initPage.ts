@@ -2,7 +2,7 @@ import { setError } from '../Features/error';
 import { getProfile, setProfile } from '../Features/profile';
 import { PageInitArgs } from './types';
 
-export async function initPage({ state, dispatch, cookie }: PageInitArgs) {
+export async function initPage({ state, dispatch, context: { cookie } }: PageInitArgs) {
   if (typeof state.profile.value !== 'undefined') {
     return;
   }

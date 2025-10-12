@@ -324,6 +324,7 @@ router.get('/:id', async (req, res) => {
         'User.first_name',
         'User.second_name',
         'User.avatar',
+        'createdAt',
       ],
     });
 
