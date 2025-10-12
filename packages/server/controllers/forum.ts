@@ -9,7 +9,6 @@ const router = Router();
 // добавление
 router.post('/', async (req, res) => {
   const { title, content } = req.body;
-  const ownerId = 1;
 
   if (!title) {
     res.status(400);
@@ -27,7 +26,7 @@ router.post('/', async (req, res) => {
     const topic = await Topic.create({
       title,
       content,
-      owner_id: ownerId,
+      owner_id: req.user.id,
     });
 
     const createdTopic = await Topic.findOne({
@@ -44,7 +43,7 @@ router.post('/', async (req, res) => {
         'title',
         'content',
         'User.first_name',
-        'User.last_name',
+        'User.second_name',
         'User.avatar',
       ],
     });
@@ -69,7 +68,6 @@ router.post('/', async (req, res) => {
 router.patch('/:id', async (req, res) => {
   const { id: topicId } = req.params;
   const { title, content } = req.body;
-  const ownerId = 1;
 
   if (typeof topicId !== 'number') {
     res.status(400);
@@ -117,7 +115,7 @@ router.patch('/:id', async (req, res) => {
     await Topic.update(updateData, {
       where: {
         id: topicId,
-        owner_id: ownerId,
+        owner_id: req.user.id,
       },
     });
 
@@ -175,7 +173,6 @@ router.post('/:id/comment', async (req, res) => {
   const { id: topicId } = req.params;
 
   const { comment_id: commentId, content } = req.body;
-  const ownerId = 1;
 
   if (!topicId || typeof Number(topicId) !== 'number') {
     res.status(400);
@@ -222,7 +219,7 @@ router.post('/:id/comment', async (req, res) => {
       content,
       topic_id: topicId,
       parent_id: commentId || null,
-      owner_id: ownerId,
+      owner_id: req.user.id,
     });
 
     const comment = await Comment.findOne({
@@ -234,7 +231,7 @@ router.post('/:id/comment', async (req, res) => {
         foreignKey: 'owner_id',
         attributes: [],
       },
-      attributes: ['id', 'parent_id', 'updatedAt', 'content', 'User.first_name', 'User.last_name', 'User.avatar'],
+      attributes: ['id', 'parent_id', 'updatedAt', 'content', 'User.first_name', 'User.second_name', 'User.avatar'],
     });
 
     res.send(comment);
@@ -280,7 +277,7 @@ router.get('/', async (_req, res) => {
         'title',
         'content',
         [fn('COUNT', col('Comments.id')), 'comments_count'],
-        'User.last_name',
+        'User.second_name',
         'User.first_name',
         'User.avatar',
       ],
@@ -323,7 +320,7 @@ router.get('/:id', async (req, res) => {
         'title',
         'content',
         'User.first_name',
-        'User.last_name',
+        'User.second_name',
         'User.avatar',
       ],
     });
@@ -338,7 +335,7 @@ router.get('/:id', async (req, res) => {
       include: [
         {
           model: User,
-          attributes: ['first_name', 'last_name', 'avatar'],
+          attributes: ['first_name', 'second_name', 'avatar'],
         },
         {
           model: Reaction,

@@ -12,6 +12,8 @@ import { createClientAndConnect } from './db';
 import reactionsController from './controllers/reactions';
 import themeController from './controllers/themes';
 import forumController from './controllers/forum';
+import { auth } from './middleware/auth';
+import { logger } from './middleware/logger';
 
 dotenv.config();
 const isDev = () => process.env.NODE_ENV === 'development';
@@ -40,9 +42,12 @@ async function startServer() {
 
   app.use(express.json());
 
-  app.use('/reactions', reactionsController);
+  app.use('/api', auth);
+  app.use('/api', logger);
+
+  app.use('/api/reactions', reactionsController);
   app.use('/theme', themeController);
-  app.use('/topics', forumController);
+  app.use('/api/topics', forumController);
 
   const port = Number(process.env.SERVER_PORT) || 3001;
   let vite: ViteDevServer | undefined;

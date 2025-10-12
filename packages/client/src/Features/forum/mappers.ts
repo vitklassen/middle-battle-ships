@@ -11,7 +11,7 @@ export function mapTopic(topic: Topic): TTopicPreview {
     commentCount: Number(topic.comments_count),
     owner: {
       firstName: topic.first_name,
-      lastName: topic.last_name,
+      lastName: topic.second_name,
       avatar: topic.avatar,
     },
   };
@@ -25,7 +25,7 @@ export function mapComment(comment: Comment): TComment {
     createdAt: comment.createdAt,
     owner: {
       firstName: comment.User.first_name,
-      lastName: comment.User.last_name,
+      lastName: comment.User.second_name,
       avatar: comment.User.avatar,
     },
     reactions: comment.Reactions,

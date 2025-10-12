@@ -5,5 +5,5 @@ export function getAvatarUrl({ avatar }: Pick<Profile, 'avatar'>) {
   if (!avatar) {
     return avatarPlaceholder;
   }
-  return `https://ya-praktikum.tech/api/v2/resources${avatar}`;
+  return `http://localhost:3001/api/v2/resources${avatar}`;
 }

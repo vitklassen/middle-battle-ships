@@ -26,8 +26,9 @@ async function ensureData() {
     defaults: {
       id: 1,
       avatar: null,
+      yandex_id: 1,
       first_name: 'John',
-      last_name: 'Smith',
+      second_name: 'Smith',
       display_name: null,
       phone: '+7 (987) 654-01-23',
       email: 'john@mail.com',

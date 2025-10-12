@@ -8,26 +8,26 @@ import {
 
 export class ForumApi {
   getTopics(cookie?: string) {
-    return apiInstance.get<GetTopicsResponse>('/topics', {
+    return apiInstance.get<GetTopicsResponse>('/api/topics', {
       headers: { cookie },
     });
   }
 
   createTopic(request: CreateTopicRequest, cookie?: string) {
-    return apiInstance.post<Topic>('/topics', {
+    return apiInstance.post<Topic>('/api/topics', {
       data: request,
       headers: { cookie },
     });
   }
 
   getTopic(request: GetTopicRequest, cookie?: string) {
-    return apiInstance.get<GetTopicResponse>(`/topics/${request.id}`, {
+    return apiInstance.get<GetTopicResponse>(`/api/topics/${request.id}`, {
       headers: { cookie },
     });
   }
 
   addComment(request: AddCommentRequest, cookie?: string) {
-    return apiInstance.post<Comment>(`/topics/${request.topicId}/comment`, {
+    return apiInstance.post<Comment>(`/api/topics/${request.topicId}/comment`, {
       data: { comment_id: request.commentId, content: request.content },
       headers: {
         cookie,
@@ -36,7 +36,7 @@ export class ForumApi {
   }
 
   addReaction(request: AddReactionRequest, cookie?: string) {
-    return apiInstance.post('/reactions', {
+    return apiInstance.post('/api/reactions', {
       data: request,
       headers: {
         cookie,

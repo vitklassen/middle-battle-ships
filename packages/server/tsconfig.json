@@ -35,5 +35,8 @@
       ]
     },
     "outDir": "dist"
-  }
+  },
+  "ts-node": {
+    "files": true
+  },
 }

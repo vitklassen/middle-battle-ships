@@ -2,11 +2,12 @@ import { Router } from 'express';
 import { Op } from 'sequelize';
 import { Comment, Reaction, User } from '../models';
 
+// eslint-disable-next-line @typescript-eslint/no-namespace, @typescript-eslint/no-unused-vars
+
 const router = Router();
 
 router.post('/', async (req, res) => {
   const { comment_id: commentId, code } = req.body;
-  const ownerId = 1;
   const numericCode = parseInt(code, 16);
 
   if (!commentId || typeof commentId !== 'number') {
@@ -33,7 +34,7 @@ router.post('/', async (req, res) => {
     }
 
     const reaction = await Reaction.findOne({
-      where: { [Op.and]: [{ owner_id: ownerId }, { code: numericCode }, { comment_id: commentId }] },
+      where: { [Op.and]: [{ owner_id: req.user.id }, { code: numericCode }, { comment_id: commentId }] },
     });
 
     if (reaction) {
@@ -45,7 +46,7 @@ router.post('/', async (req, res) => {
     await Reaction.create({
       code: numericCode,
       comment_id: commentId,
-      owner_id: ownerId,
+      owner_id: req.user.id,
     });
 
     res.send('OK');
@@ -83,7 +84,7 @@ router.get('/comments/:comment_id', async (req, res) => {
         foreignKey: 'owner_id',
         attributes: [],
       },
-      attributes: ['id', 'code', 'User.first_name', 'User.last_name', 'User.avatar'],
+      attributes: ['id', 'code', 'User.first_name', 'User.second_name', 'User.avatar'],
     })).map((reaction) => ({ ...reaction, code: reaction.code?.toString(16) }));
 
     res.send(reactions);

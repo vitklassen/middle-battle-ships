@@ -37,7 +37,7 @@ export type Topic = {
   content: string;
   comments_count: string;
   first_name: string;
-  last_name: string;
+  second_name: string;
   avatar: null;
 }
 
@@ -59,7 +59,7 @@ export type Comment = {
   createdAt: string;
   User: {
     first_name: string;
-    last_name: string;
+    second_name: string;
     avatar: string | null;
   };
   Reactions?: Array<{ code: number; count: number; }>
