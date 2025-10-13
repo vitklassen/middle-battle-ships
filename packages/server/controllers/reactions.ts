@@ -2,8 +2,6 @@ import { Router } from 'express';
 import { Op } from 'sequelize';
 import { Comment, Reaction, User } from '../models';
 
-// eslint-disable-next-line @typescript-eslint/no-namespace, @typescript-eslint/no-unused-vars
-
 const router = Router();
 
 router.post('/', async (req, res) => {

@@ -78,7 +78,7 @@ export const Comments = ({
         <p>{comment.content}</p>
         <div className={styles.reactions}>
           {comment.reactions && comment.reactions.map((reaction) => (
-            <Button mode="secondary" key={reaction.code} className={styles.reactionButton}>
+            <Button mode="secondary" key={reaction.code} className={styles.reactionButton} onClick={() => handleSelectReaction(reaction.code)}>
               {`${reaction.count}`}
               <span className={styles.reaction}>{`${String.fromCodePoint(reaction.code)}`}</span>
             </Button>

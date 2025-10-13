@@ -335,24 +335,53 @@ router.get('/:id', async (req, res) => {
     }
 
     const comments = await Comment.findAll({
-      include: [
-        {
-          model: User,
-          attributes: ['first_name', 'second_name', 'avatar'],
-        },
-        {
-          model: Reaction,
-          attributes: ['code', [fn('COUNT', col('Reactions.code')), 'count']],
-        }],
-      group: ['Comment.id', 'Reactions.id', 'User.id'],
+      include: [{
+        model: User,
+        attributes: ['first_name', 'second_name', 'avatar'],
+      }],
+      group: ['Comment.id', 'User.id'],
       attributes: [
         'id',
         'parent_id',
         'createdAt',
-        'content'],
+        'content',
+      ],
     });
 
-    res.send({ ...topic, comments_count: comments.length, comments });
+    const reactions = await Reaction.findAll({
+      attributes: [
+        'comment_id',
+        'code',
+        [fn('COUNT', col('id')), 'count'],
+      ],
+      where: {
+        comment_id: comments.map((comment) => comment.id),
+      },
+      group: ['comment_id', 'code'],
+      raw: true,
+    });
+
+    const commentsWithReactions = comments.map((comment) => {
+      const commentReactions = reactions.filter((rc) => rc.comment_id === comment.id);
+      return {
+        ...comment.toJSON(),
+        Reactions: commentReactions.reduce((acc, curr) => {
+          if (curr.code) {
+            acc.push({
+              code: curr.code,
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-expect-error
+              count: Number(curr.count),
+            });
+          }
+          return acc;
+        }, [] as {code:number, count: number}[]),
+      };
+    });
+
+    res.send({
+      ...topic, comments_count: comments.length, comments: commentsWithReactions,
+    });
   } catch (e) {
     console.error(e);
 
