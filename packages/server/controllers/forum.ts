@@ -225,14 +225,13 @@ router.post('/:id/comment', async (req, res) => {
 
     const comment = await Comment.findOne({
       where: { id: createdComment.id },
-      raw: true,
       include: {
         model: User,
         required: true,
         foreignKey: 'owner_id',
-        attributes: [],
+        attributes: ['first_name', 'second_name', 'avatar'],
       },
-      attributes: ['id', 'parent_id', 'updatedAt', 'content', 'User.first_name', 'User.second_name', 'User.avatar'],
+      attributes: ['id', 'parent_id', 'createdAt', 'content'],
     });
 
     res.send(comment);
@@ -251,7 +250,6 @@ router.post('/:id/comment', async (req, res) => {
 router.get('/', async (_req, res) => {
   try {
     const topics = await Topic.findAll({
-      raw: true,
       include: [
         {
           model: Comment,
@@ -260,7 +258,7 @@ router.get('/', async (_req, res) => {
         },
         {
           model: User,
-          attributes: [],
+          attributes: ['first_name', 'second_name', 'avatar'],
         },
       ],
       group: [
@@ -268,9 +266,6 @@ router.get('/', async (_req, res) => {
         'Topic.title',
         'Topic.content',
         'User.id',
-        'User.first_name',
-        'User.first_name',
-        'User.avatar',
       ],
       order: [['id', 'ASC']],
       attributes: [
@@ -279,9 +274,6 @@ router.get('/', async (_req, res) => {
         'content',
         'createdAt',
         [fn('COUNT', col('Comments.id')), 'comments_count'],
-        'User.second_name',
-        'User.first_name',
-        'User.avatar',
       ],
     });
 
@@ -339,7 +331,6 @@ router.get('/:id', async (req, res) => {
         model: User,
         attributes: ['first_name', 'second_name', 'avatar'],
       }],
-      group: ['Comment.id', 'User.id'],
       attributes: [
         'id',
         'parent_id',

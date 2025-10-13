@@ -59,7 +59,7 @@ export const Comments = ({
   }
 
   return (
-    <div className={className} style={{ marginLeft: `${level * 10}px` }}>
+    <div className={className} style={{ marginLeft: `${level * 50}px` }}>
       {isAddReactionPopoutVisible && (
       <AddReactionPopout
         onSelectReaction={handleSelectReaction}
@@ -94,7 +94,7 @@ export const Comments = ({
         </div>
         {childComments.length !== 0 && (
           <Button mode="tertiary" onClick={() => setIsChildCommentVisible((value) => !value)}>
-            {isChildCommentVisible ? 'Скрыть комментарии' : 'Показать комментарии'}
+            {isChildCommentVisible ? 'Скрыть комментарии' : `Показать комментарии (${childComments.length})`}
           </Button>
         )}
         <Button mode="tertiary" onClick={() => setIsAddCommentFormVisible(true)}>Ответить</Button>

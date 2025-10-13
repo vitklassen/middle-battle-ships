@@ -33,19 +33,16 @@ export const forumSlice = createSlice({
       if (state.currentTopic) {
         state.currentTopic = {
           ...state.currentTopic,
-          comments: [...state.currentTopic.comments, action.payload]
-            .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1)),
-          commentCount: state.currentTopic.commentCount + 1,
+          comments: [...state.currentTopic.comments, action.payload],
         };
       }
     },
     setComment: (state, action: PayloadAction<TComment>) => {
       if (state.currentTopic) {
+        const index = state.currentTopic.comments.findIndex((comment) => comment.id === action.payload.id);
         state.currentTopic = {
           ...state.currentTopic,
-          comments: [...state.currentTopic.comments
-            .filter((comment) => comment.id !== action.payload.id), action.payload]
-            .sort((a, b) => (a.createdAt < b.createdAt ? -1 : 1)),
+          comments: [...state.currentTopic.comments.slice(0, index), action.payload, ...state.currentTopic.comments.slice(index + 1)],
         };
       }
     },
