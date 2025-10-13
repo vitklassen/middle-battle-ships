@@ -10,6 +10,7 @@ type Field<T extends FieldValues> = {
     label: string;
     type: string;
     options: RegisterOptions<T>;
+    className?: string;
 }
 
 type Props<T extends FieldValues> = {
@@ -26,7 +27,7 @@ export function Form<T extends FieldValues>({
   return (
     <form onSubmit={onSubmit}>
       {fields.map(({
-        name, label, type, options,
+        name, label, type, options, className,
       }) => (
         <div key={name} className={styles.field}>
           <label htmlFor={name}>{label}</label>
@@ -37,7 +38,7 @@ export function Form<T extends FieldValues>({
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 {...register(name, options)}
                 placeholder={label}
-                className={styles.input}
+                className={clsx(styles.input, styles.textarea, className)}
               />
             ) : (
               <input
@@ -46,7 +47,7 @@ export function Form<T extends FieldValues>({
                 {...register(name, options)}
                 type={type}
                 placeholder={label}
-                className={styles.input}
+                className={clsx(styles.input, className)}
               />
             )
           }

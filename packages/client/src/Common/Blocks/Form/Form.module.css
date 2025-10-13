@@ -18,3 +18,8 @@
   color: var(--color-secondary);
   display: inline-block;
 }
+
+.textarea {
+  resize: none;
+  outline: 0;
+}

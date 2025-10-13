@@ -26,10 +26,11 @@ const fields = [
   {
     name: 'content' as const,
     label: 'Содержимое',
-    type: 'text',
+    type: 'textarea',
     options: {
       required: 'Обязательное поле',
     },
+    className: styles.textarea,
   },
 ];
 
@@ -62,21 +63,23 @@ export const CreateTopicModal: React.FC<Props> = ({ setClosed }) => {
             errors={errors}
             onSubmit={handleSubmit(handleCreateTopicSubmit)}
             submitButton={(
-              <Button
-                stretched
-                type="submit"
-              >
-                Создать
-              </Button>
-)}
+              <>
+                <Button
+                  type="submit"
+                  className={styles.button}
+                >
+                  Создать
+                </Button>
+                <Button
+                  onClick={setClosed}
+                  mode="secondary"
+                  className={styles.button}
+                >
+                  Отмена
+                </Button>
+              </>
+            )}
           />
-          <Button
-            onClick={setClosed}
-            stretched
-            mode="secondary"
-          >
-            Отмена
-          </Button>
         </Card>
       </CenteredLayout>
     </Modal>
