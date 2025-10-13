@@ -27,7 +27,7 @@ export const Popout = ({ anchor: anchorRef, children, setClosed }: Props) => {
 
     const anchorRect = anchor.getBoundingClientRect();
 
-    setCoords({ top: anchorRect.top, left: anchorRect.right + 10 });
+    setCoords({ top: window.scrollY + anchorRect.top, left: anchorRect.right + 10 });
   }, []);
 
   useEffect(() => {
