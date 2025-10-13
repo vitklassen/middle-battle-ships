@@ -97,4 +97,52 @@ router.get('/comments/:comment_id', async (req, res) => {
   }
 });
 
+router.delete('/', async (req, res) => {
+  const { code, comment_id: commentId } = req.body;
+  const numericCode = parseInt(code, 16);
+
+  if (!commentId || typeof commentId !== 'number') {
+    res.status(400).send({ reason: 'Invalid comment_id param' });
+    return;
+  }
+
+  if (!code || typeof code !== 'string' || Number.isNaN(numericCode)) {
+    res.status(400).send({ reason: 'Invalid id path param ' });
+    return;
+  }
+
+  try {
+    const comment = await Comment.findOne({
+      where: { id: commentId },
+    });
+
+    if (comment === null) {
+      res.status(404);
+      res.send({ status: 404, reason: 'Comment not found' });
+      return;
+    }
+
+    const reaction = await Reaction.findOne({
+      where: { [Op.and]: [{ owner_id: req.user.id }, { code: numericCode }, { comment_id: commentId }] },
+    });
+
+    if (!reaction) {
+      res.status(404).send('Reaction not found');
+      return;
+    }
+
+    await Reaction.destroy({ where: { code: numericCode, owner_id: req.user.id } });
+
+    res.send('OK');
+  } catch (e) {
+    console.error(e);
+
+    if (e instanceof Error) {
+      res.status(500).send({ reason: e.message });
+    } else {
+      res.status(500).send();
+    }
+  }
+});
+
 export default router;

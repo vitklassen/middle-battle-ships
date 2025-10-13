@@ -1,7 +1,9 @@
 import { useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import clsx from 'clsx';
-import { addReaction, setComment, TComment } from '../../../Features/forum';
+import {
+  addReaction, deleteReaction, Reaction, setComment, TComment,
+} from '../../../Features/forum';
 import { Card } from '../../../Common/Blocks/Card';
 import { Button } from '../../../Common/Blocks/Button';
 import { AddCommentForm } from '../../AddCommentForm';
@@ -59,6 +61,24 @@ export const Comments = ({
       });
   };
 
+  const handleDeleteReaction = (code: number) => {
+    deleteReaction({ code: code.toString(16), comment_id: comment.id })
+      .then(() => {
+        const reaction = comment.reactions?.find((reaction) => reaction.code === code);
+
+        if (!reaction) {
+          return;
+        }
+
+        return dispatch(setComment({
+          ...comment,
+          reactions: [
+            ...(comment.reactions?.filter((reaction) => reaction.code !== code) || []),
+            { ...reaction, count: (reaction.count || 0) - 1, isOwner: false }],
+        }));
+      });
+  };
+
   if (!comment) {
     return;
   }
@@ -87,7 +107,7 @@ export const Comments = ({
               mode={reaction.isOwner ? 'primary' : 'secondary'}
               key={reaction.code}
               className={styles.reactionButton}
-              onClick={() => handleSelectReaction(reaction.code)}
+              onClick={() => (reaction.isOwner ? handleDeleteReaction(reaction.code) : handleSelectReaction(reaction.code))}
             >
               {`${reaction.count}`}
               <span className={styles.reaction}>{`${String.fromCodePoint(reaction.code)}`}</span>

@@ -43,6 +43,15 @@ export class ForumApi {
       },
     });
   }
+
+  deleteReaction(request: AddReactionRequest, cookie?: string) {
+    return apiInstance.delete('/api/reactions', {
+      data: request,
+      headers: {
+        cookie,
+      },
+    });
+  }
 }
 
 const forumApi = new ForumApi();

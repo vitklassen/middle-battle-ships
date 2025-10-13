@@ -75,4 +75,6 @@ export const createComment = async (request: AddCommentRequest, cookie?: string)
 
 export const addReaction = async (request: AddReactionRequest, cookie?: string) => forumApi.addReaction(request, cookie);
 
+export const deleteReaction = async (request: AddReactionRequest, cookie?: string) => forumApi.deleteReaction(request, cookie);
+
 export const forumReducer = forumSlice.reducer;
