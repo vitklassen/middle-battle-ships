@@ -14,6 +14,7 @@ export type TTopicPreview = {
 export type Reaction = {
   code: number;
   count: number;
+  isOwner: boolean;
 }
 
 export type TComment = {

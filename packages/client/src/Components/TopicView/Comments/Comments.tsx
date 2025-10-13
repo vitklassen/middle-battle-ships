@@ -45,11 +45,16 @@ export const Comments = ({
       .then(() => {
         setIsAddReactionPopoutVisible(false);
         const reaction = comment.reactions?.find((reaction) => reaction.code === code);
+
+        if (!reaction) {
+          return;
+        }
+
         return dispatch(setComment({
           ...comment,
           reactions: [
             ...(comment.reactions?.filter((reaction) => reaction.code !== code) || []),
-            { code, count: (reaction?.count || 0) + 1 }],
+            { ...reaction, count: (reaction.count || 0) + 1, isOwner: true }],
         }));
       });
   };
@@ -78,7 +83,12 @@ export const Comments = ({
         <p>{comment.content}</p>
         <div className={styles.reactions}>
           {comment.reactions && comment.reactions.map((reaction) => (
-            <Button mode="secondary" key={reaction.code} className={styles.reactionButton} onClick={() => handleSelectReaction(reaction.code)}>
+            <Button
+              mode={reaction.isOwner ? 'primary' : 'secondary'}
+              key={reaction.code}
+              className={styles.reactionButton}
+              onClick={() => handleSelectReaction(reaction.code)}
+            >
               {`${reaction.count}`}
               <span className={styles.reaction}>{`${String.fromCodePoint(reaction.code)}`}</span>
             </Button>

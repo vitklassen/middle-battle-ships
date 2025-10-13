@@ -29,7 +29,7 @@ export function mapComment(comment: Comment): TComment {
       lastName: comment.User.second_name,
       avatar: comment.User.avatar,
     },
-    reactions: comment.Reactions,
+    reactions: comment.Reactions?.map((reaction) => ({ ...reaction, isOwner: reaction.is_owner })),
   };
 }
 

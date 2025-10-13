@@ -346,30 +346,29 @@ router.get('/:id', async (req, res) => {
       attributes: [
         'comment_id',
         'code',
-        [fn('COUNT', col('id')), 'count'],
+        'owner_id',
       ],
       where: {
         comment_id: comments.map((comment) => comment.id),
       },
-      group: ['comment_id', 'code'],
-      raw: true,
     });
 
     const commentsWithReactions = comments.map((comment) => {
-      const commentReactions = reactions.filter((rc) => rc.comment_id === comment.id);
+      const reactionsByCode = reactions
+        .filter((reaction) => reaction.comment_id === comment.id)
+        .reduce((acc, reaction) => {
+          const code = reaction.code!;
+          return { ...acc, [code]: [...(acc[code] || []), reaction.owner_id!] };
+        }, {} as Record<number, number[]>);
+
       return {
         ...comment.toJSON(),
-        Reactions: commentReactions.reduce((acc, curr) => {
-          if (curr.code) {
-            acc.push({
-              code: curr.code,
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-expect-error
-              count: Number(curr.count),
-            });
-          }
+        Reactions: Object.entries(reactionsByCode).reduce((acc, [code, ownerIds]) => {
+          acc.push({
+            code: Number(code), count: ownerIds.length, is_owner: ownerIds.includes(req.user.id),
+          });
           return acc;
-        }, [] as {code:number, count: number}[]),
+        }, [] as { code: number, count: number, is_owner: boolean }[]),
       };
     });
 

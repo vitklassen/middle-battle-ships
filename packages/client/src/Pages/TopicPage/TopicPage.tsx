@@ -1,4 +1,3 @@
-import { useParams } from 'react-router';
 import { useState } from 'react';
 import { authorizationChecker } from '../../Components/AuthorizationChecker';
 import { TopicView } from '../../Components/TopicView';

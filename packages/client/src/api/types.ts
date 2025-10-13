@@ -63,7 +63,7 @@ export type Comment = {
     second_name: string;
     avatar: string | null;
   };
-  Reactions?: Array<{ code: number; count: number; }>
+  Reactions?: Array<{ code: number, count: number, is_owner: boolean }>
 }
 
 export type GetTopicResponse = Topic & {

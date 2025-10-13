@@ -50,7 +50,7 @@ export const forumSlice = createSlice({
 });
 
 export const {
-  setTopics, addTopic, setTopic, addComment, setComment,
+  setTopics, addTopic, setTopic, resetTopic, addComment, setComment,
 } = forumSlice.actions;
 
 export const getTopics = async (cookie?: string) => {
