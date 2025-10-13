@@ -250,6 +250,7 @@ router.post('/:id/comment', async (req, res) => {
 router.get('/', async (_req, res) => {
   try {
     const topics = await Topic.findAll({
+      raw: true,
       include: [
         {
           model: Comment,
@@ -258,7 +259,7 @@ router.get('/', async (_req, res) => {
         },
         {
           model: User,
-          attributes: ['first_name', 'second_name', 'avatar'],
+          attributes: [],
         },
       ],
       group: [
@@ -267,13 +268,14 @@ router.get('/', async (_req, res) => {
         'Topic.content',
         'User.id',
       ],
-      order: [['id', 'ASC']],
+      order: [['createdAt', 'DESC']],
       attributes: [
         'id',
         'title',
         'content',
         'createdAt',
         [fn('COUNT', col('Comments.id')), 'comments_count'],
+        'User.first_name', 'User.second_name', 'User.avatar',
       ],
     });
 
@@ -327,6 +329,7 @@ router.get('/:id', async (req, res) => {
     }
 
     const comments = await Comment.findAll({
+      where: { topic_id: topic.id },
       include: [{
         model: User,
         attributes: ['first_name', 'second_name', 'avatar'],
