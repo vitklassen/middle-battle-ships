@@ -8,7 +8,7 @@ import {
   mapComment, mapGetTopicResponse, mapGetTopicsResponse, mapTopic,
 } from './mappers';
 import {
-  AddCommentRequest, AddReactionRequest, CreateTopicRequest, EditTopicRequest, GetTopicRequest,
+  AddCommentRequest, AddReactionRequest, CreateTopicRequest, DeleteCommentRequest, EditTopicRequest, GetTopicRequest,
 } from '../../api/types';
 
 const initialState: ForumState = {};
@@ -53,9 +53,21 @@ export const forumSlice = createSlice({
       if (state.currentTopic) {
         state.currentTopic = {
           ...state.currentTopic,
+          commentCount: state.currentTopic.commentCount + 1,
           comments: [...state.currentTopic.comments, action.payload],
         };
       }
+    },
+    removeComment: (state, action: PayloadAction<number>) => {
+      if (!state.currentTopic) {
+        return;
+      }
+
+      state.currentTopic = {
+        ...state.currentTopic,
+        commentCount: state.currentTopic.commentCount - 1,
+        comments: state.currentTopic.comments.filter((comment) => comment.id !== action.payload),
+      };
     },
     setComment: (state, action: PayloadAction<TComment>) => {
       if (state.currentTopic) {
@@ -70,7 +82,7 @@ export const forumSlice = createSlice({
 });
 
 export const {
-  setTopics, addTopic, setTopic, resetTopic, addComment, setComment, removeTopic, updateTopic,
+  setTopics, addTopic, setTopic, resetTopic, addComment, setComment, removeTopic, updateTopic, removeComment,
 } = forumSlice.actions;
 
 export const getTopics = async (cookie?: string) => {
@@ -99,6 +111,10 @@ export const deleteTopic = async (id: number, cookie?: string) => {
 export const createComment = async (request: AddCommentRequest, cookie?: string) => {
   const comment = await forumApi.addComment(request, cookie);
   return mapComment(comment);
+};
+
+export const deleteComment = async (request: DeleteCommentRequest, cookie?: string) => {
+  await forumApi.deleteComment(request, cookie);
 };
 
 export const addReaction = async (request: AddReactionRequest, cookie?: string) => forumApi.addReaction(request, cookie);

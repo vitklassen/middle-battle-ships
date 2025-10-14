@@ -45,3 +45,7 @@
 .reaction {
     font-size: 24px;
 }
+
+.buttonDestructive {
+    color: var(--color-secondary);
+}

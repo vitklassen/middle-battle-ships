@@ -46,6 +46,7 @@ export const TopicView = ({ topic, onAddCommentClick }: Props) => (
         .map((comment) => (
           <Comments
             key={comment.id}
+            topicId={topic.id}
             comment={comment}
             comments={topic.comments}
             level={0}

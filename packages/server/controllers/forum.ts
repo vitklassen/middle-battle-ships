@@ -382,7 +382,7 @@ router.get('/:id', async (req, res) => {
       where: { topic_id: topic.id },
       include: [{
         model: User,
-        attributes: ['first_name', 'second_name', 'avatar'],
+        attributes: ['first_name', 'second_name', 'avatar', 'yandex_id'],
       }],
       attributes: [
         'id',

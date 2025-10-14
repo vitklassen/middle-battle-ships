@@ -2,7 +2,7 @@ import { useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import clsx from 'clsx';
 import {
-  addReaction, deleteReaction, Reaction, setComment, TComment,
+  addReaction, deleteComment, deleteReaction, Reaction, removeComment, setComment, TComment,
 } from '../../../Features/forum';
 import { Card } from '../../../Common/Blocks/Card';
 import { Button } from '../../../Common/Blocks/Button';
@@ -10,8 +10,11 @@ import { AddCommentForm } from '../../AddCommentForm';
 import { AddReactionPopout } from '../AddReactionPopout';
 import styles from './Comments.module.css';
 import { getAvatarUrl } from '../../../Common/utils/getAvatarUrl';
+import { useSelector } from '../../../Store';
+import { setError } from '../../../Features/error';
 
 type Props = {
+  topicId: number;
   comment: TComment;
   comments: TComment[];
   level: number;
@@ -27,7 +30,7 @@ const shortDateFormatter = new Intl.DateTimeFormat('fr-FR', {
 });
 
 export const Comments = ({
-  comment, comments, level, className,
+  comment, comments, level, topicId, className,
 }: Props) => {
   const [isAddCommentFormVisible, setIsAddCommentFormVisible] = useState(false);
   const [isChildCommentVisible, setIsChildCommentVisible] = useState(false);
@@ -39,6 +42,8 @@ export const Comments = ({
     () => comments.filter((childComment) => childComment.parentId === comment.id),
     [comments, comment.id],
   );
+
+  const profile = useSelector((state) => state.profile.value);
 
   const dispatch = useDispatch();
 
@@ -79,10 +84,19 @@ export const Comments = ({
       });
   };
 
+  const handleCommentDelete = (commentId: number) => {
+    deleteComment({ topicId, commentId })
+      .then(() => {
+        dispatch(removeComment(commentId));
+      })
+      .catch((error) => dispatch(setError(error)));
+  };
+
   if (!comment) {
     return;
   }
 
+  console.log(comment.owner.id, profile?.id);
   return (
     <div className={className} style={{ marginLeft: `${level * 50}px` }}>
       {isAddReactionPopoutVisible && (
@@ -128,6 +142,15 @@ export const Comments = ({
           </Button>
         )}
         <Button mode="tertiary" onClick={() => setIsAddCommentFormVisible(true)}>Ответить</Button>
+        {comment.owner.id === profile?.id && (
+          <Button
+            mode="tertiary"
+            onClick={() => handleCommentDelete(comment.id)}
+            className={styles.buttonDestructive}
+          >
+            Удалить
+          </Button>
+        )}
       </Card>
       {isAddCommentFormVisible && (
         <AddCommentForm commentId={comment.id} onSubmit={() => setIsAddCommentFormVisible(false)} onClose={() => setIsAddCommentFormVisible(false)} />
@@ -138,6 +161,7 @@ export const Comments = ({
           comment={childComment}
           comments={comments}
           level={level + 1}
+          topicId={topicId}
         />
       ))}
     </div>
