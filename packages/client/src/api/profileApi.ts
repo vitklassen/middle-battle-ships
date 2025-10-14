@@ -19,6 +19,12 @@ export class ProfileApi {
       formData,
     });
   }
+
+  setTheme(isAlt: boolean) {
+    return apiInstance.post('/api/theme', {
+      data: { theme: isAlt },
+    });
+  }
 }
 
 const profileApi = new ProfileApi();

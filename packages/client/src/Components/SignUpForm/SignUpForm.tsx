@@ -10,7 +10,7 @@ import { Form } from '../../Common/Blocks/Form';
 import { Button } from '../../Common/Blocks/Button';
 import { Card } from '../../Common/Blocks/Card';
 import authApi from '../../api/authApi';
-import { getProfile, loadThemeInfo, setProfile } from '../../Features/profile';
+import { getProfile, setProfile } from '../../Features/profile';
 import { Path } from '../../Router';
 import styles from './SignUpForm.module.css';
 
@@ -161,7 +161,6 @@ export const SignUpForm: FC = () => {
   const onSubmit = (data: SubmitData) => {
     authApi.register(data).then((): void => {
       getProfile().then((profile) => {
-        profile = loadThemeInfo(profile);
         dispatch(setProfile(profile));
         navigate(Path.Main);
       });

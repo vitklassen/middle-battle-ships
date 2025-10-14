@@ -9,7 +9,7 @@ import { Button } from '../../Common/Blocks/Button';
 import authApi from '../../api/authApi';
 import { SubmitData } from './types';
 import {
-  getProfile, loadThemeInfo, setPositions, setProfile,
+  getProfile, setPositions, setProfile,
 } from '../../Features/profile';
 import { Path } from '../../Router';
 import styles from './SignInForm.module.css';
@@ -66,7 +66,6 @@ export const SignInForm = () => {
   const onSubmitHandler = (data: SubmitData) => {
     authApi.login(data).then((): void => {
       getProfile().then((profile) => {
-        profile = loadThemeInfo(profile);
         dispatch(setProfile(profile));
         navigate(Path.Main);
 

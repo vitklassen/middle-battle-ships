@@ -46,7 +46,7 @@ async function startServer() {
   app.use('/api', logger);
 
   app.use('/api/reactions', reactionsController);
-  app.use('/theme', themeController);
+  app.use('/api/theme', themeController);
   app.use('/api/topics', forumController);
 
   const port = Number(process.env.SERVER_PORT) || 3001;

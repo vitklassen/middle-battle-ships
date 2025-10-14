@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import styles from './Header.module.css';
 import { Path } from '../../Router';
-import { setTheme } from '../../Features/profile';
+import { changeTheme, setTheme } from '../../Features/profile';
 import { useSelector } from '../../Store';
 import { Card } from '../../Common/Blocks/Card';
 
@@ -11,11 +11,12 @@ export const Header = () => {
   const dispatch = useDispatch();
   const isThemeAlt = useSelector((state) => state.profile.value?.isThemeAlt);
 
-  const changeTheme = () => {
-    // Затычка пока не подключили сервер
-    localStorage.setItem('isThemeAlt', JSON.stringify(!isThemeAlt));
-    dispatch(setTheme({ isThemeAlt: !isThemeAlt }));
+  const onThemeClick = (newTheme: boolean) => {
+    changeTheme(newTheme).then(() => {
+      dispatch(setTheme({ isThemeAlt: newTheme }));
+    });
   };
+
   return (
     <Card className={styles.header}>
       <Link to={Path.Main} className={styles.logoContainer}>
@@ -29,7 +30,12 @@ export const Header = () => {
       </div>
       <div className={`${styles.bell} ${isThemeAlt ? styles.altBell : ''}`} />
       <Link to={Path.Profile} className={`${styles.iconProfile} ${isThemeAlt ? styles.altProfileIcon : ''}`} />
-      <button className={`${styles.clicker} ${isThemeAlt ? styles.altClicker : ''}`} type="button" id="theme_switcher" onClick={changeTheme} />
+      <button
+        className={`${styles.clicker} ${isThemeAlt ? styles.altClicker : ''}`}
+        type="button"
+        id="theme_switcher"
+        onClick={() => onThemeClick(!isThemeAlt)}
+      />
     </Card>
   );
 };
