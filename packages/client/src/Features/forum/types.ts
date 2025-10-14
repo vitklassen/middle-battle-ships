@@ -5,6 +5,7 @@ export type TTopicPreview = {
   commentCount: number;
   createdAt: string;
   owner: {
+    id: number;
     firstName: string;
     lastName: string;
     avatar: string | null;
@@ -23,6 +24,7 @@ export type TComment = {
   content: string;
   createdAt: string;
   owner: {
+    id: number;
     firstName: string;
     lastName: string;
     avatar: string | null;

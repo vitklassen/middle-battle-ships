@@ -3,7 +3,7 @@ import {
   AddCommentRequest,
   AddReactionRequest,
   Comment,
-  CreateTopicRequest, GetTopicRequest, GetTopicResponse, GetTopicsResponse, Topic,
+  CreateTopicRequest, DeleteCommentRequest, EditTopicRequest, GetTopicRequest, GetTopicResponse, GetTopicsResponse, Topic,
 } from './types';
 
 export class ForumApi {
@@ -20,6 +20,19 @@ export class ForumApi {
     });
   }
 
+  editTopic(request: EditTopicRequest, cookie?: string) {
+    return apiInstance.patch(`/api/topics/${request.topicId}`, {
+      data: { title: request.title, content: request.content },
+      headers: { cookie },
+    });
+  }
+
+  deleteTopic(id: number, cookie?: string) {
+    return apiInstance.delete(`/api/topics/${id}`, {
+      headers: { cookie },
+    });
+  }
+
   getTopic(request: GetTopicRequest, cookie?: string) {
     return apiInstance.get<GetTopicResponse>(`/api/topics/${request.id}`, {
       headers: { cookie },
@@ -32,6 +45,12 @@ export class ForumApi {
       headers: {
         cookie,
       },
+    });
+  }
+
+  deleteComment(request: DeleteCommentRequest, cookie?: string) {
+    return apiInstance.delete(`/api/topics/${request.topicId}/comment/${request.commentId}`, {
+      headers: { cookie },
     });
   }
 

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { col, fn } from 'sequelize';
+import { col, fn, Op } from 'sequelize';
 import {
   Comment, Reaction, Topic, User,
 } from '../models';
@@ -70,7 +70,7 @@ router.patch('/:id', async (req, res) => {
   const { id: topicId } = req.params;
   const { title, content } = req.body;
 
-  if (typeof topicId !== 'number') {
+  if (!topicId || Number.isNaN(Number(topicId))) {
     res.status(400);
     res.send({ status: 400, reason: 'Invalid topic ID' });
     return;
@@ -107,6 +107,11 @@ router.patch('/:id', async (req, res) => {
     return;
   }
 
+  if (topic.owner_id !== req.user.id) {
+    res.status(403).send({ reason: 'Topic editing is forbidden' });
+    return;
+  }
+
   const updateData: { title?: string; content?: string } = {};
 
   if (title) updateData.title = title;
@@ -136,7 +141,7 @@ router.patch('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   const { id: topicId } = req.params;
 
-  if (!topicId || typeof topicId !== 'number') {
+  if (!topicId || Number.isNaN(Number(topicId))) {
     res.status(400);
     res.send({ status: 400, reason: 'Invalid topic ID' });
     return;
@@ -150,6 +155,11 @@ router.delete('/:id', async (req, res) => {
     if (topic === null) {
       res.status(404);
       res.send({ status: 404, reason: 'Topic not found' });
+      return;
+    }
+
+    if (topic.owner_id !== req.user.id) {
+      res.status(403).send({ reason: 'Topic deleting is forbidden' });
       return;
     }
 
@@ -246,6 +256,45 @@ router.post('/:id/comment', async (req, res) => {
   }
 });
 
+router.delete('/:topic_id/comment/:id', async (req, res) => {
+  const { topic_id: topicId, id: commentId } = req.params;
+
+  if (!topicId || typeof Number(topicId) !== 'number') {
+    res.status(400).send({ reason: 'Invalid path param topic_id' });
+    return;
+  }
+
+  if (!commentId || typeof Number(commentId) !== 'number') {
+    res.status(400).send({ reason: 'Invalid path param id' });
+    return;
+  }
+
+  try {
+    const comment = await Comment.findOne({
+      where: { [Op.and]: [{ id: commentId }, { topic_id: topicId }] },
+    });
+
+    if (!comment) {
+      res.status(404).send('Comment not found');
+      return;
+    }
+
+    await Comment.destroy({
+      where: { id: commentId },
+    });
+
+    res.send('OK');
+  } catch (e) {
+    console.error(e);
+
+    if (e instanceof Error) {
+      res.status(500).send({ reason: e.message });
+    } else {
+      res.status(500).send();
+    }
+  }
+});
+
 // получение всех топиков
 router.get('/', async (_req, res) => {
   try {
@@ -275,7 +324,7 @@ router.get('/', async (_req, res) => {
         'content',
         'createdAt',
         [fn('COUNT', col('Comments.id')), 'comments_count'],
-        'User.first_name', 'User.second_name', 'User.avatar',
+        'User.first_name', 'User.second_name', 'User.yandex_id',
       ],
     });
 
@@ -315,6 +364,7 @@ router.get('/:id', async (req, res) => {
         'id',
         'title',
         'content',
+        'User.yandex_id',
         'User.first_name',
         'User.second_name',
         'User.avatar',

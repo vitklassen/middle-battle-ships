@@ -36,6 +36,7 @@ export type Topic = {
   title: string;
   content: string;
   comments_count: string;
+  yandex_id: number;
   first_name: string;
   second_name: string;
   avatar: null;
@@ -59,6 +60,7 @@ export type Comment = {
   content: string;
   createdAt: string;
   User: {
+    yandex_id: number;
     first_name: string;
     second_name: string;
     avatar: string | null;
@@ -79,4 +81,15 @@ export type AddCommentRequest = {
 export type AddReactionRequest = {
   comment_id: number;
   code: string;
+}
+
+export type EditTopicRequest = {
+  topicId: number;
+  title?: string;
+  content?: string;
+}
+
+export type DeleteCommentRequest = {
+  topicId: number;
+  commentId: number;
 }

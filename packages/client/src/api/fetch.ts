@@ -8,6 +8,7 @@ enum METHOD { // в упор не видит, что METHOD вызывается
   POST = 'POST',
   PUT = 'PUT',
   DELETE = 'DELETE',
+  PATCH = 'PATCH'
 }
 
 type Options = {
@@ -49,6 +50,12 @@ export class HTTP {
   put = <R>(path: string, options?: OptionsWithoutMethod) => this.request<R>(
     this.url + path,
     { ...options, method: METHOD.PUT },
+    options?.timeout,
+  );
+
+  patch = <R>(path: string, options?: OptionsWithoutMethod) => this.request<R>(
+    this.url + path,
+    { ...options, method: METHOD.PATCH },
     options?.timeout,
   );
 

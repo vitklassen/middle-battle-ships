@@ -8,7 +8,7 @@ import {
   mapComment, mapGetTopicResponse, mapGetTopicsResponse, mapTopic,
 } from './mappers';
 import {
-  AddCommentRequest, AddReactionRequest, CreateTopicRequest, GetTopicRequest,
+  AddCommentRequest, AddReactionRequest, CreateTopicRequest, EditTopicRequest, GetTopicRequest,
 } from '../../api/types';
 
 const initialState: ForumState = {};
@@ -22,6 +22,26 @@ export const forumSlice = createSlice({
     },
     addTopic: (state, action: PayloadAction<TTopicPreview>) => {
       state.topics = state.topics ? [...state.topics, action.payload] : undefined;
+    },
+    updateTopic: (state, action: PayloadAction<Pick<TTopic, 'id' | 'title' | 'content'>>) => {
+      if (!state.topics) {
+        if (!state.currentTopic || state.currentTopic.id !== action.payload.id) {
+          return;
+        }
+        state.currentTopic = { ...state.currentTopic, title: action.payload.title, content: action.payload.content };
+        return;
+      }
+      const index = state.topics.findIndex((topic) => topic.id === action.payload.id);
+      if (index === -1) {
+        return;
+      }
+      state.topics = [
+        ...state.topics.slice(0, index),
+        { ...state.topics[index], title: action.payload.title, content: action.payload.content },
+        ...state.topics.slice(index + 1)];
+    },
+    removeTopic: (state, action: PayloadAction<TTopic>) => {
+      state.topics = state.topics ? state.topics.filter((topic) => topic.id !== action.payload.id) : undefined;
     },
     setTopic: (state, action: PayloadAction<TTopic>) => {
       state.currentTopic = action.payload;
@@ -50,7 +70,7 @@ export const forumSlice = createSlice({
 });
 
 export const {
-  setTopics, addTopic, setTopic, resetTopic, addComment, setComment,
+  setTopics, addTopic, setTopic, resetTopic, addComment, setComment, removeTopic, updateTopic,
 } = forumSlice.actions;
 
 export const getTopics = async (cookie?: string) => {
@@ -66,6 +86,14 @@ export const createTopic = async (request: CreateTopicRequest, cookie?: string) 
 export const getTopic = async (request: GetTopicRequest, cookie?: string) => {
   const topic = await forumApi.getTopic(request, cookie);
   return mapGetTopicResponse(topic);
+};
+
+export const editTopic = async (request: EditTopicRequest, cookie?: string) => {
+  await forumApi.editTopic(request, cookie);
+};
+
+export const deleteTopic = async (id: number, cookie?: string) => {
+  await forumApi.deleteTopic(id, cookie);
 };
 
 export const createComment = async (request: AddCommentRequest, cookie?: string) => {

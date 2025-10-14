@@ -11,6 +11,7 @@ export function mapTopic(topic: Topic): TTopicPreview {
     createdAt: topic.createdAt,
     commentCount: Number(topic.comments_count),
     owner: {
+      id: topic.yandex_id,
       firstName: topic.first_name,
       lastName: topic.second_name,
       avatar: topic.avatar,
@@ -25,6 +26,7 @@ export function mapComment(comment: Comment): TComment {
     content: comment.content,
     createdAt: comment.createdAt,
     owner: {
+      id: comment.User.yandex_id,
       firstName: comment.User.first_name,
       lastName: comment.User.second_name,
       avatar: comment.User.avatar,
