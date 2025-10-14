@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styles from './Header.module.css';
 import { Path } from '../../Router';

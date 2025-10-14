@@ -5,9 +5,9 @@
   background: var(--color-white);
   padding: 18px 32px;
   box-shadow: 5px 0 0 0 var(--color-basic);
-  position: fixed;
+  position: absolute;
   width: calc(100% - 24px);
-  z-index: 100;
+  z-index: 1;
   margin: 12px;
 }
 

@@ -17,6 +17,8 @@ body {
   --color-tertiary: rgba(245, 192, 0);
   --color-dropdown: rgba(27, 27, 27, 0.8);
   --color-white: rgb(255, 255, 255);
+
+  color: var(--color-basic);
 }
 
 .altTheme {
@@ -26,4 +28,6 @@ body {
   --color-tertiary: rgba(245, 192, 0);
   --color-dropdown: rgba(27, 27, 27, 0.8);
   --color-white: rgb(27, 27, 27);
+
+  color: var(--color-basic);
 }

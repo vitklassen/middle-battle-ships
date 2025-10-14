@@ -324,7 +324,7 @@ router.get('/', async (_req, res) => {
         'content',
         'createdAt',
         [fn('COUNT', col('Comments.id')), 'comments_count'],
-        'User.first_name', 'User.second_name', 'User.yandex_id',
+        'User.avatar', 'User.first_name', 'User.second_name', 'User.yandex_id',
       ],
     });
 

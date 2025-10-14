@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { authorizationChecker } from '../../Components/AuthorizationChecker';
@@ -10,7 +10,7 @@ import { useSelector } from '../../Store';
 import { Header } from '../../Components/Header';
 import styles from './TopicPage.module.css';
 import {
-  deleteTopic, getTopic, removeTopic, setTopic,
+  deleteTopic, getTopic, removeTopic, resetTopic, setTopic,
   TTopic,
 } from '../../Features/forum';
 import { setError } from '../../Features/error';
@@ -23,11 +23,13 @@ export const initTopicPage = async (args: PageInitArgs) => {
 
   const { state, dispatch, context: { cookie, path } } = args;
 
-  if (typeof state.forum.currentTopic !== 'undefined') {
+  if (typeof state.forum.currentTopic !== 'undefined' && state.forum.currentTopic !== null) {
     return;
   }
 
-  return getTopic({ id: Number(path.split('/').slice(-1)) }, cookie)
+  const id = Number(path.split('/').slice(-1));
+
+  return getTopic({ id }, cookie)
     .then((topic) => dispatch(setTopic(topic)))
     .catch((error) => dispatch(setError(error)));
 };
@@ -35,13 +37,18 @@ export const initTopicPage = async (args: PageInitArgs) => {
 export const TopicPage = authorizationChecker(() => {
   usePage({ initPage: initTopicPage });
 
+  const dispatch = useDispatch();
+
+  useEffect(() => () => {
+    dispatch(resetTopic());
+  }, []);
+
   const [isAddCommentModalVisible, setIsAddCommentModalVisible] = useState(false);
   const [isEditTopicModalVisible, setIsEditTopicModalVisible] = useState(false);
 
   const topic = useSelector((state) => state.forum.currentTopic);
   const profile = useSelector((state) => state.profile.value);
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleDeleteTopicClick = (topic: TTopic) => {
