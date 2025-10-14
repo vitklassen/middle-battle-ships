@@ -11,6 +11,10 @@
   margin-top: 20px;
 }
 
+.title {
+  font-family: 'RobotoMono-Bold', monospace;
+}
+
 .wrapper {
   border-radius: 10px;
   background: var(--color-white);

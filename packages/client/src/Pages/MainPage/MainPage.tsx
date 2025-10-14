@@ -3,6 +3,7 @@ import { CenteredLayout } from '../../Common/Layouts/CenteredLayout';
 import { Header } from '../../Components/Header';
 import { Statistics } from '../../Components/Statistics';
 import { initPage, PageInitArgs, usePage } from '../../Router';
+import { Card } from '../../Common/Blocks/Card';
 
 export const initMainPage = async (args: PageInitArgs) => {
   await initPage(args);
@@ -16,9 +17,9 @@ export const MainPage = () => {
       <Header />
       <main className={styles.root}>
         <CenteredLayout>
-          <h1>Морской бой</h1>
+          <h1 className={styles.title}>Морской бой</h1>
           <div className={styles.container}>
-            <div className={styles.wrapper}>
+            <Card className={styles.wrapper}>
               <div className={styles.description}>
                 <h2>Морской бой - классическая игра</h2>
                 <p>
@@ -40,7 +41,7 @@ export const MainPage = () => {
                   <li>Игра продолжается до тех пор, пока все корабли одного из игроков не будут потоплены</li>
                 </ul>
               </div>
-            </div>
+            </Card>
             <Statistics />
           </div>
         </CenteredLayout>

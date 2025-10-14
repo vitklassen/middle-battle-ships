@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import { Button } from '../../Common/Blocks/Button';
 import styles from './Statistiscs.module.css';
+import { Card } from '../../Common/Blocks/Card';
 
 export const Statistics = () => (
-  <div className={styles.container}>
+  <Card className={styles.container}>
     <h3 className={styles.title}>Ваша статистика</h3>
     <div className={styles.result}>
       <span>Сыграно игр</span>
@@ -24,5 +25,5 @@ export const Statistics = () => (
     <Link to="/game">
       <Button> Начать игру</Button>
     </Link>
-  </div>
+  </Card>
 );

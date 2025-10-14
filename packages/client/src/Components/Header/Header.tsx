@@ -6,6 +6,7 @@ import styles from './Header.module.css';
 import { Path } from '../../Router';
 import { setTheme } from '../../Features/profile';
 import { useSelector } from '../../Store';
+import { Card } from '../../Common/Blocks/Card';
 
 export const Header = () => {
   const dispatch = useDispatch();
@@ -17,8 +18,11 @@ export const Header = () => {
     dispatch(setTheme({ isThemeAlt: !isThemeAlt }));
   };
   return (
-    <header className={styles.header}>
-      <Link to={Path.Main} className={styles.logo} />
+    <Card className={styles.header}>
+      <Link to={Path.Main} className={styles.logoContainer}>
+        <span className={styles.logo} />
+        Морской бой
+      </Link>
       <div className={styles.items}>
         <Link to={Path.Game} className={styles.item}>Играть</Link>
         <Link to={Path.Leaderboard} className={styles.item}>Лидерборд</Link>
@@ -27,6 +31,6 @@ export const Header = () => {
       <div className={`${styles.bell} ${isThemeAlt ? styles.altBell : ''}`} />
       <Link to={Path.Profile} className={`${styles.iconProfile} ${isThemeAlt ? styles.altProfileIcon : ''}`} />
       <button className={`${styles.clicker} ${isThemeAlt ? styles.altClicker : ''}`} type="button" id="theme_switcher" onClick={changeTheme} />
-    </header>
+    </Card>
   );
 };
