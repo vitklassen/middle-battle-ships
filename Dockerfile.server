@@ -1,11 +1,17 @@
 ARG NODE_VERSION=22.19.0
 ARG SERVER_PORT=3001
 
-FROM node:$NODE_VERSION as base
+FROM node:$NODE_VERSION-alpine AS base
+RUN apk add --no-cache \
+    python3 \
+    py3-pip \
+    build-base \
+    git \
+    linux-headers
 
 WORKDIR /app
 
-FROM base as builder
+FROM base AS builder
 
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
@@ -15,8 +21,7 @@ COPY . .
 RUN yarn lerna bootstrap
 RUN rm -rf /app/packages/server/dist/ && yarn build
 
-
-FROM node:$NODE_VERSION as production
+FROM node:$NODE_VERSION-alpine AS production
 WORKDIR /app
 
 COPY --from=builder /app/packages/server/dist/ /app/packages/server/dist/

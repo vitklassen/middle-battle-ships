@@ -1,0 +1,17 @@
+node_modules
+tmp
+.github
+.husky
+*.log
+.editorconfig
+.gitignore
+Dockerfile.*
+docker-compose.*
+README.md
+dist
+ssr-dist
+.git
+.jshintignore
+.jshintrc
+.env.sample
+.prettierrc
