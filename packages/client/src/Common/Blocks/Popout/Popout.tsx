@@ -34,7 +34,9 @@ export const Popout = ({ anchor: anchorRef, children, setClosed }: Props) => {
     const anchor = anchorRef.current;
     const popout = popoutRef.current;
 
-    function handleClickOutside(event) {
+    function handleClickOutside(event: MouseEvent) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
       if (popout && !popout.contains(event.target) && anchor && !anchor.contains(event.target)) {
         setClosed();
       }

@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
-import { Iargs } from './apiInterfaces';
+import { Iargs } from './types';
 
 export default class BaseAPI {
   // На случай, если забудете переопределить метод и используете его, — выстрелит ошибка

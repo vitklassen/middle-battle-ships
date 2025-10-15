@@ -1,10 +1,5 @@
 import apiInstance from './fetch';
-import { GetAppID, GetProfileResponse } from './types';
-
-export interface Iargs {
-  // затычка ленивой типизации
-  [key: string]: string;
-}
+import { GetAppID, GetProfileResponse, Iargs } from './types';
 
 export class AuthAPI {
   getUserInfo(cookie?: string) {

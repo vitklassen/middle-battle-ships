@@ -38,5 +38,5 @@ export type TTopic = TTopicPreview & {
 
 export type ForumState = {
   topics?: TTopicPreview[];
-  currentTopic?: TTopic;
+  currentTopic?: TTopic | null;
 };

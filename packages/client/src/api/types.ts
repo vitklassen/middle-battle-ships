@@ -1,5 +1,10 @@
 import { LeaderboardItem } from '../Components/LeaderBoard/types';
 
+export interface Iargs {
+  // затычка ленивой типизации
+  [key: string]: string;
+}
+
 export type GetProfileResponse = {
   id: number;
   first_name: string;

@@ -52,9 +52,9 @@ export function Form<T extends FieldValues>({
             )
           }
           {errors[name] && (
-          <span className={clsx(styles.error, styles.errorField)}>
-            {errors[name].message}
-          </span>
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-expect-error
+          <span className={clsx(styles.error, styles.errorField)}>{errors[name].message}</span>
           )}
         </div>
       ))}

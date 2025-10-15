@@ -22,7 +22,7 @@ const shortDateFormatter = new Intl.DateTimeFormat('fr-FR', {
 export const TopicPreview = ({ topic, onClick, className }: Props) => (
   <Card className={className}>
     <div className={styles.container}>
-      <img src={console.log(topic.owner) || getAvatarUrl(topic.owner)} alt="" className={styles.avatar} />
+      <img src={getAvatarUrl(topic.owner)} alt="" className={styles.avatar} />
       <div className={styles.info}>
         <div className={styles.user}>
           {`${topic.owner.firstName} ${topic.owner.lastName}`}
