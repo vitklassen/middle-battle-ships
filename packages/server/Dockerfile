@@ -1,5 +1,4 @@
 ARG NODE_VERSION=22.19.0
-ARG SERVER_PORT=3001
 
 FROM node:$NODE_VERSION-alpine AS base
 RUN apk add --no-cache \
@@ -19,7 +18,8 @@ RUN yarn install --frozen-lockfile
 COPY . .
 
 RUN yarn lerna bootstrap
-RUN rm -rf /app/packages/server/dist/ && yarn build
+RUN yarn build --scope=client
+RUN yarn build --scope=server
 
 FROM node:$NODE_VERSION-alpine AS production
 WORKDIR /app

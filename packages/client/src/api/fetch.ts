@@ -141,7 +141,7 @@ export class HTTP {
         }),
       );
       if (error.status === 500) {
-        // window.location.href = '/error';
+        window.location.href = '/error';
       }
       clearTimeout(timeoutId);
       throw error;
@@ -151,5 +151,5 @@ export class HTTP {
   };
 }
 
-const apiInstance = new HTTP('http://localhost:3001');
+const apiInstance = new HTTP(`${process.env.SERVER_PROTOCOL}://${process.env.SERVER_HOST}:${process.env.SERVER_PORT}`);
 export default apiInstance;
