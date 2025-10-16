@@ -21,7 +21,7 @@ export const forumSlice = createSlice({
       state.topics = action.payload;
     },
     addTopic: (state, action: PayloadAction<TTopicPreview>) => {
-      state.topics = state.topics ? [...state.topics, action.payload] : undefined;
+      state.topics = state.topics ? [action.payload, ...state.topics] : undefined;
     },
     updateTopic: (state, action: PayloadAction<Pick<TTopic, 'id' | 'title' | 'content'>>) => {
       if (!state.topics) {

@@ -239,7 +239,7 @@ router.post('/:id/comment', async (req, res) => {
         model: User,
         required: true,
         foreignKey: 'owner_id',
-        attributes: ['first_name', 'second_name', 'avatar'],
+        attributes: ['yandex_id', 'first_name', 'second_name', 'avatar'],
       },
       attributes: ['id', 'parent_id', 'createdAt', 'content'],
     });

@@ -53,15 +53,11 @@ export const Comments = ({
         setIsAddReactionPopoutVisible(false);
         const reaction = comment.reactions?.find((reaction) => reaction.code === code);
 
-        if (!reaction) {
-          return;
-        }
-
         return dispatch(setComment({
           ...comment,
           reactions: [
-            ...(comment.reactions?.filter((reaction) => reaction.code !== code) || []),
-            { ...reaction, count: (reaction.count || 0) + 1, isOwner: true }],
+            ...(comment.reactions?.filter((reaction) => reaction?.code !== code) || []),
+            { code, count: (reaction?.count || 0) + 1, isOwner: true }],
         }));
       });
   };
@@ -77,9 +73,10 @@ export const Comments = ({
 
         return dispatch(setComment({
           ...comment,
-          reactions: [
-            ...(comment.reactions?.filter((reaction) => reaction.code !== code) || []),
-            { ...reaction, count: (reaction.count || 0) - 1, isOwner: false }],
+          reactions: reaction.count > 1
+            ? [...(comment.reactions?.filter((reaction) => reaction.code !== code) || []),
+              { ...reaction, count: (reaction.count || 0) - 1, isOwner: false }]
+            : comment.reactions?.filter((reaction) => reaction.code !== code),
         }));
       });
   };
@@ -96,7 +93,6 @@ export const Comments = ({
     return;
   }
 
-  console.log(comment.owner.id, profile?.id);
   return (
     <div className={className} style={{ marginLeft: `${level * 50}px` }}>
       {isAddReactionPopoutVisible && (
