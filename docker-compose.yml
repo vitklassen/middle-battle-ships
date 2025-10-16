@@ -12,7 +12,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./tmp/pgdata:/var/lib/postgresql/data
       - ./init-scripts:/docker-entrypoint-initdb.d
     networks:
       - myapp-network
@@ -26,9 +26,12 @@ services:
     env_file:
       - .env
     environment:
-      DATABASE_URL: ${DATABASE_URL}
       NODE_ENV: ${NODE_ENV}
+      POSTGRES_HOST: ${POSTGRES_HOST}
       SERVER_PORT: ${SERVER_PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "3001:3001"
     depends_on:
@@ -53,9 +56,6 @@ services:
       - server
     networks:
       - myapp-network
-
-volumes:
-  postgres_data:
 
 networks:
   myapp-network:
