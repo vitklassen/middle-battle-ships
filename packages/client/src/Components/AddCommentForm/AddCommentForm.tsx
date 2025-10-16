@@ -17,6 +17,7 @@ const fields = [{
   type: 'textarea',
   options: {
     required: 'Обязательное поле',
+    maxLength: { value: 1000, message: 'Комментарий не может превышать 1000 символов' },
   },
 }];
 

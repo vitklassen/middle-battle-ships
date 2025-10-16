@@ -28,19 +28,22 @@ export const createClientAndConnect = async (): Promise<Sequelize | null> => {
 
     sequelize.addModels([User, Topic, Comment, Reaction]);
 
-    User.hasMany(Topic, { foreignKey: 'owner_id' });
+    User.hasMany(Topic, { foreignKey: 'owner_id', onDelete: 'cascade' });
     Topic.belongsTo(User, { foreignKey: 'owner_id' });
 
-    User.hasMany(Comment, { foreignKey: 'owner_id' });
+    User.hasMany(Comment, { foreignKey: 'owner_id', onDelete: 'cascade' });
     Comment.belongsTo(User, { foreignKey: 'owner_id' });
 
-    User.hasMany(Reaction, { foreignKey: 'owner_id' });
+    User.hasMany(Reaction, { foreignKey: 'owner_id', onDelete: 'cascade' });
     Reaction.belongsTo(User, { foreignKey: 'owner_id' });
 
-    Topic.hasMany(Comment, { foreignKey: 'topic_id' });
+    Topic.hasMany(Comment, { foreignKey: 'topic_id', onDelete: 'cascade' });
     Comment.belongsTo(Topic, { foreignKey: 'topic_id' });
 
-    Comment.hasMany(Reaction, { foreignKey: 'comment_id' });
+    Comment.hasMany(Comment, { foreignKey: 'parent_id', onDelete: 'cascade' });
+    Comment.belongsTo(Comment, { foreignKey: 'parent_id' });
+
+    Comment.hasMany(Reaction, { foreignKey: 'comment_id', onDelete: 'cascade' });
     Reaction.belongsTo(Comment, { foreignKey: 'comment_id' });
 
     await sequelize.sync();

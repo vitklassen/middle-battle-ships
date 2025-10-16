@@ -17,7 +17,7 @@ export class Topic extends Model {
       title: string | undefined;
 
     @AllowNull(false)
-    @Column(DataType.STRING(1000))
+    @Column(DataType.STRING(5000))
       content: string | undefined;
 
     @AllowNull(false)

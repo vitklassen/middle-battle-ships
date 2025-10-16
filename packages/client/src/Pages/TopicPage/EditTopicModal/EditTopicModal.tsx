@@ -33,6 +33,7 @@ const fields = [
     type: 'textarea',
     options: {
       required: 'Обязательное поле',
+      maxLength: { value: 5000, message: 'Длина темы не может превышать 5000 символов' },
     },
     className: styles.textarea,
   },
