@@ -39,7 +39,7 @@ services:
       target: production
     container_name: myapp-client-prod
     ports:
-      - "8080:80"
+      - "${CLIENT_PORT}:80"
     depends_on:
       - server
     networks:
