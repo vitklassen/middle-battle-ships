@@ -5,18 +5,30 @@
   background: var(--color-white);
   padding: 18px 32px;
   box-shadow: 5px 0 0 0 var(--color-basic);
-  position: fixed;
-  width: 100%;
-  z-index: 100;
+  position: absolute;
+  width: calc(100% - 24px);
+  z-index: 1;
+  margin: 12px;
+}
+
+.logoContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-weight: 600;
+  font-family: 'RobotoMono-Bold', monospace;
+  align-items: center;
+  cursor: pointer;
+  color: var(--color-basic);
+  text-decoration: none;
 }
 
 .logo {
-  background: url(../../assets/images/logo.svg);
+  background: url(../../assets/images/logo.png);
   background-size: contain;
   background-repeat: no-repeat;
   width: 122px;
   height: 43px;
-  cursor: pointer;
 }
 
 .items {
@@ -40,8 +52,8 @@
   background: url(../../assets/images/bell.svg);
   background-size: contain;
   background-repeat: no-repeat;
-  width: 24px;
-  height: 24px;
+  width: 36px;
+  height: 36px;
   margin-right: 19px;
   cursor: pointer;
 }
@@ -50,13 +62,12 @@
   background-image: url(../../assets/images/altTheme/bell-alt.png);
 }
 
-
 .iconProfile {
   background: url(../../assets/images/user-circle.svg);
   background-size: contain;
   background-repeat: no-repeat;
-  width: 24px;
-  height: 24px;
+  width: 36px;
+  height: 36px;
   margin-right: 19px;
 }
 
@@ -68,8 +79,8 @@
   background: url(../../assets/images/switch-off.svg);
   background-size: contain;
   background-repeat: no-repeat;
-  width: 24px;
-  height: 24px;
+  width: 36px;
+  height: 36px;
   margin-right: 19px;
   cursor: pointer;
 }
@@ -82,7 +93,7 @@
   background: url(../../assets/images/geolocation.svg);
   background-size: contain;
   background-repeat: no-repeat;
-  width: 24px;
-  height: 24px;
+  width: 36px;
+  height: 36px;
   cursor: pointer;
 }

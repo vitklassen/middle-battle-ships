@@ -1,5 +1,5 @@
 import { CenteredLayout } from '../../Common/Layouts/CenteredLayout';
-import { SignInComponent } from '../../Components/Signin';
+import { SignInForm } from '../../Components/SignInForm';
 import { initPage, PageInitArgs, usePage } from '../../Router';
 
 import styles from './SignInPage.module.css';
@@ -14,7 +14,7 @@ export const SignInPage = () => {
   return (
     <div className={styles.root}>
       <CenteredLayout>
-        <SignInComponent />
+        <SignInForm />
       </CenteredLayout>
     </div>
   );

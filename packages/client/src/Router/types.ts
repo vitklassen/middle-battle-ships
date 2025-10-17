@@ -9,11 +9,14 @@ export enum Path {
   Main = '/',
   Leaderboard = '/leaderboard',
   Forum = '/forum',
-  Topic = '/topic',
+  Topic = '/topic/:id',
 }
 
 export type PageInitArgs = {
   state: GlobalState
   dispatch: AppDispatch
-  cookie?: string;
+  context: {
+    path: string;
+    cookie?: string;
+  }
 }

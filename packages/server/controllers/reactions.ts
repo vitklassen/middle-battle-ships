@@ -6,7 +6,6 @@ const router = Router();
 
 router.post('/', async (req, res) => {
   const { comment_id: commentId, code } = req.body;
-  const ownerId = 1;
   const numericCode = parseInt(code, 16);
 
   if (!commentId || typeof commentId !== 'number') {
@@ -33,16 +32,20 @@ router.post('/', async (req, res) => {
     }
 
     const reaction = await Reaction.findOne({
-      where: { [Op.and]: [{ owner_id: ownerId }, { code: numericCode }] },
+      where: { [Op.and]: [{ owner_id: req.user.id }, { code: numericCode }, { comment_id: commentId }] },
     });
 
-    if (!reaction) {
-      await Reaction.create({
-        code: numericCode,
-        comment_id: commentId,
-        owner_id: ownerId,
-      });
+    if (reaction) {
+      res.status(400);
+      res.send({ reason: 'User already set this reaction ' });
+      return;
     }
+
+    await Reaction.create({
+      code: numericCode,
+      comment_id: commentId,
+      owner_id: req.user.id,
+    });
 
     res.send('OK');
   } catch (e) {
@@ -79,10 +82,58 @@ router.get('/comments/:comment_id', async (req, res) => {
         foreignKey: 'owner_id',
         attributes: [],
       },
-      attributes: ['id', 'code', 'User.first_name', 'User.last_name', 'User.avatar'],
+      attributes: ['id', 'code', 'User.first_name', 'User.second_name', 'User.avatar'],
     })).map((reaction) => ({ ...reaction, code: reaction.code?.toString(16) }));
 
     res.send(reactions);
+  } catch (e) {
+    console.error(e);
+
+    if (e instanceof Error) {
+      res.status(500).send({ reason: e.message });
+    } else {
+      res.status(500).send();
+    }
+  }
+});
+
+router.delete('/', async (req, res) => {
+  const { code, comment_id: commentId } = req.body;
+  const numericCode = parseInt(code, 16);
+
+  if (!commentId || typeof commentId !== 'number') {
+    res.status(400).send({ reason: 'Invalid comment_id param' });
+    return;
+  }
+
+  if (!code || typeof code !== 'string' || Number.isNaN(numericCode)) {
+    res.status(400).send({ reason: 'Invalid id path param ' });
+    return;
+  }
+
+  try {
+    const comment = await Comment.findOne({
+      where: { id: commentId },
+    });
+
+    if (comment === null) {
+      res.status(404);
+      res.send({ status: 404, reason: 'Comment not found' });
+      return;
+    }
+
+    const reaction = await Reaction.findOne({
+      where: { [Op.and]: [{ owner_id: req.user.id }, { code: numericCode }, { comment_id: commentId }] },
+    });
+
+    if (!reaction) {
+      res.status(404).send('Reaction not found');
+      return;
+    }
+
+    await Reaction.destroy({ where: { code: numericCode, owner_id: req.user.id } });
+
+    res.send('OK');
   } catch (e) {
     console.error(e);
 

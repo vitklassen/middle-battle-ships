@@ -6,7 +6,7 @@ export class LeaderBoardApi {
   getAllLeaderBoard(
     params: leaderBoardParams,
   ): Promise<Array<LeaderboardItem>> {
-    return apiInstance.post('leaderboard/wolves', {
+    return apiInstance.post('/api/v2/leaderboard/wolves', {
       data: {
         ratingFieldName: params.ratingFieldName,
         limit: params.limit,
@@ -16,7 +16,7 @@ export class LeaderBoardApi {
   }
 
   addUserToLeaderBoard(params: userParams) {
-    return apiInstance.post('leaderboard', {
+    return apiInstance.post('/api/v2/leaderboard', {
       data: {
         teamName: params.teamName,
         ratingFieldName: params.ratingFieldName,

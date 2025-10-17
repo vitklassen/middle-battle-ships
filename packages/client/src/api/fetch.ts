@@ -8,15 +8,17 @@ enum METHOD { // в упор не видит, что METHOD вызывается
   POST = 'POST',
   PUT = 'PUT',
   DELETE = 'DELETE',
+  PATCH = 'PATCH'
 }
 
 type Options = {
-  method: string,
-  data: {[key: string]: unknown},
-  credentials: RequestCredentials,
-  headers: {[key: string]: string}
-  [key: string]: string | number | object,
-}
+  method: string;
+  data?: Record<string, unknown>;
+  formData?: FormData;
+  headers?: Record<string, string | undefined>;
+  timeout?: number;
+  credentials?: RequestCredentials;
+};
 
 interface FetchError {
   reason: string;
@@ -24,7 +26,7 @@ interface FetchError {
   message?: string;
 }
 
-type OptionsWithoutMethod = Omit<Options, 'method'>
+type OptionsWithoutMethod = Omit<Options, 'method'>;
 
 export class HTTP {
   url: string;
@@ -36,35 +38,41 @@ export class HTTP {
   get = <R>(path: string, options?: OptionsWithoutMethod) => this.request<R>(
     this.url + path,
     { ...options, method: METHOD.GET },
-    options?.timeout as number,
+    options?.timeout,
   );
 
   post = <R>(path: string, options?: OptionsWithoutMethod) => this.request<R>(
     this.url + path,
     { ...options, method: METHOD.POST },
-    options?.timeout as number,
+    options?.timeout,
   );
 
   put = <R>(path: string, options?: OptionsWithoutMethod) => this.request<R>(
     this.url + path,
     { ...options, method: METHOD.PUT },
-    options?.timeout as number,
+    options?.timeout,
+  );
+
+  patch = <R>(path: string, options?: OptionsWithoutMethod) => this.request<R>(
+    this.url + path,
+    { ...options, method: METHOD.PATCH },
+    options?.timeout,
   );
 
   delete = <R>(path: string, options?: OptionsWithoutMethod) => this.request<R>(
     this.url + path,
     { ...options, method: METHOD.DELETE },
-    options?.timeout as number,
+    options?.timeout,
   );
 
-  request = async <R>(url: string, options = {}, timeout = 5000) => {
+  request = async <R>(url: string, options: Options, timeout = 5000) => {
     const {
       headers = {},
       method,
       data,
       formData,
       credentials,
-    } = options as Options;
+    } = options;
 
     const isGet = method === METHOD.GET;
     url = isGet && !!data ? `${url}${queryStringify(data)}` : url;
@@ -73,11 +81,13 @@ export class HTTP {
     let body: FormData | string;
 
     Object.keys(headers).forEach((key) => {
-      reqHeaders.set(key, headers[key]);
+      if (headers[key]) {
+        reqHeaders.set(key, headers[key]);
+      }
     });
 
     if (formData) {
-      body = formData as FormData;
+      body = formData;
     } else {
       reqHeaders.set('content-type', 'application/json');
       const json = JSON.stringify(data);
@@ -86,13 +96,12 @@ export class HTTP {
 
     const newOptions: RequestInit = {
       method,
-      body: isGet ? undefined : body,
       headers: reqHeaders,
       credentials: credentials || 'include',
     };
 
     if (!isGet && body) {
-      newOptions.body = body as BodyInit;
+      newOptions.body = body;
     }
 
     const controller = new AbortController();
@@ -107,9 +116,9 @@ export class HTTP {
       let data;
       if (res.headers.get('content-type')?.includes('application/json')) {
         const jsonResponse = await res.json();
-        const { reason: responseReason, ...responseData } = jsonResponse;
-        reason = responseReason;
-        data = responseData;
+        // eslint-disable-next-line prefer-destructuring
+        reason = jsonResponse.reason;
+        data = jsonResponse;
       } else {
         const text = await res.text();
         reason = text;
@@ -123,16 +132,16 @@ export class HTTP {
         throw error;
       }
       return data as R;
-    } catch (error: unknown) {
-      const fetchError = error as FetchError;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       store.dispatch(
         setError({
-          reason: fetchError.reason || fetchError.message || 'Unknown error',
-          status: fetchError.status,
+          reason: error.reason || error.message,
+          status: error.status,
         }),
       );
-      if (fetchError.status === 500) {
-        window.location.href = '/error';
+      if (error.status === 500) {
+        // window.location.href = '/error';
       }
       clearTimeout(timeoutId);
       throw error;
@@ -143,8 +152,8 @@ export class HTTP {
 }
 
 const BASE_URL = process.env.NODE_ENV === 'production'
-  ? '/api/v2/'
-  : 'http://localhost:3001/api/v2/';
+  ? 'http://server:3001'
+  : 'http://localhost:3001';
 
 const apiInstance = new HTTP(BASE_URL);
 export default apiInstance;

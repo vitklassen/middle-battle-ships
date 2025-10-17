@@ -3,6 +3,7 @@ import { TypedUseSelectorHook, useSelector as useSelectorBase, useStore as useSt
 import { profileReducer } from '../Features/profile';
 import { errorReducer } from '../Features/error';
 import { getMiddleware } from './middleware';
+import { forumReducer } from '../Features/forum';
 
 declare global {
   interface Window {
@@ -13,6 +14,7 @@ declare global {
 export const reducer = combineReducers({
   profile: profileReducer,
   error: errorReducer,
+  forum: forumReducer,
 });
 
 export const store = configureStore({

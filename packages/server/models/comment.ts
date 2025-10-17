@@ -14,7 +14,7 @@ export class Comment extends Model {
   override id: number | undefined;
 
     @AllowNull(false)
-    @Column(DataType.STRING)
+    @Column(DataType.STRING(1000))
       content: string | undefined;
 
     @Column(DataType.INTEGER)

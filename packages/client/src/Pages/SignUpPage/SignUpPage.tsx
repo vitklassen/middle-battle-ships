@@ -1,5 +1,5 @@
 import { CenteredLayout } from '../../Common/Layouts/CenteredLayout';
-import { SignUpComponent } from '../../Components/SignUp';
+import { SignUpForm } from '../../Components/SignUpForm';
 import { initPage, PageInitArgs, usePage } from '../../Router';
 
 import styles from './SignUpPage.module.css';
@@ -14,7 +14,7 @@ export const SignUpPage = () => {
   return (
     <div className={styles.root}>
       <CenteredLayout>
-        <SignUpComponent />
+        <SignUpForm />
       </CenteredLayout>
     </div>
   );

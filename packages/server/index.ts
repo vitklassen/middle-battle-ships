@@ -8,21 +8,20 @@ import { createClientAndConnect } from './db';
 import reactionsController from './controllers/reactions';
 import themeController from './controllers/themes';
 import forumController from './controllers/forum';
+import { auth } from './middleware/auth';
+import { logger } from './middleware/logger';
 
 dotenv.config();
 
 async function startServer() {
   const app = express();
 
-  app.use(
-    cors({
-      origin:
-        process.env.NODE_ENV === 'production'
-          ? ['http://localhost:8080', 'http://client:80']
-          : ['http://localhost:3000', 'http://127.0.0.1:3000'],
-      credentials: true,
-    }),
-  );
+  app.use(cors({
+    origin: process.env.NODE_ENV === 'production'
+      ? ['http://localhost:8080', 'http://client:80']
+      : ['http://localhost:3000', 'http://127.0.0.1:3000'],
+    credentials: true,
+  }));
 
   app.use(cookieParser());
 
@@ -40,9 +39,12 @@ async function startServer() {
 
   app.use(express.json());
 
-  app.use('/reactions', reactionsController);
-  app.use('/theme', themeController);
-  app.use('/topics', forumController);
+  app.use('/api', auth);
+  app.use('/api', logger);
+
+  app.use('/api/reactions', reactionsController);
+  app.use('/api/theme', themeController);
+  app.use('/api/topics', forumController);
 
   const port = Number(process.env.SERVER_PORT) || 3001;
 
@@ -54,18 +56,12 @@ async function startServer() {
   app.use('*', async (req: Request, res: Response, next: NextFunction) => {
     const url = req.originalUrl;
 
-    if (
-      url.startsWith('/api') ||
-      url.includes('.') ||
-      url.startsWith('/assets')
-    ) {
+    if (url.startsWith('/api') || url.includes('.') || url.startsWith('/assets')) {
       return next();
     }
 
     if (process.env.NODE_ENV === 'production') {
-      console.log(
-        `[SERVER] Serving API only, HTML should be served by nginx: ${req.method} ${url}`,
-      );
+      console.log(`[SERVER] Serving API only, HTML should be served by nginx: ${req.method} ${url}`);
       return res.status(404).json({
         error: 'Not found - please use client app',
         message: 'This is API server. Use the client application for UI.',
