@@ -1,6 +1,6 @@
-FROM node:20-alpine
+ARG NODE_VERSION=22.19.0
 
-RUN corepack enable
+FROM node:$NODE_VERSION-alpine
 
 WORKDIR /app
 
