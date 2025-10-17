@@ -1,10 +1,12 @@
+ARG NODE_VERSION=22.19.0
+
 # Development stage
-FROM node:20-alpine AS development
-RUN corepack enable
+FROM node:$NODE_VERSION-alpine AS development
+
 WORKDIR /app
 
 COPY package.json ./
-RUN yarn install --production=false
+RUN yarn install
 
 COPY . .
 
@@ -12,8 +14,8 @@ EXPOSE 3000
 CMD ["node", "./node_modules/vite/bin/vite.js", "--host", "0.0.0.0"]
 
 # Production stage
-FROM node:20-alpine AS build
-RUN corepack enable
+FROM node:${NODE_VERSION}-alpine AS build
+
 WORKDIR /app
 
 COPY . .
