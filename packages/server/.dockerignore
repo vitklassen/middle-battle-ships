@@ -2,4 +2,3 @@ dist
 ssr-dist
 node_modules
 __tests__
-jest.config.js
