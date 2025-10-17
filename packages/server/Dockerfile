@@ -4,11 +4,9 @@ RUN corepack enable
 
 WORKDIR /app
 
-COPY package.json ./
-
-RUN yarn install --production=false
-
 COPY . .
+
+RUN yarn install --production=true
 
 EXPOSE 3001
 

@@ -1,4 +1,2 @@
-dist
-ssr-dist
-node_modules
 tmp
+node_modules
