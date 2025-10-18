@@ -9,15 +9,17 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - postgres_data_prod:/var/lib/postgresql/data
+      - ./tmp/pgdata:/var/lib/postgresql/data
     networks:
       - myapp-network-prod
     restart: unless-stopped
 
   server:
     build:
-      context: ./packages/server
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./packages/server/Dockerfile
+      args:
+        - VITE_API_URL=${VITE_API_URL}
     container_name: myapp-server-prod
     env_file:
       - .env
@@ -27,7 +29,9 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      SERVER_PORT: 3001
+      SERVER_PORT: ${SERVER_PORT}
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
     networks:
       - myapp-network-prod
     restart: unless-stopped
@@ -37,17 +41,16 @@ services:
       context: ./packages/client
       dockerfile: Dockerfile
       target: production
+      args:
+        - VITE_API_URL=${VITE_API_URL}
     container_name: myapp-client-prod
     ports:
-      - "8080:80"
+      - "${CLIENT_PORT}:80"
     depends_on:
       - server
     networks:
       - myapp-network-prod
     restart: unless-stopped
-
-volumes:
-  postgres_data_prod:
 
 networks:
   myapp-network-prod:
