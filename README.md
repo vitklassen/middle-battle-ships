@@ -1,3 +1,5 @@
+Для работы на проекте используйте версию Node 22.19.0
+
 ### Как запускать?
 
 1. Убедитесь что у вас установлен `node` и `docker`
@@ -6,9 +8,12 @@
 3. Выполните команду `yarn dev --scope=client` чтобы запустить только клиент
 4. Выполните команду `yarn dev --scope=server` чтобы запустить только server
 
-### Видео
-
-* [Спринты 5-6](https://disk.yandex.ru/i/ZLt-5ZC8eqMRsg)
+### Как работать с SSR?
+1. Выполните команду `yarn build` на клиенте
+2. Выполните команду `yarn link` на клиенте
+3. Выполните команду `yarn link client` на сервере
+4. Выполните команду `yarn build` на сервере
+5. Выполните команду `node dist/index.js` на сервере
 
 ### Как добавить зависимости?
 В этом проекте используется `monorepo` на основе [`lerna`](https://github.com/lerna/lerna)
@@ -66,14 +71,18 @@
 
 Все ваши PR будут автоматически деплоиться на vercel. URL вам предоставит деплоящий бот
 
+## Dev окружение в докере
+ Чтобы работать в dev окружении нужно выполнить след команды:
+ 1. Полная пересборка: docker-compose build --no-cache
+ 2. Запуск: docker-compose up -d
+ 3. Прекращение работы: docker-compose down
+
 ## Production окружение в докере
-Перед первым запуском выполните `node init.js`
+ Чтобы работать в production окружении нужно выполнить след команды:
+ 1. Полная пересборка: docker-compose -f docker-compose.prod.yml build --no-cache
+ 2. Запуск: docker-compose -f docker-compose.prod.yml up -d
+ 3. Прекращение работы: docker-compose -f docker-compose.prod.yml down
 
+## Для командного зачёта №2
 
-`docker compose up` - запустит три сервиса
-1. nginx, раздающий клиентскую статику (client)
-2. node, ваш сервер (server)
-3. postgres, вашу базу данных (postgres)
-
-Если вам понадобится только один сервис, просто уточните какой в команде
-`docker compose up {sevice_name}`, например `docker compose up server`
+[Ссылка на видео](https://www.loom.com/share/f82f3d9f653546919f1c8d4bed3d7ae7?sid=467f9116-0ba3-4368-a3ee-04345d3bb2e8)
