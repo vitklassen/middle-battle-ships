@@ -21,7 +21,7 @@ services:
   server:
     build:
       context: .
-      dockerfile: ./packages/server/Dockerfile
+      dockerfile: ./Dockerfile.server
       args:
         - VITE_API_URL=${VITE_API_URL}
     container_name: myapp-server
@@ -44,8 +44,8 @@ services:
   # Клиентское приложение
   client:
     build:
-      context: ./packages/client
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./Dockerfile.client
       target: development
       args:
         - VITE_API_URL=${VITE_API_URL}
