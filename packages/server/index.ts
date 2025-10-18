@@ -58,7 +58,7 @@ async function startServer() {
   app.use('/api/theme', themeController);
   app.use('/api/topics', forumController);
 
-  const port = 3000;
+  const port = Number(process.env.SERVER_PORT) || 3001;
   let vite: ViteDevServer | undefined;
   const serverDir = __dirname;
   const clientRootPath = path.resolve(serverDir, isDev() ? '../client' : '../../client');
