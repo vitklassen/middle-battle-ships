@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc --p ./tsconfig.prod.json",
     "preview": "node ./dist/index.js",
-    "dev": "nodemon index.ts",
+    "dev": "NODE_ENV=development nodemon index.ts",
     "lint": "eslint . --ext .ts,.tsx",
     "format": "prettier --write .",
     "test": "jest ."

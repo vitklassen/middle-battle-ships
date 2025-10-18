@@ -151,5 +151,5 @@ export class HTTP {
   };
 }
 
-const apiInstance = new HTTP(import.meta.env.VITE_API_URL);
+const apiInstance = new HTTP('http://84.201.140.68:3001');
 export default apiInstance;

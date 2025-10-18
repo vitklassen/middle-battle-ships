@@ -37,6 +37,15 @@ async function startServer() {
       },
       target: 'https://ya-praktikum.tech/api/v2',
       logger: console,
+      on: {
+        proxyRes: (proxyRes) => {
+          let setCookie = proxyRes.headers['set-cookie'];
+          if (setCookie) {
+            setCookie = setCookie.map((v) => v.replace('Secure; SameSite=None', ''));
+          }
+          proxyRes.headers['set-cookie'] = setCookie;
+        },
+      },
     }),
   );
 
@@ -49,7 +58,7 @@ async function startServer() {
   app.use('/api/theme', themeController);
   app.use('/api/topics', forumController);
 
-  const port = Number(process.env.SERVER_PORT) || 3001;
+  const port = 3000;
   let vite: ViteDevServer | undefined;
   const serverDir = __dirname;
   const clientRootPath = path.resolve(serverDir, isDev() ? '../client' : '../../client');
