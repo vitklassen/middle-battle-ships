@@ -7,7 +7,10 @@ RUN apk add --no-cache \
     py3-pip \
     build-base \
     linux-headers
-    
+
+ARG VITE_API_URL
+ENV VITE_API_URL=${VITE_API_URL}
+
 WORKDIR /app
 
 COPY . .
@@ -20,6 +23,9 @@ RUN yarn run build --scope=server
 RUN yarn run build --scope=client
 
 FROM node:$NODE_VERSION-alpine AS production
+
+ARG VITE_API_URL
+ENV VITE_API_URL=${VITE_API_URL}
 
 WORKDIR /app
 

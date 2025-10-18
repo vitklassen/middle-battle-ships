@@ -151,9 +151,5 @@ export class HTTP {
   };
 }
 
-const BASE_URL = process.env.NODE_ENV === 'production'
-  ? 'http://server:3001'
-  : 'http://localhost:3001';
-
-const apiInstance = new HTTP(BASE_URL);
+const apiInstance = new HTTP(import.meta.env.VITE_API_URL);
 export default apiInstance;

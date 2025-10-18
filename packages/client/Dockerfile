@@ -3,6 +3,9 @@ ARG NODE_VERSION=22.19.0
 # Development stage
 FROM node:$NODE_VERSION-alpine AS development
 
+ARG VITE_API_URL
+ENV VITE_API_URL=${VITE_API_URL}
+
 WORKDIR /app
 
 COPY package.json ./
@@ -15,6 +18,9 @@ CMD ["node", "./node_modules/vite/bin/vite.js", "--host", "0.0.0.0"]
 
 # Production stage
 FROM node:${NODE_VERSION}-alpine AS build
+
+ARG VITE_API_URL
+ENV VITE_API_URL=${VITE_API_URL}
 
 WORKDIR /app
 

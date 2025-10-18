@@ -22,6 +22,8 @@ services:
     build:
       context: .
       dockerfile: ./packages/server/Dockerfile
+      args:
+        - VITE_API_URL=${VITE_API_URL}
     container_name: myapp-server
     env_file:
       - .env
@@ -45,11 +47,11 @@ services:
       context: ./packages/client
       dockerfile: Dockerfile
       target: development
+      args:
+        - VITE_API_URL=${VITE_API_URL}
     container_name: myapp-client
     env_file:
       - .env
-    environment:
-      REACT_APP_API_URL: ${REACT_APP_API_URL}
     ports:
       - "${CLIENT_PORT}:3000"
     depends_on:
