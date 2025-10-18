@@ -1,0 +1,17 @@
+.root {
+    padding: 175px 24px 12px;
+    background-color: var(--color-primary);
+    height: 100%;
+    min-height: 100vh;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.topic {
+    margin-top: 12px;
+}

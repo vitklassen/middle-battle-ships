@@ -1,0 +1,23 @@
+.snackbar {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  z-index: 100;
+  padding-right: 52px;
+}
+
+.snackbarError {
+  border-color: var(--color-secondary);
+  box-shadow: 2px 2px 0 2px var(--color-secondary);
+  color: var(--color-secondary);
+}
+
+.closeButton {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  cursor: pointer;
+  background-color: transparent;
+}

@@ -1,0 +1,27 @@
+.root {
+    padding: 175px 24px 12px;
+    background-color: var(--color-primary);
+    min-height: 100vh;
+}
+
+.title {
+    padding-bottom: 16px;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panel {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    justify-content: flex-end;    
+}
+
+.buttonDestructive {
+    color: var(--color-secondary);
+}

@@ -1,0 +1,44 @@
+import { PropsWithChildren, RefObject } from 'react';
+import { clsx } from 'clsx';
+import styles from './Button.module.css';
+
+type Props = {
+  mode?: 'primary' | 'secondary' | 'tertiary';
+  size?: 'large' | 'medium';
+  stretched?: boolean;
+  onClick?: React.MouseEventHandler;
+  className?: string;
+  type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
+  rootRef?: RefObject<HTMLButtonElement>;
+};
+
+export const Button: React.FC<PropsWithChildren<Props>> = ({
+  mode = 'primary',
+  size = 'medium',
+  stretched,
+  children,
+  onClick,
+  type = 'button',
+  rootRef,
+  className,
+}) => (
+  <button
+    ref={rootRef}
+    /* eslint-disable react/button-has-type */
+    type={type}
+    /* eslint-enable react/button-has-type */
+    onClick={onClick}
+    className={clsx(
+      className,
+      styles.button,
+      mode === 'primary' && styles.buttonPrimary,
+      mode === 'secondary' && styles.buttonSecondary,
+      mode === 'tertiary' && styles.buttonTertiary,
+      size === 'medium' && styles.buttonMedium,
+      size === 'large' && styles.buttonLarge,
+      stretched && styles.buttonStretched,
+    )}
+  >
+    {children}
+  </button>
+);

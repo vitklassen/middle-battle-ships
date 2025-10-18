@@ -1,0 +1,57 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: myapp-postgres-prod
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./tmp/pgdata:/var/lib/postgresql/data
+    networks:
+      - myapp-network-prod
+    restart: unless-stopped
+
+  server:
+    build:
+      context: .
+      dockerfile: ./packages/server/Dockerfile
+      args:
+        - VITE_API_URL=${VITE_API_URL}
+    container_name: myapp-server-prod
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      SERVER_PORT: ${SERVER_PORT}
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    networks:
+      - myapp-network-prod
+    restart: unless-stopped
+
+  client:
+    build:
+      context: ./packages/client
+      dockerfile: Dockerfile
+      target: production
+      args:
+        - VITE_API_URL=${VITE_API_URL}
+    container_name: myapp-client-prod
+    ports:
+      - "${CLIENT_PORT}:80"
+    depends_on:
+      - server
+    networks:
+      - myapp-network-prod
+    restart: unless-stopped
+
+networks:
+  myapp-network-prod:
+    driver: bridge

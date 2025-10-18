@@ -1,0 +1,50 @@
+.root {
+  background-color: var(--color-white);
+  border-radius: 8px;
+  box-shadow: 2px 2px 0 0 var(--color-basic);
+  border: 2px solid var(--color-basic);
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-basic);
+}
+
+.avatarContainer {
+  position: relative;
+}
+
+.avatar {
+  width: 104px;
+  height: 104px;
+  margin-bottom: 12px;
+  border-radius: 50%;
+}
+
+.avatarContainer:hover::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: 'Загрузить аватар';
+  background-color: var(--color-tertiary);
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+}
+
+.cells {
+  width: 100%;
+  padding: 24px;
+}
+
+.button {
+  margin-top: 8px;
+}

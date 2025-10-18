@@ -1,20 +1,23 @@
-import { render, screen } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
-import App from './App'
+import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from './Store';
+import App from './App';
 
 // Мокаем fetch перед тестами
-global.fetch = jest.fn(() =>
-  Promise.resolve({
-    json: () => Promise.resolve({}),
-  })
-) as jest.Mock
+global.fetch = jest.fn(() => Promise.resolve({
+  json: () => Promise.resolve({}),
+  text: () => Promise.resolve(''),
+  headers: new Headers(),
+  ok: true,
+})) as jest.Mock;
 
 test('рендерит корректно', () => {
   render(
-    <MemoryRouter initialEntries={['/main']}>
-      <App />
-    </MemoryRouter>
-  )
+    <Provider store={store}>
+      <App router={<MemoryRouter initialEntries={['/']} />} modalRoot={null} />
+    </Provider>,
+  );
 
-  screen.findByText('Main')
-})
+  screen.findByText('Main');
+});
