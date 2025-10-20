@@ -37,15 +37,15 @@ async function startServer() {
       },
       target: 'https://ya-praktikum.tech/api/v2',
       logger: console,
-      // on: {
-      //   proxyRes: (proxyRes) => {
-      //     let setCookie = proxyRes.headers['set-cookie'];
-      //     if (setCookie) {
-      //       setCookie = setCookie.map((v) => v.replace('Secure; SameSite=None', ''));
-      //     }
-      //     proxyRes.headers['set-cookie'] = setCookie;
-      //   },
-      // },
+      on: {
+        proxyRes: (proxyRes) => {
+          let setCookie = proxyRes.headers['set-cookie'];
+          if (setCookie) {
+            setCookie = setCookie.map((v) => v.replace('Secure; SameSite=None', ''));
+          }
+          proxyRes.headers['set-cookie'] = setCookie;
+        },
+      },
     }),
   );
 
