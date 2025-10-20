@@ -151,5 +151,5 @@ export class HTTP {
   };
 }
 
-const apiInstance = new HTTP(import.meta.env.PROD ? 'http://battleship-runtime-terror-52.ya-praktikum.tech' : 'http://localhost:3001');
+const apiInstance = new HTTP(import.meta.env.PROD ? 'http://battleship-runtime-terror-52.ya-praktikum.tech:3001' : 'http://localhost:3001');
 export default apiInstance;
