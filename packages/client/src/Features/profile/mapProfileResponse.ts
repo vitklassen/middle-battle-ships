@@ -10,6 +10,6 @@ export const mapProfileResponse = (response: GetProfileResponse): Profile => ({
   login: response.login,
   avatar: response.avatar,
   email: response.email,
-  isThemeAlt: false,
+  isThemeAlt: response.theme !== 'false',
   positions: null,
 });

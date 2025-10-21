@@ -14,6 +14,7 @@ export type GetProfileResponse = {
   login: string;
   avatar: string | null;
   email: string;
+  theme: 'false' | 'true',
 };
 
 export type GetAppID = {
