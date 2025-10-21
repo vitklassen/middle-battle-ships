@@ -34,6 +34,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      CLIENT_URL: ${CLIENT_URL}
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
     depends_on:
