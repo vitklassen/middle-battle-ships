@@ -9,6 +9,7 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 import cookieParser from 'cookie-parser';
 
 import { createClientAndConnect } from './db';
+import { user } from './controllers/user';
 import reactionsController from './controllers/reactions';
 import themeController from './controllers/themes';
 import forumController from './controllers/forum';
@@ -17,6 +18,15 @@ import { logger } from './middleware/logger';
 
 dotenv.config();
 const isDev = () => process.env.NODE_ENV === 'development';
+
+const proxy = (target: string) => createProxyMiddleware({
+  changeOrigin: true,
+  cookieDomainRewrite: {
+    '*': '',
+  },
+  target,
+  logger: console,
+});
 
 async function startServer() {
   const app = express();
@@ -28,21 +38,18 @@ async function startServer() {
 
   app.use(cookieParser());
 
-  app.use(
-    '/api/v2',
-    createProxyMiddleware({
-      changeOrigin: true,
-      cookieDomainRewrite: {
-        '*': '',
-      },
-      target: 'https://ya-praktikum.tech/api/v2',
-      logger: console,
-    }),
-  );
+  app.use('/api/v2/auth/signin', proxy('https://ya-praktikum.tech/api/v2/auth/signin'));
+  app.use('/api/v2/auth/signup', proxy('https://ya-praktikum.tech/api/v2/auth/signup'));
+  app.use('/api/v2/auth/logout', proxy('https://ya-praktikum.tech/api/v2/auth/logout'));
+  app.use('/api/v2/oauth/yandex', proxy('https://ya-praktikum.tech/api/v2/oauth/yandex'));
+
+  app.use('/api', auth);
+  app.use('/api/v2/auth/user', user);
+
+  app.use('/api/v2', proxy('https://ya-praktikum.tech/api/v2'));
 
   app.use(express.json());
 
-  app.use('/api', auth);
   app.use('/api', logger);
 
   app.use('/api/reactions', reactionsController);

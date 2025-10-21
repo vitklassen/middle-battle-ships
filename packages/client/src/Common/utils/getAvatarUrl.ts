@@ -6,5 +6,5 @@ export function getAvatarUrl({ avatar }: Pick<Profile, 'avatar'>) {
     return avatarPlaceholder;
   }
   return `${import.meta.env.PROD
-    ? 'https://battleship-runtime-terror-52.ya-praktikum.tech:3001' : 'http://localhost:3001'}/api/v2/resources${avatar}`;
+    ? 'https://battleship-runtime-terror-52.ya-praktikum.tech' : 'http://localhost:3001'}/api/v2/resources${avatar}`;
 }
