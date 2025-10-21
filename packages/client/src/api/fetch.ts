@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import { API_URL } from '../Common/utils/const';
 import { setError } from '../Features/error';
 import { store } from '../Store';
 import { queryStringify } from './utils';
@@ -151,5 +152,5 @@ export class HTTP {
   };
 }
 
-const apiInstance = new HTTP(import.meta.env.PROD ? 'https://battleship-runtime-terror-52.ya-praktikum.tech' : 'http://localhost:3001');
+const apiInstance = new HTTP(API_URL);
 export default apiInstance;
