@@ -31,20 +31,16 @@ router.post('/', async (req, res) => {
 
     const createdTopic = await Topic.findOne({
       where: { id: topic.id },
-      raw: true,
       include: {
         model: User,
         required: true,
         foreignKey: 'owner_id',
-        attributes: [],
+        attributes: ['id', 'first_name', 'second_name', 'avatar'],
       },
       attributes: [
         'id',
         'title',
         'content',
-        'User.first_name',
-        'User.second_name',
-        'User.avatar',
         'createdAt',
       ],
     });
@@ -53,7 +49,7 @@ router.post('/', async (req, res) => {
       where: { topic_id: topic.id },
     });
 
-    res.send({ ...createdTopic, comments_count: comments.length });
+    res.send({ ...JSON.parse(JSON.stringify(createdTopic)), comments_count: comments.length });
   } catch (e) {
     console.error(e);
 
@@ -239,7 +235,7 @@ router.post('/:id/comment', async (req, res) => {
         model: User,
         required: true,
         foreignKey: 'owner_id',
-        attributes: ['yandex_id', 'first_name', 'second_name', 'avatar'],
+        attributes: ['id', 'first_name', 'second_name', 'avatar'],
       },
       attributes: ['id', 'parent_id', 'createdAt', 'content'],
     });
@@ -299,7 +295,6 @@ router.delete('/:topic_id/comment/:id', async (req, res) => {
 router.get('/', async (_req, res) => {
   try {
     const topics = await Topic.findAll({
-      raw: true,
       include: [
         {
           model: Comment,
@@ -308,7 +303,7 @@ router.get('/', async (_req, res) => {
         },
         {
           model: User,
-          attributes: [],
+          attributes: ['id', 'first_name', 'second_name', 'avatar'],
         },
       ],
       group: [
@@ -324,7 +319,6 @@ router.get('/', async (_req, res) => {
         'content',
         'createdAt',
         [fn('COUNT', col('Comments.id')), 'comments_count'],
-        'User.avatar', 'User.first_name', 'User.second_name', 'User.yandex_id',
       ],
     });
 
@@ -353,21 +347,14 @@ router.get('/:id', async (req, res) => {
   try {
     const topic = await Topic.findOne({
       where: { id: topicId },
-      raw: true,
-      include: {
+      include: [{
         model: User,
-        required: true,
-        foreignKey: 'owner_id',
-        attributes: [],
-      },
+        attributes: ['first_name', 'second_name', 'avatar', 'id'],
+      }],
       attributes: [
         'id',
         'title',
         'content',
-        'User.yandex_id',
-        'User.first_name',
-        'User.second_name',
-        'User.avatar',
         'createdAt',
       ],
     });
@@ -382,7 +369,7 @@ router.get('/:id', async (req, res) => {
       where: { topic_id: topic.id },
       include: [{
         model: User,
-        attributes: ['first_name', 'second_name', 'avatar', 'yandex_id'],
+        attributes: ['first_name', 'second_name', 'avatar', 'id'],
       }],
       attributes: [
         'id',
@@ -423,7 +410,7 @@ router.get('/:id', async (req, res) => {
     });
 
     res.send({
-      ...topic, comments_count: comments.length, comments: commentsWithReactions,
+      ...JSON.parse(JSON.stringify(topic)), comments_count: comments.length, comments: commentsWithReactions,
     });
   } catch (e) {
     console.error(e);
