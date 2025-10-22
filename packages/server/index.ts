@@ -9,7 +9,7 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 import cookieParser from 'cookie-parser';
 
 import { createClientAndConnect } from './db';
-import { user } from './controllers/user';
+import { uploadAvatar, user } from './controllers/user';
 import reactionsController from './controllers/reactions';
 import themeController from './controllers/themes';
 import forumController from './controllers/forum';
@@ -44,7 +44,9 @@ async function startServer() {
   app.use('/api/v2/oauth/yandex', proxy('https://ya-praktikum.tech/api/v2/oauth/yandex'));
 
   app.use('/api', auth);
+
   app.use('/api/v2/auth/user', user);
+  app.use('/api/v2/user/profile/avatar', uploadAvatar);
 
   app.use('/api/v2', proxy('https://ya-praktikum.tech/api/v2'));
 
