@@ -63,14 +63,13 @@ export const ProfileCard = () => {
         />
       </div>
       <h2>
-        {profile.firstName}
-        {' '}
-        {profile.lastName}
+        {`${profile.firstName} ${profile.lastName}`}
       </h2>
+      {profile.displayName && (
       <h3>
-        @
-        {profile.displayName}
+        {`@${profile.displayName}`}
       </h3>
+      )}
       <div className={styles.cells}>
         <Cell icon={home} label="Логин">
           {profile.login}

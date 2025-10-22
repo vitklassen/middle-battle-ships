@@ -42,11 +42,13 @@ export type Topic = {
   title: string;
   content: string;
   comments_count: string;
-  yandex_id: number;
-  first_name: string;
-  second_name: string;
-  avatar: null;
   createdAt: string;
+  User: {
+    id: number;
+    first_name: string;
+    second_name: string;
+    avatar: null;
+  }
 }
 
 export type GetTopicsResponse = Array<Topic>;
@@ -66,7 +68,7 @@ export type Comment = {
   content: string;
   createdAt: string;
   User: {
-    yandex_id: number;
+    id: number;
     first_name: string;
     second_name: string;
     avatar: string | null;
