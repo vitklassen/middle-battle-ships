@@ -27,7 +27,7 @@ function App({ router, modalRoot }: AppProps) {
       authApi.signInUpWithYandex({
         code: oAuthCode,
         redirect_uri: window.location.origin,
-      }).then((res): void => {
+      }).finally(() => {
         getProfile().then((profile) => {
           dispatch(setProfile(profile));
         });
