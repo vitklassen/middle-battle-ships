@@ -73,7 +73,9 @@ export async function render(req: ExpressRequest, res: ExpressResponse) {
 
     const state = store.getState();
 
-    if (req.originalUrl !== Path.SignIn && state.error.value?.status === 401) {
+    const [path] = req.originalUrl.split('?');
+
+    if (path !== Path.SignIn && path !== Path.Main && state.error.value?.status === 401) {
       res.status(302);
       res.setHeader('Location', Path.SignIn);
       res.send();
